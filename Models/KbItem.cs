@@ -7,11 +7,11 @@ namespace _2021_dotnet_e_02.Models
 {
     public class KbItem
     {
-        public long KbItemId { get; set; }
-        public string Title { get; set; }
-        public KbItemType Type { get; set; }
-        public string Keywords { get; set; }
-        public string Text { get; set; }
+        public long KBITEMID { get; set; }
+        public string TITLE { get; set; }
+        public KbItemType TYPE { get; set; }
+        public string KEYWORDS { get; set; }
+        public string TEXT { get; set; }
 
         public KbItem()
         {

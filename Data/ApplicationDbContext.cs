@@ -29,7 +29,8 @@ namespace _2021_dotnet_e_02.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ticketsysteme02;Trusted_Connection=True;");
+            //"Server=.;Initial Catalog=Beerhall;Integrated Security=True"
+            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=ticketsysteme02;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

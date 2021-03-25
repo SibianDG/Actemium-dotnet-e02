@@ -21,7 +21,7 @@ namespace _2021_dotnet_e_02
             {
                 using (var db = new ApplicationDbContext())
                 {
-                    var list = db.KbItems.FromSqlRaw("SELECT name FROM dbo.ACTEMIUMKBITEM").ToList();
+                    var list = db.KbItems.FromSqlRaw("SELECT TEXT FROM dbo.ACTEMIUMKBITEM").ToList();
                     foreach (var l in list)
                     {
                         Console.WriteLine(l);
