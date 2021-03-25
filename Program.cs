@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _2021_dotnet_e_02.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,19 +16,24 @@ namespace _2021_dotnet_e_02
     {
         public static void Main(string[] args)
         {
-            /*try
+            Console.WriteLine("START");
+            try
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "localhost";
-                builder.UserID = "<your_username>";
-                builder.Password = "<your_password>";
-                builder.InitialCatalog = "<your_database>";
+                using (var db = new ApplicationDbContext())
+                {
+                    var list = db.KbItems.FromSqlRaw("SELECT name FROM dbo.ACTEMIUMKBITEM").ToList();
+                    foreach (var l in list)
+                    {
+                        Console.WriteLine(l);
+                    }
+                }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
             }
-            */
+            Console.WriteLine("EINDE");
+
             CreateHostBuilder(args).Build().Run();
         }
 
