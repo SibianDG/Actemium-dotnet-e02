@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Data
     public class ApplicationDbContext : DbContext
     {
 
-        public DbSet<KbItem> KbItems { get; set; }
+        public DbSet<ACTEMIUMKBITEM> KbItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

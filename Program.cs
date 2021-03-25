@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data;
+using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +22,11 @@ namespace _2021_dotnet_e_02
             {
                 using (var db = new ApplicationDbContext())
                 {
-                    var list = db.KbItems.FromSqlRaw("SELECT TEXT FROM dbo.ACTEMIUMKBITEM").ToList();
-                    foreach (var l in list)
+                    IEnumerable<ACTEMIUMKBITEM> list = db.KbItems.ToList();
+                    //Console.WriteLine(list);
+                    foreach (ACTEMIUMKBITEM kbi in list)
                     {
-                        Console.WriteLine(l);
+                        Console.WriteLine(kbi.TITLE);
                     }
                 }
             }

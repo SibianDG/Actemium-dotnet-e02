@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace _2021_dotnet_e_02.Data.Mapping
 {
-    public class KbItemConfiguration : IEntityTypeConfiguration<KbItem>
+    public class KbItemConfiguration : IEntityTypeConfiguration<ACTEMIUMKBITEM>
     {
-        public void Configure(EntityTypeBuilder<KbItem> builder)
+        public void Configure(EntityTypeBuilder<ACTEMIUMKBITEM> builder)
         {
             builder.ToTable("ACTEMIUMKBITEM");
 
