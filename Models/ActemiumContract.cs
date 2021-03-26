@@ -1,4 +1,6 @@
-﻿namespace _2021_dotnet_e_02.Models
+﻿using System;
+
+namespace _2021_dotnet_e_02.Models
 {
     public class ActemiumContract
     {
@@ -8,9 +10,9 @@
         //ActemiumCustomer customer
         public string Status { get; set; }
         
-        //Todo change to Date in java
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        //Todo change to Date in java => done
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public ActemiumContract()
         {

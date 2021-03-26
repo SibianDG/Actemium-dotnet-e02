@@ -8,8 +8,7 @@ namespace _2021_dotnet_e_02.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
-        public DateTime RegistrationDate { get; set; }
-        
+                
         //Set<TicketType> specialties
         
         public ActemiumEmployee()

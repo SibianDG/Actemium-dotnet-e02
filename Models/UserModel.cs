@@ -1,4 +1,6 @@
-﻿namespace _2021_dotnet_e_02.Models
+﻿using System;
+
+namespace _2021_dotnet_e_02.Models
 {
     public class UserModel
     {
@@ -10,6 +12,7 @@
         public string LastName { get; set; }
         public int FailedLoginAttempts { get; set; }
         public string Status { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         public UserModel()
         {
