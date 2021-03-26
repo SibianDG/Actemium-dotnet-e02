@@ -11,7 +11,8 @@ namespace _2021_dotnet_e_02.Data
     public class ApplicationDbContext : DbContext
     {
 
-        public DbSet<ACTEMIUMKBITEM> KbItems { get; set; }
+        public DbSet<ActemiumKbItem> KbItems { get; set; }
+        public DbSet<ActemiumCompany> ActemiumCompanies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -37,6 +38,7 @@ namespace _2021_dotnet_e_02.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new KbItemConfiguration());
+            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
 
 
         }

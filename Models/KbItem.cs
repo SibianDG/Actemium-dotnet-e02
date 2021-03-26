@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace _2021_dotnet_e_02.Models
 {
-    public class ACTEMIUMKBITEM
+    public class ActemiumKbItem
     {
-        public int KBITEMID { get; set; }
-        public string TITLE { get; set; }
-        public string TYPE { get; set; }
-        public string KEYWORDS { get; set; }
-        public string TEXT { get; set; }
+        public int KbItemId { get; set; }
+        public string Title { get; set; }
+        public string Type { get; set; }
+        public string Keywords { get; set; }
+        public string Text { get; set; }
 
-        public ACTEMIUMKBITEM()
+        public ActemiumKbItem()
         {
 
         }

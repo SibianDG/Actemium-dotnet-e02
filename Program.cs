@@ -22,11 +22,11 @@ namespace _2021_dotnet_e_02
             {
                 using (var db = new ApplicationDbContext())
                 {
-                    IEnumerable<ACTEMIUMKBITEM> list = db.KbItems.ToList();
+                    IEnumerable<ActemiumCompany> list = db.ActemiumCompanies.ToList();
                     //Console.WriteLine(list);
-                    foreach (ACTEMIUMKBITEM kbi in list)
+                    foreach (ActemiumCompany company in list)
                     {
-                        Console.WriteLine(kbi.TITLE);
+                        Console.WriteLine(company.Name);
                     }
                 }
             }
