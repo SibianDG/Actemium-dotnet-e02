@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace _2021_dotnet_e_02.Models
+﻿namespace _2021_dotnet_e_02.Models.Enums
 {
     public enum KbItemType
     {
