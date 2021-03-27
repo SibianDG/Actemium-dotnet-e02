@@ -13,6 +13,9 @@ namespace _2021_dotnet_e_02.Data
 
         public DbSet<ActemiumKbItem> KbItems { get; set; }
         public DbSet<ActemiumCompany> ActemiumCompanies { get; set; }
+        public DbSet<ActemiumTicket> ActemiumTickets { get; set; }
+        public DbSet<ActemiumTicketChange> ActemiumTicketChanges { get; set; }
+        public DbSet<ActemiumTicketComment> ActemiumTicketComments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -39,6 +42,9 @@ namespace _2021_dotnet_e_02.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new KbItemConfiguration());
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketChangeConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
 
 
         }

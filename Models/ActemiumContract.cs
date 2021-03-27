@@ -5,9 +5,9 @@ namespace _2021_dotnet_e_02.Models
     public class ActemiumContract
     {
         public int ContractId { get; set; }
-        //ActemiumContractType contractType
+        //ActemiumContractType ContractType
         public string ContractTypeName { get; set; }
-        //ActemiumCustomer customer
+        //ActemiumCompany Company
         public string Status { get; set; }
         
         //Todo change to Date in java => done

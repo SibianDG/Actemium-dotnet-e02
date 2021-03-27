@@ -28,6 +28,21 @@ namespace _2021_dotnet_e_02
                     {
                         Console.WriteLine(company.Name);
                     }
+
+                    // doesnt work yet
+                    IEnumerable<ActemiumTicket> list1 = db.ActemiumTickets.ToList();
+                    //Console.WriteLine(list);
+                    foreach (ActemiumTicket ticket in list1)
+                    {
+                        Console.WriteLine(ticket.Priority);
+                    }
+                    // doesnt work yet
+                    IEnumerable<ActemiumTicketChange> list2 = db.ActemiumTicketChanges.ToList();
+                    //Console.WriteLine(list);
+                    foreach (ActemiumTicketChange ticketChange in list2)
+                    {
+                        Console.WriteLine(ticketChange.UserRole);
+                    }
                 }
             }
             catch (SqlException e)

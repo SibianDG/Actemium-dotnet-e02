@@ -18,6 +18,9 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Address);
             builder.Property(t => t.PhoneNumber);
             builder.Property(t => t.RegistrationDate);
+            builder.HasMany(t => t.Tickets).WithOne();
+            builder.Ignore(t => t.Contracts);
+            builder.Ignore(t => t.ContactPersons);
         }
     }
 }

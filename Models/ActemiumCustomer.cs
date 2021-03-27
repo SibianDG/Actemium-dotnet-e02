@@ -4,9 +4,7 @@ namespace _2021_dotnet_e_02.Models
 {
     public class ActemiumCustomer
     {
-        //List<ActemiumContract> contracts
-        //ActemiumCompany company
-        //List<ActemiumTicket> tickets
+        //ActemiumCompany Company
         
         public ActemiumCustomer()
         {
