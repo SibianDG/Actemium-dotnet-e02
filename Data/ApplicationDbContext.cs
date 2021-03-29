@@ -16,6 +16,9 @@ namespace _2021_dotnet_e_02.Data
         public DbSet<ActemiumTicket> ActemiumTickets { get; set; }
         public DbSet<ActemiumTicketChange> ActemiumTicketChanges { get; set; }
         public DbSet<ActemiumTicketComment> ActemiumTicketComments { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<ActemiumCustomer> Customers { get; set; }
+        public DbSet<ActemiumEmployee> Employees { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -45,6 +48,12 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new TicketChangeConfiguration());
             modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
+            modelBuilder.ApplyConfiguration(new UserModelConfiguration());
+            //modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            //modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
+            modelBuilder.Entity<ActemiumCustomer>().HasBaseType<UserModel>();
+            modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();
 
 
         }

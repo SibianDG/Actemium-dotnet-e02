@@ -2,9 +2,9 @@
 
 namespace _2021_dotnet_e_02.Models
 {
-    public class ActemiumCustomer
+    public class ActemiumCustomer : UserModel
     {
-        //ActemiumCompany Company
+        //public ActemiumCompany Company { get; set; }
         
         public ActemiumCustomer()
         {

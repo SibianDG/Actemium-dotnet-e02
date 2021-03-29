@@ -29,6 +29,7 @@ namespace _2021_dotnet_e_02
                         Console.WriteLine(company.Name);
                     }
 
+                    /*
                     // doesnt work yet
                     IEnumerable<ActemiumTicket> list1 = db.ActemiumTickets.ToList();
                     //Console.WriteLine(list);
@@ -42,6 +43,20 @@ namespace _2021_dotnet_e_02
                     foreach (ActemiumTicketChange ticketChange in list2)
                     {
                         Console.WriteLine(ticketChange.UserRole);
+                    }
+                    */
+                    Console.WriteLine("#########CUSTOMERS########");
+                    IEnumerable<UserModel> list3 = db.Customers.ToList();
+                    foreach (ActemiumCustomer Customer in list3)
+                    {
+                        Console.WriteLine(Customer.UserName);
+                    }
+                    
+                    Console.WriteLine("#########EMPLOYEES########");
+                    IEnumerable<UserModel> list4 = db.Employees.ToList();
+                    foreach (ActemiumEmployee Employee in list4)
+                    {
+                        Console.WriteLine(Employee.UserName);
                     }
                 }
             }
