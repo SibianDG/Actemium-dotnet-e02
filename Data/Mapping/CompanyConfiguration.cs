@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.ToTable("ACTEMIUMCOMPANY");
 
             builder.HasKey(t => t.CompanyId);
-            
+
             builder.Property(t => t.Name);
             builder.Property(t => t.Country);
             builder.Property(t => t.City);

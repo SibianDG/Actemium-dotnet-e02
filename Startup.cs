@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data;
+using _2021_dotnet_e_02.Data.Repositories;
+using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,10 @@ namespace _2021_dotnet_e_02
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("TicketSystemE02Context")));
+
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
         }
 

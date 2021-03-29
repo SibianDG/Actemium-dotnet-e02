@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data;
+using _2021_dotnet_e_02.Data.Repositories;
 using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
@@ -22,39 +23,54 @@ namespace _2021_dotnet_e_02
             {
                 using (var db = new ApplicationDbContext())
                 {
-                    IEnumerable<ActemiumCompany> list = db.ActemiumCompanies.ToList();
-                    //Console.WriteLine(list);
-                    foreach (ActemiumCompany company in list)
+                    CompanyRepository companyRepo = new CompanyRepository(db);
+                    Console.WriteLine("#########COMPANIES########");
+                    IEnumerable<ActemiumCompany> companies = companyRepo.GetAll();
+                    foreach (ActemiumCompany company in companies)
                     {
                         Console.WriteLine(company.Name);
+                        //prints to check if the relations are correct
+                        //count is 0 atm for every list because the relations are not on point yet
+                        Console.WriteLine(company.Tickets.Count);
+                        Console.WriteLine(company.ContactPersons.Count);
+                        Console.WriteLine(company.Contracts.Count);
                     }
+
+                    Console.WriteLine("GETBY ID TEST");
+                    Console.WriteLine(companyRepo.GetBy(2).Name);
 
                     /*
                     // doesnt work yet
-                    IEnumerable<ActemiumTicket> list1 = db.ActemiumTickets.ToList();
+                    TicketRepository ticketRepo = new TicketRepository(db);
+                    IEnumerable<ActemiumTicket> tickets = ticketRepo.GetAll();
                     //Console.WriteLine(list);
-                    foreach (ActemiumTicket ticket in list1)
+                    foreach (ActemiumTicket ticket in tickets)
                     {
                         Console.WriteLine(ticket.Priority);
                     }
                     // doesnt work yet
-                    IEnumerable<ActemiumTicketChange> list2 = db.ActemiumTicketChanges.ToList();
+                    //IEnumerable<ActemiumTicketChange> list2 = db.ActemiumTicketChanges.ToList();
                     //Console.WriteLine(list);
-                    foreach (ActemiumTicketChange ticketChange in list2)
+                    foreach (ActemiumTicket ticket in tickets)
                     {
-                        Console.WriteLine(ticketChange.UserRole);
+                        Console.WriteLine(ticket.Title);
+                        foreach(ActemiumTicketChange ticketChange in ticket.TicketChanges)
+                        {
+                            Console.WriteLine(ticketChange.UserRole);
+                        }
                     }
                     */
+                    UserRepository userRepo = new UserRepository(db);
                     Console.WriteLine("#########CUSTOMERS########");
-                    IEnumerable<UserModel> list3 = db.Customers.ToList();
-                    foreach (ActemiumCustomer Customer in list3)
+                    IEnumerable<UserModel> customers = userRepo.GetAllCustomers();
+                    foreach (ActemiumCustomer Customer in customers)
                     {
                         Console.WriteLine(Customer.UserName);
                     }
                     
                     Console.WriteLine("#########EMPLOYEES########");
-                    IEnumerable<UserModel> list4 = db.Employees.ToList();
-                    foreach (ActemiumEmployee Employee in list4)
+                    IEnumerable<UserModel> employees = userRepo.GetAllEmployees();
+                    foreach (ActemiumEmployee Employee in employees)
                     {
                         Console.WriteLine(Employee.UserName);
                     }
