@@ -72,7 +72,7 @@ namespace _2021_dotnet_e_02
                     IEnumerable<UserModel> employees = userRepo.GetAllEmployees();
                     foreach (ActemiumEmployee Employee in employees)
                     {
-                        Console.WriteLine(Employee.UserName);
+                        Console.WriteLine(Employee.UserName + " " + Employee.Role);
                     }
                 }
             }

@@ -49,11 +49,15 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.ApplyConfiguration(new TicketChangeConfiguration());
             modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
-            //modelBuilder.ApplyConfiguration(new CustomerConfiguration());
-            //modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
 
+            /*modelBuilder.Entity<UserModel>().HasDiscriminator<string>("DTYPE")
+                //.HasValue<ActemiumCustomer>("ActemiumCustomer")
+                //.HasValue<ActemiumEmployee>("ActemiumEmployee")
+                .IsComplete(false);
             modelBuilder.Entity<ActemiumCustomer>().HasBaseType<UserModel>();
-            modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();
+            modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();*/
 
 
         }

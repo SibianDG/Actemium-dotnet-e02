@@ -10,9 +10,9 @@ namespace _2021_dotnet_e_02.Data.Mapping
         {
             builder.ToTable("USERMODEL");
             
-            builder.HasDiscriminator<string>("DTYPE")
+            /*builder.HasDiscriminator<string>("DTYPE")
                 .HasValue<ActemiumCustomer>("ActemiumCustomer")
-                .HasValue<ActemiumEmployee>("ActemiumEmployee");
+                .HasValue<ActemiumEmployee>("ActemiumEmployee");*/
 
             builder.HasKey(t => t.UserId);
             builder.Property(t => t.UserName);
@@ -20,7 +20,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.FirstName);
             builder.Property(t => t.LastName);
             builder.Property(t => t.Status);
-            //builder.Property(t => t.RegistrationDate);
+            builder.Property(t => t.RegistrationDate).HasColumnName("REGISTRATIONDATE");
             builder.Property(t => t.FailedLoginAttempts);
             
             
