@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Status { get; set; }
-        //public DateTime RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public ICollection<LoginAttempt> LoginAttempts { get; set; }
         public int FailedLoginAttempts { get; set; }
 

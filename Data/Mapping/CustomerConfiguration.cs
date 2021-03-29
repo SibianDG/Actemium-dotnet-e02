@@ -11,6 +11,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.ToTable("ACTEMIUMCUSTOMER");
 
             //builder.HasOne(t => t.Company).WithMany(t => t.ContactPersons);
+            //builder.OwnsOne(t => t.Company);
         }
     }
 }

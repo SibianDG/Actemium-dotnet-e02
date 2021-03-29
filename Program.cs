@@ -45,6 +45,13 @@ namespace _2021_dotnet_e_02
                         Console.WriteLine(ticketChange.UserRole);
                     }
                     */
+                    Console.WriteLine("#########USERS########");
+                    IEnumerable<UserModel> list5 = db.Users.ToList();
+                    foreach (UserModel User in list5)
+                    {
+                        Console.WriteLine(User.UserName + " " + User.LoginAttempts);
+                    }
+                    
                     Console.WriteLine("#########CUSTOMERS########");
                     IEnumerable<UserModel> list3 = db.Customers.ToList();
                     foreach (ActemiumCustomer Customer in list3)
@@ -56,7 +63,7 @@ namespace _2021_dotnet_e_02
                     IEnumerable<UserModel> list4 = db.Employees.ToList();
                     foreach (ActemiumEmployee Employee in list4)
                     {
-                        Console.WriteLine(Employee.UserName);
+                        Console.WriteLine(Employee.UserName + " " + Employee.Role);
                     }
                 }
             }
