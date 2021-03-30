@@ -1,4 +1,5 @@
 ﻿using System;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -7,8 +8,8 @@ namespace _2021_dotnet_e_02.Models
         public int Id { get; set; }
         public DateTime DateAndTime { get; set; }
         public string Username { get; set; }
-        private string LoginStatus { get; set; }
-        //UserModel userModel
+        public LoginStatus LoginStatus { get; set; }
+        public UserModel UserModel { get; set; }
         
         public LoginAttempt()
         {
