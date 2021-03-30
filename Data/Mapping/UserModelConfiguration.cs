@@ -27,7 +27,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.RegistrationDate).HasColumnName("REGISTRATIONDATE");
             builder.Property(t => t.FailedLoginAttempts);
             
-            builder.HasMany(t => t.LoginAttempts).WithOne();
+            builder.HasMany(t => t.LoginAttempts).WithOne(t=> t.UserModel).HasForeignKey(t => t.Id);
         }
         
     }
