@@ -1,4 +1,6 @@
-﻿using _2021_dotnet_e_02.Models;
+﻿using System;
+using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,7 +21,9 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Password);
             builder.Property(t => t.FirstName);
             builder.Property(t => t.LastName);
-            builder.Property(t => t.Status);
+            builder.Property(t => t.Status)
+                .HasConversion(v => v.ToString(),
+                    v => (UserStatus)Enum.Parse(typeof(UserStatus), v));
             builder.Property(t => t.RegistrationDate).HasColumnName("REGISTRATIONDATE");
             builder.Property(t => t.FailedLoginAttempts);
             

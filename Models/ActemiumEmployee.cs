@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -8,7 +9,7 @@ namespace _2021_dotnet_e_02.Models
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public EmployeeRole Role { get; set; }
         public ICollection<string> Specialties { get; set; }
         
         public ActemiumEmployee()
