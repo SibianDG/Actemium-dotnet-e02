@@ -10,7 +10,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
         {
             builder.ToTable("ACTEMIUMEMPLOYEE");
 
-            //builder.Ignore(t => t.Specialties);
+            //TODO
+            builder.Ignore(t => t.Specialties);
             builder.Property(t => t.Address);
             builder.Property(t => t.PhoneNumber);
             builder.Property(t => t.Email).HasColumnName("EMAILADDRESS");

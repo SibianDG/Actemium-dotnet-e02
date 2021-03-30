@@ -10,7 +10,11 @@ namespace _2021_dotnet_e_02.Data.Mapping
         {
             builder.ToTable("ACTEMIUMCUSTOMER");
 
-            //builder.HasOne(t => t.Company).WithMany(t => t.ContactPersons);
+            builder.HasOne(t => t.Company)
+                .WithMany(t => t.ContactPersons)
+                .HasForeignKey(t => t.UserId);
+            
+            //.HasForeignKey(t => t.CompanyId);
             //builder.OwnsOne(t => t.Company);
         }
     }

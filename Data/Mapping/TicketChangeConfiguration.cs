@@ -12,7 +12,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             builder.HasKey(t => t.TicketChangeId);
             
-            builder.HasOne(t => t.Ticket).WithMany(t => t.TicketChanges).IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(t => t.Ticket).WithMany(t => t.TicketChanges).IsRequired().OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(t => t.TicketChangeId);
             //builder.HasOne(t => t.User);
             builder.Ignore(t => t.User);
             builder.Property(t => t.UserRole);

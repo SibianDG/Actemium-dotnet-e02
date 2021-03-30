@@ -12,7 +12,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             builder.HasKey(t => t.TicketCommentId);
             
-            builder.HasOne(t => t.Ticket).WithMany(t => t.Comments).IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(t => t.Ticket).WithMany(t => t.Comments).IsRequired().OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(t=> t.TicketCommentId);
             builder.Ignore(t => t.User);
             builder.Property(t => t.UserRole);
             builder.Property(t => t.DateTimeOfComment);

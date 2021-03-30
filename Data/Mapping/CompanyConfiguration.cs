@@ -12,15 +12,23 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             builder.HasKey(t => t.CompanyId);
 
-            builder.Property(t => t.Name);
-            builder.Property(t => t.Country);
-            builder.Property(t => t.City);
-            builder.Property(t => t.Address);
-            builder.Property(t => t.PhoneNumber);
-            builder.Property(t => t.RegistrationDate);
-            builder.HasMany(t => t.Tickets).WithOne();
+            builder.Property(t => t.CompanyId)
+                .HasColumnName("COMPANYID");
+            builder.Property(t => t.Name)
+                .HasColumnName("NAME");
+            builder.Property(t => t.Country)
+                .HasColumnName("COUNTRY");
+            builder.Property(t => t.City)
+                .HasColumnName("CITY");
+            builder.Property(t => t.Address)
+                .HasColumnName("ADDRESS");
+            builder.Property(t => t.PhoneNumber)
+                .HasColumnName("PHONENUMBER");
+            builder.Property(t => t.RegistrationDate)
+                .HasColumnName("REGISTRATIONDATE");
+            
+            //builder.HasMany(t => t.Tickets).WithOne();
             builder.Ignore(t => t.Contracts);
-            builder.Ignore(t => t.ContactPersons);
         }
     }
 }

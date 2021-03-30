@@ -15,12 +15,17 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Status);
             builder.Property(t => t.Priority);
             builder.Property(t => t.DateAndTimeOfCreation);
-            builder.Property(t => t.DateAndTimeOfCompletion);
+            builder.Ignore(t => t.DateAndTimeOfCompletion);
+            //builder.Property(t => t.DateOfCreation);
             builder.Property(t => t.Title);
             builder.Property(t => t.Description);
-            builder.HasMany(t => t.Comments).WithOne();
+            //builder.HasMany(t => t.Comments).WithOne();
+            
             //builder.Ignore(t => t.Company);
-            builder.HasOne(t => t.Company).WithMany(t => t.Tickets);
+            builder.HasOne(t => t.Company)
+                .WithMany(t => t.Tickets)
+                .HasForeignKey(t => t.TicketId);
+            
             builder.Property(t => t.Attachments);
             builder.Ignore(t => t.Technicians);
             builder.Property(t => t.TicketType);

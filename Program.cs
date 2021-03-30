@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data;
 using _2021_dotnet_e_02.Data.Repositories;
 using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,7 @@ namespace _2021_dotnet_e_02
                     IEnumerable<UserModel> customers = userRepo.GetAllCustomers();
                     foreach (ActemiumCustomer Customer in customers)
                     {
-                        Console.WriteLine(Customer.UserName);
+                        Console.WriteLine(Customer.UserName + " " + Customer.Company.Name);
                     }
                     
                     Console.WriteLine("#########EMPLOYEES########");
@@ -73,6 +74,14 @@ namespace _2021_dotnet_e_02
                     foreach (ActemiumEmployee Employee in employees)
                     {
                         Console.WriteLine(Employee.UserName + " " + Employee.Role);
+                    }
+                    
+                    Console.WriteLine("#########TICKETS########");
+                    TicketRepository TikcetRepo = new TicketRepository(db);
+                    IEnumerable<ActemiumTicket> Tickets = TikcetRepo.GetAll();
+                    foreach (ActemiumTicket Ticket in Tickets)
+                    {
+                        Console.WriteLine(Ticket.Priority);
                     }
                 }
             }
