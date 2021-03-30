@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data.Mapping;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace _2021_dotnet_e_02.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext//<UserModel>
     {
 
         public DbSet<ActemiumKbItem> KbItems { get; set; }

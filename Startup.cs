@@ -8,6 +8,7 @@ using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,11 +28,18 @@ namespace _2021_dotnet_e_02
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //MVC middleware
             services.AddControllersWithViews();
 
+            //Connection middleware
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("TicketSystemE02Context")));
 
+            //Configure Identity framework
+            //services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //Configure repositories
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -56,9 +64,8 @@ namespace _2021_dotnet_e_02
 
             app.UseRouting();
 
+            //Configure authentication and authorization
             app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseAuthorization();
             
 
