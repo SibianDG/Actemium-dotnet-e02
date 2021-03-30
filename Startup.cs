@@ -57,6 +57,7 @@ namespace _2021_dotnet_e_02
             app.UseRouting();
 
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
