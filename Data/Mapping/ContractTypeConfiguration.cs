@@ -10,22 +10,26 @@ namespace _2021_dotnet_e_02.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<ActemiumContractType> builder)
         {
+            builder.ToTable("ACTEMIUMCONTRACTTYPE");
+
             builder.HasKey(t => t.ContractTypeId);
+            
+            builder.Property(t => t.ContractTypeId).HasColumnName("CONTRACTTYPEID");
 
             builder.Property(t => t.Name).HasColumnName("NAME");
             builder.Property(t => t.Status).HasColumnName("STATUS")
                 .HasConversion(v => v.ToString(),
-                    v => (ContractTypeStatus)Enum.Parse(typeof(KbItemType), v));
+                    v => (ContractTypeStatus)Enum.Parse(typeof(ContractTypeStatus), v));
             builder.Property(t => t.HasEmail).HasColumnName("HASEMAIL");
             builder.Property(t => t.HasPhone).HasColumnName("HASPHONE");
             builder.Property(t => t.HasApplication).HasColumnName("HASAPPLICATION");
 
             builder.Property(t => t.TimeStamp).HasColumnName("TIMESTAMP")
                 .HasConversion(v => v.ToString(),
-                    v => (Timestamp)Enum.Parse(typeof(KbItemType), v));
+                    v => (Timestamp)Enum.Parse(typeof(Timestamp), v));
 
-            builder.Property(t => t.MaxHandlingTime).HasColumnName("MAXHANDELINGTIME");
-            builder.Property(t => t.MinThroughputTime).HasColumnName("MINTROUGHPUTTIME");
+            builder.Property(t => t.MaxHandlingTime).HasColumnName("MAXHANDLINGTIME");
+            builder.Property(t => t.MinThroughputTime).HasColumnName("MINTHROUGHPUTTIME");
             builder.Property(t => t.Price).HasColumnName("PRICE");
 
             

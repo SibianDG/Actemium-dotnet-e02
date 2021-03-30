@@ -83,6 +83,28 @@ namespace _2021_dotnet_e_02
                     {
                         Console.WriteLine(Ticket.Priority);
                     }
+                    
+                    Console.WriteLine("#########LoginAttempts########");
+                    IEnumerable<LoginAttempt> LoginAttemps = db.LoginAttempts.ToList();
+                    foreach (LoginAttempt loginAttempt in LoginAttemps)
+                    {
+                        Console.WriteLine(loginAttempt.LoginStatus);
+                    }
+                    
+                                        
+                    Console.WriteLine("#########ContractType########");
+                    IEnumerable<ActemiumContractType> contractTypes = db.ActemiumContractTypes.ToList();
+                    foreach (ActemiumContractType contractType in contractTypes)
+                    {
+                        Console.WriteLine(contractType.Name);
+                    }
+                    
+                    Console.WriteLine("#########Contract########");
+                    IEnumerable<ActemiumContract> contracts = db.ActemiumContracts.ToList();
+                    foreach (ActemiumContract c in contracts)
+                    {
+                        Console.WriteLine(c.Status);
+                    }
                 }
             }
             catch (SqlException e)

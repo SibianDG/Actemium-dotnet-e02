@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data.Mapping;
 using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Data
 {
@@ -19,6 +20,10 @@ namespace _2021_dotnet_e_02.Data
         public DbSet<UserModel> Users { get; set; }
         public DbSet<ActemiumCustomer> Customers { get; set; }
         public DbSet<ActemiumEmployee> Employees { get; set; }
+        public DbSet<LoginAttempt> LoginAttempts { get; set; }
+        public DbSet<ActemiumContractType> ActemiumContractTypes { get; set; }
+        public DbSet<ActemiumContract> ActemiumContracts { get; set; }
+        
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -51,6 +56,8 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new LoginAttemptConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
             /*modelBuilder.Entity<UserModel>().HasDiscriminator<string>("DTYPE")
