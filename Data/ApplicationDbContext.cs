@@ -51,6 +51,7 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
             /*modelBuilder.Entity<UserModel>().HasDiscriminator<string>("DTYPE")
                 //.HasValue<ActemiumCustomer>("ActemiumCustomer")
