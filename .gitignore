@@ -440,8 +440,8 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/wwwroot/css/styles.css
-/wwwroot/css/styles.css.map
-/wwwroot/css/styles.min.css
-/compilerconfig.json
-/compilerconfig.json.defaults
+/2021-dotnet-e-02/wwwroot/css/styles.css
+/2021-dotnet-e-02/wwwroot/css/styles.css.map
+/2021-dotnet-e-02/wwwroot/css/styles.min.css
+/2021-dotnet-e-02/compilerconfig.json
+/2021-dotnet-e-02/compilerconfig.json.defaults
