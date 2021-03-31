@@ -29,7 +29,11 @@ namespace _2021_dotnet_e_02
         public void ConfigureServices(IServiceCollection services)
         {
             //MVC middleware
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+            services.AddRazorPages();
+            
+            services.AddSession();
 
             //Connection middleware
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -66,6 +70,8 @@ namespace _2021_dotnet_e_02
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseSession();
 
             //Configure authentication and authorization
             app.UseAuthentication();
@@ -77,6 +83,7 @@ namespace _2021_dotnet_e_02
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
