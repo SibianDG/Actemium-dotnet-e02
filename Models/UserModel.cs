@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace _2021_dotnet_e_02.Models
 {
-    public class UserModel : IdentityUser
+    public class UserModel //: ApplicationUser
     {
         public int UserId { get; set; }
         public string UserName { get; set; }

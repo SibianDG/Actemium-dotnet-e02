@@ -9,7 +9,7 @@ namespace _2021_dotnet_e_02.Models
     {
         UserModel GetBy(int id);
         UserModel GetByUsername(string username);
-        UserModel GetBy(string emailAddress);
+        //UserModel GetByEmail(string emailAddress);
         IEnumerable<ActemiumEmployee> GetAllEmployees();
         IEnumerable<ActemiumEmployee> GetAllTechnicians();
 

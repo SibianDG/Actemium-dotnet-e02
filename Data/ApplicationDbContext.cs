@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace _2021_dotnet_e_02.Data
 {
-    public class ApplicationDbContext : IdentityDbContext//<UserModel>
+    public class ApplicationDbContext : IdentityDbContext// <ApplicationUser>
     {
 
         public DbSet<ActemiumKbItem> KbItems { get; set; }
@@ -67,7 +67,6 @@ namespace _2021_dotnet_e_02.Data
                 .IsComplete(false);
             modelBuilder.Entity<ActemiumCustomer>().HasBaseType<UserModel>();
             modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();*/
-
 
         }
     }

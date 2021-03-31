@@ -37,11 +37,14 @@ namespace _2021_dotnet_e_02
 
             //Configure Identity framework
             //services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             //Configure repositories
-            services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+            services.AddScoped<IKbItemRepository, KbItemRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
         }
