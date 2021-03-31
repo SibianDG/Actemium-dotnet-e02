@@ -40,7 +40,6 @@ namespace _2021_dotnet_e_02
                     Console.WriteLine("GETBY ID TEST");
                     Console.WriteLine(companyRepo.GetBy(2).Name);
 
-                    /*
                     // doesnt work yet
                     TicketRepository ticketRepo = new TicketRepository(db);
                     IEnumerable<ActemiumTicket> tickets = ticketRepo.GetAll();
@@ -60,7 +59,6 @@ namespace _2021_dotnet_e_02
                             Console.WriteLine(ticketChange.UserRole);
                         }
                     }
-                    */
                     UserRepository userRepo = new UserRepository(db);
                     Console.WriteLine("#########CUSTOMERS########");
                     IEnumerable<UserModel> customers = userRepo.GetAllCustomers();
@@ -111,6 +109,8 @@ namespace _2021_dotnet_e_02
             {
                 Console.WriteLine(e.ToString());
             }
+                        
+
             Console.WriteLine("EINDE");
 
             CreateHostBuilder(args).Build().Run();
