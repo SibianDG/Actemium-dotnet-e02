@@ -10,5 +10,15 @@ namespace _2021_dotnet_e_02.Models
         ActemiumCompany GetBy(int id);
 
         IEnumerable<ActemiumCompany> GetAll();
+        
+        ActemiumCompany GetByName(string name);
+        
+        void Add(ActemiumCompany company);
+        
+        //Nothing is deleted in this application (See message of the client on Chamilo)
+        //void Delete(ActemiumTicket ticket);
+        void Update(ActemiumCompany company);
+        void SaveChanges();
+
     }
 }

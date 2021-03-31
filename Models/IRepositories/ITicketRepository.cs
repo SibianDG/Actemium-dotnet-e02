@@ -11,7 +11,13 @@ namespace _2021_dotnet_e_02.Models
 
         IEnumerable<ActemiumTicket> GetAll();
 
+        void Add(ActemiumTicket ticket);
+        
+        //Nothing is deleted in this application (See message of the client on Chamilo)
+        //void Delete(ActemiumTicket ticket);
+        void Update(ActemiumTicket ticket);
         void SaveChanges();
+
 
     }
 }

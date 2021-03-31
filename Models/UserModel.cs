@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace _2021_dotnet_e_02.Models
 {
-    public class UserModel //: IdentityUser
+    public class UserModel : IdentityUser
     {
         public int UserId { get; set; }
-        /*override*/ public string UserName { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

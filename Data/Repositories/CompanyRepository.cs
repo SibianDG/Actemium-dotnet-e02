@@ -19,8 +19,28 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public IEnumerable<ActemiumCompany> GetAll()
         {
-            return _companies.Include(c => c.ContactPersons).Include(c => c.Tickets).Include(c => c.Contracts).ToList();
+            return _companies.AsNoTracking().Include(c => c.ContactPersons).Include(c => c.Tickets).Include(c => c.Contracts).ToList();
             //return _companies.ToList();
+        }
+
+        public ActemiumCompany GetByName(string name)
+        {
+            return _companies.AsNoTracking().SingleOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public void Add(ActemiumCompany company)
+        {
+            _companies.Add(company);
+        }
+
+        public void Update(ActemiumCompany company)
+        {
+            _context.Update(company);
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
 
         public ActemiumCompany GetBy(int id)
