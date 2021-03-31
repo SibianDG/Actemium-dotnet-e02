@@ -1,0 +1,32 @@
+.b-1 {
+  border-width: 1px;
+}
+
+.b-c-gray {
+  border-color: $dark-gray;
+}
+
+.b-r-5 {
+  border-radius: 5px;
+}
+
+.b-r-15 {
+  border-radius: 15px;
+}
+
+.b-r-25 {
+  border-radius: 25px;
+}
+
+.b-r-50 {
+  border-radius: 50px;
+}
+
+.b-y-1 {
+  border-top: 1px solid $dark-gray;
+  border-bottom: 1px solid $dark-gray;
+}
+
+.bb-1 {
+  border-bottom: 1px solid $light-gray;
+}

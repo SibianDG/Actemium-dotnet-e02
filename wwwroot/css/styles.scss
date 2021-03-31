@@ -1,0 +1,160 @@
+@import "variables";
+@import "mixins";
+@import "fonts";
+@import "colors";
+
+
+* {
+  box-sizing: border-box;
+  &::before, &::after {
+    box-sizing: border-box;
+  }
+  ::-moz-selection {
+    background: $green;
+  }
+
+  ::selection {
+    background: $green;
+  }
+}
+
+body, button, input, select, optgroup, textarea {
+  color: #5a5a5a;
+  font-family: 'Source Sans Pro',sans-serif;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+body {
+  padding-top: 85px;
+  padding-bottom: 85px;
+  background-color: $very-light-gray;
+  @media (min-width: 992px) {
+    padding-bottom: 70px;
+
+  }
+}
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+}
+
+.form-group{
+  input {
+    caret-color: $blue;
+    border: transparent;
+    border-radius: 0;
+    border-bottom: 5px $green solid;
+    background-color: transparent;
+    &:hover {
+      border: transparent;
+      border-bottom: 5px $green solid;
+      box-shadow: none;
+    }
+    &:focus {
+      border: transparent;
+      border-bottom: 5px $blue solid;
+      box-shadow: none;
+    }
+  }
+  label {
+    color: $blue;
+    font-size: 1.2rem;
+  }
+}
+
+input[type="checkbox"] {
+  width: 1.25em;
+  height: 1.25em;
+  color: $white;
+  border: 1px solid $dark-gray;
+  border-radius: 50%;
+  appearance: none;
+  outline: 0;
+  cursor: pointer;
+  transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+
+  &:hover, &:focus {
+    appearance: none;
+    color: $white;
+    border: 1px solid $blue;
+  }
+  &::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    left: 6px;
+    width: 7px;
+    height: 14px;
+    border-style: solid;
+    border-color: $white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  &:checked {
+    color: $white;
+    border-color: $green;
+    background: $green;
+    &::before {
+      opacity: 1;
+    }
+    ~ label::before {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+}
+
+a {
+  color: $blue;
+  display: inline-block;
+  text-decoration: none;
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    background: $green;
+    transition: width .35s;
+  }
+  &:hover {
+    text-decoration: none;
+    color: $blue;
+    &::after {
+      width: 100%;
+      //transition: width .3s;
+    }
+  }
+  &:active {
+    color: $blue
+  }
+}
+
+@import "buttons";
+
+@import "navbar";
+@import "borders";
+
+footer {
+  text-align: center;
+  padding: .5rem 0;
+  background-color: $white;
+  font-size: .9rem;
+  @media (min-width: 992px) {
+    padding: 1rem 0;
+    font-size: 1rem;
+  }
+}
+
+.small {
+  font-size: .9rem !important;
+}
+
+
+//PAGES:
+@import "login";
+@import "dashboard";
+@import "tickets";
+@import "kdb";

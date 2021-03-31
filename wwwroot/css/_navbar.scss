@@ -1,0 +1,32 @@
+#nav-logo {
+  height: 30px;
+  width: auto;
+  margin: 0 5rem 1rem 1rem;
+  &:hover {
+    -webkit-animation: tada 1s;
+    animation: tada 1s;
+  }
+  @media (min-width: 768px) {
+    height: 40px;
+  }
+}
+
+.navbar {
+  #navbarNav {
+    .navbar-nav {
+      .nav-link {
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 0 15px;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+
+        color: $blue;
+      }
+    }
+  }
+}
+
+.account:hover, .logout:hover {
+  color: $green;
+}

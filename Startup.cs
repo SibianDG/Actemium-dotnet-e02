@@ -41,7 +41,20 @@ namespace _2021_dotnet_e_02
 
             //Configure Identity framework
             //services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => 
+                options.SignIn.RequireConfirmedAccount = false
+            ).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+
+                options.User.RequireUniqueEmail = true;
+            });
 
             //Configure repositories
             services.AddScoped<ICompanyRepository, CompanyRepository>();

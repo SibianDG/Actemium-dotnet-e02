@@ -1,0 +1,39 @@
+.container-login {
+  @media (min-width: 772px) {
+    top: 10vh;
+    position: relative;
+  }
+}
+
+.login-card {
+  background-color: $white;
+  border: 2px $light-gray solid;
+  border-radius: 25px;
+  padding: 0;
+  @media (min-width: 992px) {
+    border-radius: 0 25px 25px 0;
+    padding: 0 2.5rem 0 0;
+
+  }
+}
+
+.forgot-password {
+  color: $dark-gray;
+  &:hover {
+    color: $green
+  }
+}
+
+#emailAddress {
+  background-image:url(../images/username-04.png);
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  background-position: right;
+}
+
+#password {
+  background-image:url(../images/password-05.png);
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  background-position: right;
+}

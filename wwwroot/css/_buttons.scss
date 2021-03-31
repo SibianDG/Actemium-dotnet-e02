@@ -1,0 +1,50 @@
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  color: $blue;
+  background-color: $light-green;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
+  color: $white;
+  background-color: $light-blue;
+}
+
+.btn-primary {
+  color: $blue;
+  background-color: $green;
+  border-color: transparent;
+  border-radius: 50px;
+  padding: .5rem 1rem;
+  &:hover{
+    border: none;
+    text-decoration: none;
+    color: $green;
+    background-color: $blue;
+    &::after {
+      width: 0;
+    }
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-secondary {
+  color: $white;
+  background-color: $blue;
+  border-color: transparent;
+  border-radius: 50px;
+  padding: .6rem 1.75rem;
+  &:hover{
+    text-decoration: none;
+    margin: -1px 0;
+    color: $blue;
+    background-color: transparent;
+    border: 3px $green solid;
+    &::after {
+      width: 0;
+    }
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
