@@ -36,5 +36,12 @@
          * Other kb item type.
          */
         OTHER
+
+    ,
+        /**
+         * kb item has been archived (logical delete)
+         * visible for support manager, invisible for the others
+         */
+        ARCHIVED
     }
 }

@@ -21,26 +21,28 @@ namespace _2021_dotnet_e_02.Data.Mapping
                 .HasConversion(v => v.ToString(),
                     v => (TicketPriority)Enum.Parse(typeof(TicketPriority), v));
             builder.Property(t => t.DateAndTimeOfCreation);
-            builder.Ignore(t => t.DateAndTimeOfCompletion);
-            //builder.Property(t => t.DateOfCreation);
+            builder.Property(t => t.DateAndTimeOfCompletion).IsRequired(false);
             builder.Property(t => t.Title);
             builder.Property(t => t.Description);
-            //builder.HasMany(t => t.Comments).WithOne();
+
+            builder.HasMany(t => t.Comments).WithOne();
             
-            //builder.Ignore(t => t.Company);
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.Tickets)
                 .HasForeignKey(t => t.TicketId);
             
             builder.Property(t => t.Attachments);
-            builder.Ignore(t => t.Technicians);
+
+            builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
+
             builder.Property(t => t.TicketType)
                 .HasConversion(v => v.ToString(),
                     v => (TicketType)Enum.Parse(typeof(TicketType), v));
             builder.Property(t => t.Solution);
             builder.Property(t => t.Quality);
             builder.Property(t => t.SupportNeeded);
-            builder.Ignore(t => t.TicketChanges);
+            
+            builder.HasMany(t => t.TicketChanges).WithOne();
         }
     }
 }

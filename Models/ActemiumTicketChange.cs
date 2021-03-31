@@ -11,11 +11,14 @@ namespace _2021_dotnet_e_02.Models
         public string UserRole { get; set; }
         public DateTime DateTimeOfChange { get; set; }
         public string ChangeDescription { get; set; }
-        public ICollection<string> ChangeContent { get; set; }
-        
+        //TODO convert string to List<String>
+        // input string from db should be split after every newline char
+        public string ChangeContent { get; set; }
+        //public ICollection<string> ChangeContent { get; set; }
+
         public ActemiumTicketChange()
         {
-            ChangeContent = new List<string>();
+            //ChangeContent = new List<string>();
         }
     }
 }

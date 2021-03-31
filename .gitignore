@@ -442,3 +442,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 /wwwroot/css/styles.css
 /wwwroot/css/styles.css.map
+/wwwroot/css/styles.min.css
+/compilerconfig.json
+/compilerconfig.json.defaults

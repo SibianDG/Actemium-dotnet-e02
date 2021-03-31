@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Models
         public TicketStatus Status { get; set; }
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }
-        public DateTime DateAndTimeOfCompletion { get; set; }
+        public DateTime? DateAndTimeOfCompletion { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public ActemiumCompany Company { get; set; }        
