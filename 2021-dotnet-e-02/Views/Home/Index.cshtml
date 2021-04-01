@@ -2,7 +2,203 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="welcome-dashboard">
+    <div class="container">
+        <div class="container-fluid opacity-100">
+            <div class="row py-3">
+                <div class="col-10 col-lg-6 text-in-picture-dashboard">
+                    <span>Hello Sibian,</span>
+                    <h3>Welcome to the Actemium Support site</h3>
+                </div>
+                <div class="col-10 col-lg-6 d-flex justify-content-end align-items-center">
+                    <div class="total-tickets">
+                        <span class="number-tickets number-open-tickets">4</span>
+                        <p class="company-tickets">open<br>Company Tickets</p>
+                    </div>
+                    <div class="total-tickets">
+                        <span class="number-tickets number-resolved-tickets">14</span>
+                        <p class="company-tickets">resolved<br>Company Tickets</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container d-flex align-items-center dashboard-main mt-4" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8 overview-open-tickets">
+                <div class="d-flex">
+                    <i class="fas fa-tools i-bigger c-open mb-1"></i>
+                    <div class="text-uppercase">open company tickets</div>
+                </div>
+                <div class="d-flex flex-column align-items-stretch justify-content-center">
+                    <div class="card my-2 card-ticket">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="open-ticket-title">Database broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
+                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
+                                        et laboriosam maxime vel.</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="open-ticket-title">Printer broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
+                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
+                                        et laboriosam maxime vel.</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-terminal"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="open-ticket-title">Software broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="overflow my-1">Test123</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="open-ticket-title">No connection...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
+                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
+                                        et laboriosam maxime vel.</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 overview-resolved-tickets mt-2 mt-lg-0">
+                <div class="d-flex ">
+                    <i class="far fa-check-circle i-bigger c-closed mb-1"></i>
+                    <div class="text-uppercase">resolved company tickets</div>
+                </div>
+                <div class="d-flex flex-column align-items-stretch justify-content-center">
+                    <div class="card my-2 card-ticket resolved-background">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="resolved-ticket-title">Database broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="my-1 resolved">Resolved</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket resolved-background">
+                        <div class="card-body d-flex align-items-center d-flex">
+                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="resolved-ticket-title">Printer broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="my-1 resolved">Resolved</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket resolved-background">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-terminal"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="resolved-ticket-title">Software broken...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="my-1 resolved">Resolved</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-2 card-ticket resolved-background">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a href="#" class="resolved-ticket-title">No connection...</a>
+                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="my-1 resolved">Resolved</p>
+                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
