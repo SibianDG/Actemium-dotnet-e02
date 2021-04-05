@@ -13,7 +13,9 @@
     </div>
 </div>
 
-<div class="bg-white p-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+<div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="col-12 col-lg-7">
+        <div class="bg-white p-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
     <div class="d-flex">
         <div class="mr-2 mr-lg-5">
             <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
@@ -31,15 +33,15 @@
     <div class="table-responsive">
         <table class="table">
             <thead>
-                <tr>
-                    <th class="mr-0 pl-1 pr-0"><input type="checkbox"></th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.TicketId)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.TicketType)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                    <th scope="col">Actions</th>
-                </tr>
+            <tr>
+                <th class="mr-0 pl-1 pr-0"><input type="checkbox"></th>
+                <th scope="col">@Html.DisplayNameFor(model => model.TicketId)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.TicketType)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                <th scope="col">Actions</th>
+            </tr>
             </thead>
             <tbody>
             @foreach (var item in Model)
@@ -52,8 +54,9 @@
                     <td>@item.Title</td>
                     <td>@item.Status</td>
                     <td class="actions">
+                        <button id="btn">View</button>
                         <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }
@@ -61,3 +64,44 @@
         </table>
     </div>
 </div>
+    </div>
+    <div class="col-12 col-lg-5">
+        Test
+        <div id="content">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+    var url = '@Url.Action("Details", "Ticket")';
+    $('#btn').click(function() {
+        console.log("start")
+        $.ajax({
+            url: url,
+            type: "post",
+            data: { id:1 },
+            dataType: "json",
+            success: function (result) {
+                console.log("result:"+JSON.stringify(result))
+                $("#content").html(JSON.stringify(result));
+                console.log("Done:")
+
+            },
+            error: function (xhr) {
+                alert("failded");
+            }
+        });
+        console.log("End")
+
+    });
+    </script>
+}

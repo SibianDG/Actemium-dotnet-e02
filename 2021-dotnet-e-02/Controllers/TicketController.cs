@@ -16,13 +16,22 @@ namespace _2021_dotnet_e_02.Controllers
         {
             _ticketRepository = ticketRepository;
         }
-
+        
         public IActionResult Index()
         {
             IEnumerable<ActemiumTicket> tickets;
             tickets = _ticketRepository.GetAll();
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
             return View(tickets);
+        }
+        
+        [HttpPost]
+        public IActionResult Details(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return Json(ticket);
         }
         
         public IActionResult Edit(int id)
