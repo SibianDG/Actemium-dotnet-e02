@@ -5,98 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="my-4" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+    <div class="container">
+        <div class="container-fluid">
+            <h1 class="text-center c-blue">Tickets</h1>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Priority)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAndTimeOfCreation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAndTimeOfCompletion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attachments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Solution)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SupportNeeded)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Priority)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAndTimeOfCreation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAndTimeOfCompletion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.CompanyId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Attachments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Solution)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quality)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupportNeeded)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TicketId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TicketId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TicketId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="bg-white p-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="d-flex">
+        <div class="mr-2 mr-lg-5">
+            <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+        </div>
+        <div class="flex-grow-1">
+            <form action="#">
+                <div class="form-group d-flex">
+                    <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
+                    <input type="text" class="form-control" id="searchTickets" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="mr-0 pl-1 pr-0"><input type="checkbox"></th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.TicketId)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.TicketType)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="mr-0 pl-1 pr-0"><input type="checkbox"></td>
+                    <td>@item.TicketId</td>
+                    <td>@item.TicketType</td>
+                    <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
+                    <td>@item.Title</td>
+                    <td>@item.Status</td>
+                    <td class="actions">
+                        <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
