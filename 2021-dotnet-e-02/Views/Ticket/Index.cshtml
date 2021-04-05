@@ -65,24 +65,20 @@
     </div>
 </div>
     </div>
-    <div class="col-12 col-lg-5">
-        Test
-        <div id="content">
-
+    <div class="col-12 col-lg-5" id="paneDetailTicket">
+        <div class="bg-white p-3 d-flex justify-content-center align-content-center">
+            <div class="d-flex flex-column justify-content-center align-content-center" id="content">
+            </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 @section Scripts
 {
     <script>
     var url = '@Url.Action("Details", "Ticket")';
+    var contextHTML = document.getElementById('content');
     $('#btn').click(function() {
         console.log("start")
         $.ajax({
@@ -91,9 +87,17 @@
             data: { id:1 },
             dataType: "json",
             success: function (result) {
-                console.log("result:"+JSON.stringify(result))
-                $("#content").html(JSON.stringify(result));
-                console.log("Done:")
+                result = JSON.stringify(result);
+                result = JSON.parse(result)
+                
+                Object.entries(result).forEach(([key, value]) => {
+                    contextHTML.insertAdjacentHTML('beforeend', `
+<div class="d-flex justify-content-left">
+<span class="font-weight-bold c-blue mr-3">${key}:</span> <span class="text-muted">${value}</span>
+</div>
+                    `);
+                    console.log(`${key} ${value}`);
+                });
 
             },
             error: function (xhr) {
