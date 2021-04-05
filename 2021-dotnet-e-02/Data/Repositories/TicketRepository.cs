@@ -24,6 +24,17 @@ namespace _2021_dotnet_e_02.Data.Repositories
             return _tickets.AsNoTracking().Include(t=> t.Company).ToList();
         }
 
+        public ActemiumTicket GetById(int id)
+        {
+            return _tickets
+                    //TODO: fout met includes
+                //.Include(t => t.Company)
+                //.Include(t => t.Technicians)
+                //.Include(t => t.Comments)
+                //.Include(t => t.TicketChanges)
+                .SingleOrDefault(t => id == t.TicketId);
+        }
+
         public void Add(ActemiumTicket ticket)
         {
             _tickets.Add(ticket);

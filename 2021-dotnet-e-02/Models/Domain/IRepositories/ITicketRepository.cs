@@ -10,6 +10,7 @@ namespace _2021_dotnet_e_02.Models
         ActemiumTicket GetBy(int id);
 
         IEnumerable<ActemiumTicket> GetAll();
+        ActemiumTicket GetById(int id);
 
         void Add(ActemiumTicket ticket);
         
