@@ -1,4 +1,5 @@
 ﻿.edit-view-model {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,9 +8,17 @@
   background-color: $white;
   border-radius: 50px;
   -moz-border-radius: 50px;
-  h1 {
+  h1, h2, h3, h4 {
     margin-top: .5rem;
     color: $blue;
     font-weight: bold;
+  }
+  dl {
+    dt {
+      color: $blue;
+      &::after {
+        content: ':';
+      }
+    }
   }
 }

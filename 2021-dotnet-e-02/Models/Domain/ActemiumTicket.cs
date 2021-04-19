@@ -31,14 +31,14 @@ namespace _2021_dotnet_e_02.Models
             TicketChanges = new List<ActemiumTicketChange>();
         }
         
-        public ActemiumTicket(/*TicketStatus status, TicketPriority priority,*/ string title, string description, string attachments, /*TicketType type,*/ string solution, string quality, string supportNeeded)
+        public ActemiumTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {
-            // Status = status;
-            // Priority = priority;
+            Status = status;
+            Priority = priority;
             Title = title;
             Description = description;
             Attachments = attachments;
-            // TicketType = type;
+            TicketType = type;
             Solution = solution;
             Quality = quality;
             SupportNeeded = supportNeeded;
@@ -56,17 +56,17 @@ namespace _2021_dotnet_e_02.Models
             Quality = quality;
             SupportNeeded = supportNeeded;
         }
-        public void EditTicket(/*TicketStatus status, TicketPriority priority,*/ string title, string description, string attachments, /*TicketType type,*/ string solution, string quality, string supportNeeded)
-        {
-            /*Status = status;
-            Priority = priority;*/
-            Title = title;
-            Description = description;
-            Attachments = attachments;
-            // TicketType = type;
-            Solution = solution;
-            Quality = quality;
-            SupportNeeded = supportNeeded;
-        }
+        // public void EditTicket(/*TicketStatus status, TicketPriority priority,*/ string title, string description, string attachments, /*TicketType type,*/ string solution, string quality, string supportNeeded)
+        // {
+        //     /*Status = status;
+        //     Priority = priority;*/
+        //     Title = title;
+        //     Description = description;
+        //     Attachments = attachments;
+        //     // TicketType = type;
+        //     Solution = solution;
+        //     Quality = quality;
+        //     SupportNeeded = supportNeeded;
+        // }
     }
 }

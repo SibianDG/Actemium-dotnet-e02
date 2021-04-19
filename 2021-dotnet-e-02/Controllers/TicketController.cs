@@ -21,7 +21,7 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Index()
         {
             IEnumerable<ActemiumTicket> tickets;
-            //TODO performace!!
+            //TODO performace??
             tickets = _ticketRepository.GetAll();
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
             Console.WriteLine("NUMBER" + tickets.Count());
@@ -65,8 +65,8 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    ticket.EditTicket(/*editViewModel.Status, editViewModel.Priority,*/ editViewModel.Title
-                        , editViewModel.Description, editViewModel.Attachments/*, editViewModel.TicketType*/
+                    ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
+                        , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
@@ -99,8 +99,8 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    var ticket = new ActemiumTicket(/*editViewModel.Status, editViewModel.Priority,*/ editViewModel.Title
-                        , editViewModel.Description, editViewModel.Attachments/*, editViewModel.TicketType*/
+                    var ticket = new ActemiumTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
+                        , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
                     _ticketRepository.Add(ticket);
                     //TODO: company meegeven
@@ -122,8 +122,7 @@ namespace _2021_dotnet_e_02.Controllers
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
                 return NotFound();
-            ViewData["ProductName"] = ticket.Title;
-            return View();
+            return View(ticket);
         }
 
         [HttpPost, ActionName("Delete")]
