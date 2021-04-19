@@ -34,18 +34,22 @@ namespace _2021_dotnet_e_02.Controllers
             return Json(ticket);
         }
         
+        //OK
         public IActionResult Edit(int id)
         {
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
                 return NotFound();
             ViewData["IsEdit"] = true;
+            Console.WriteLine("RETURN VIEW EDIT");
             return View(new EditViewModel(ticket));
         }
 
+        //TODO
         [HttpPost]
         public IActionResult Edit(int id, EditViewModel editViewModel)
         {
+            Console.WriteLine("Start post edit");
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
                 return NotFound();
@@ -53,9 +57,11 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
-                        , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
+                    Console.WriteLine("LET'S GO");
+                    ticket.EditTicket(/*editViewModel.Status, editViewModel.Priority,*/ editViewModel.Title
+                        , editViewModel.Description, editViewModel.Attachments/*, editViewModel.TicketType*/
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
+                    Console.WriteLine("Before SaveChanges");
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully updated product {ticket.Title}.";
                 }
