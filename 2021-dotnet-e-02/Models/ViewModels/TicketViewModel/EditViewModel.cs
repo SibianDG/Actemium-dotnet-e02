@@ -23,20 +23,17 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         
         [Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Title")]
-        [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Title { get; set; }
         
         [Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Description")]
-        [DataType(DataType.Text)]
         [StringLength(255, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
         //public ActemiumCompany Company { get; set; }        
         //public ICollection<ActemiumTicketComment> Comments { get; set; }
         
         [Display(Name = "Attachments")]
-        [DataType(DataType.Text)]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string Attachments { get; set; }
         //public ICollection<ActemiumEmployee> Technicians { get; set; }
@@ -47,20 +44,21 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         // public TicketType TicketType { get; set; }
         
         [Display(Name = "Solution")]
-        [DataType(DataType.Text)]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string Solution { get; set; }
         
         [Display(Name = "Quality")]
-        [DataType(DataType.Text)]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string Quality { get; set; }
         
         [Display(Name = "SupportNeeded")]
-        [DataType(DataType.Text)]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string SupportNeeded { get; set; }
         //public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
+
+        public EditViewModel()
+        {
+        }
 
         public EditViewModel(ActemiumTicket ticket)
         {
@@ -69,6 +67,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
             // Priority = ticket.Priority;
             Title = ticket.Title;
             Attachments = ticket.Attachments;
+            Description = ticket.Description;
             // TicketType = ticket.TicketType;
             Solution = ticket.Solution;
             Quality = ticket.Quality;

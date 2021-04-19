@@ -71,6 +71,10 @@ namespace _2021_dotnet_e_02.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                Console.WriteLine("NOT VALID");
+            }
             ViewData["IsEdit"] = true;
             return View(editViewModel);
 
