@@ -1,13 +1,71 @@
-﻿@model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit Product" : "Create Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h1>Edit</h1>
+<div class="edit-view-model">
+    <h1>@ViewData["Title"]</h1>
+    
+    <form method="post">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Status"></label>
+            <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control">
+            </select>
+            <!--<span asp-validation-for="Status" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="Priority"></label>
+            <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" class="form-control">
+            </select>
+            <!--<span asp-validation-for="Priority" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <!--<span asp-validation-for="Title" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="Attachments"></label>
+            <input asp-for="Attachments" class="form-control" />
+            <!--<span asp-validation-for="Attachments" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="TicketType"></label>
+            <select asp-for="TicketType" asp-items="Html.GetEnumSelectList<TicketType>()" class="form-control">
+            </select>
+            <!--<span asp-validation-for="TicketType" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="Solution"></label>
+            <input asp-for="Solution" class="form-control" />
+            <!--<span asp-validation-for="Solution" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="Quality"></label>
+            <input asp-for="Quality" class="form-control" />
+            <!--<span asp-validation-for="Quality" class="text-danger"></span>-->
+        </div>
+        <div class="form-group">
+            <label asp-for="SupportNeeded"></label>
+            <input asp-for="SupportNeeded" class="form-control" />
+            <!--<span asp-validation-for="SupportNeeded" class="text-danger"></span>-->
+        </div>
 
-Test
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-primary mr-3" type="submit">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
 
-@Model.Title
 
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+} 
