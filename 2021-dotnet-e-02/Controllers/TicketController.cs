@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 
 namespace _2021_dotnet_e_02.Controllers
@@ -20,8 +21,10 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Index()
         {
             IEnumerable<ActemiumTicket> tickets;
+            //TODO performace!!
             tickets = _ticketRepository.GetAll();
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
+            Console.WriteLine("NUMBER" + tickets.Count());
             return View(tickets);
         }
         
@@ -42,7 +45,6 @@ namespace _2021_dotnet_e_02.Controllers
             return View(ticket);
         }
         
-        //OK
         public IActionResult Edit(int id)
         {
             ActemiumTicket ticket = _ticketRepository.GetById(id);
@@ -53,11 +55,9 @@ namespace _2021_dotnet_e_02.Controllers
             return View(new EditViewModel(ticket));
         }
 
-        //TODO
         [HttpPost]
         public IActionResult Edit(int id, EditViewModel editViewModel)
         {
-            Console.WriteLine("Start post edit");
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
                 return NotFound();
@@ -65,17 +65,15 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    Console.WriteLine("LET'S GO");
                     ticket.EditTicket(/*editViewModel.Status, editViewModel.Priority,*/ editViewModel.Title
                         , editViewModel.Description, editViewModel.Attachments/*, editViewModel.TicketType*/
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
-                    Console.WriteLine("Before SaveChanges");
                     _ticketRepository.SaveChanges();
-                    TempData["message"] = $"You successfully updated product {ticket.Title}.";
+                    TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
                 }
                 catch
                 {
-                    TempData["error"] = "Sorry, something went wrong, product was not updated...";
+                    TempData["error"] = "Sorry, something went wrong, ticket was not updated...";
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -86,6 +84,66 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["IsEdit"] = true;
             return View(editViewModel);
 
+        }
+        
+        public IActionResult Create()
+        {
+            ViewData["IsEdit"] = false;
+            return View(nameof(Edit), new EditViewModel());
+        }
+        
+        [HttpPost]
+        public IActionResult Create(EditViewModel editViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var ticket = new ActemiumTicket(/*editViewModel.Status, editViewModel.Priority,*/ editViewModel.Title
+                        , editViewModel.Description, editViewModel.Attachments/*, editViewModel.TicketType*/
+                        , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
+                    _ticketRepository.Add(ticket);
+                    //TODO: company meegeven
+                    _ticketRepository.SaveChanges();
+                    TempData["message"] = $"You successfully added ticket {ticket.Title}.";
+                }
+                catch
+                {
+                    TempData["error"] = "Sorry, something went wrong, the ticket was not added...";
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IsEdit"] = false;
+            return View(nameof(Edit), editViewModel);
+        }
+        
+        public IActionResult Delete(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            ViewData["ProductName"] = ticket.Title;
+            return View();
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                ActemiumTicket ticket = _ticketRepository.GetById(id);
+                if (ticket == null)
+                    return NotFound();
+                ticket.Status = TicketStatus.CANCELLED;
+                _ticketRepository.Update(ticket);
+                TempData["message"] = "You successfully changed the ticket status to cancelled.";
+                _ticketRepository.SaveChanges();
+            }
+            catch
+            {
+                TempData["error"] = "Sorry, something went wrong, the ticket status wasn't changed";
+            }
+            return RedirectToAction(nameof(Index));
         }
         
         

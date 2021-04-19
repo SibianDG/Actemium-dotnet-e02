@@ -30,6 +30,19 @@ namespace _2021_dotnet_e_02.Models
             Technicians = new List<ActemiumEmployee>();
             TicketChanges = new List<ActemiumTicketChange>();
         }
+        
+        public ActemiumTicket(/*TicketStatus status, TicketPriority priority,*/ string title, string description, string attachments, /*TicketType type,*/ string solution, string quality, string supportNeeded)
+        {
+            // Status = status;
+            // Priority = priority;
+            Title = title;
+            Description = description;
+            Attachments = attachments;
+            // TicketType = type;
+            Solution = solution;
+            Quality = quality;
+            SupportNeeded = supportNeeded;
+        }
 
         public void EditTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {
