@@ -65,7 +65,7 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
+                    ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
                         , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
                     _ticketRepository.SaveChanges();
