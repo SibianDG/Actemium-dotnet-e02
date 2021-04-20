@@ -24,8 +24,4 @@
     <ProjectReference Include="..\2021-dotnet-e-02\2021-dotnet-e-02.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models" />
-  </ItemGroup>
-
 </Project>
