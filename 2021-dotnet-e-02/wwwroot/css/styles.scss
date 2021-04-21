@@ -62,6 +62,25 @@ h1, h2, h3, h4 {
     color: $blue;
     font-size: 1.2rem;
   }
+  select {
+    border: 3px $green solid;
+    &:focus {
+      border: 3px $green solid;
+      box-shadow: 0 0 0 .3rem $greentint;
+    }
+    option {
+      background-color: $white;
+      color: $blue;
+      &:hover {
+        background-color: $blue;
+        color: white;
+      }
+      li:hover {
+        background-color: $blue;
+        color: white;
+      }
+    }    
+  }
 }
 
 input[type="checkbox"] {
@@ -158,4 +177,5 @@ footer {
 @import "tickets";
 @import "kdb";
 @import "editViewModels";
+
 

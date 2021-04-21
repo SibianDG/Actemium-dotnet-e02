@@ -16,8 +16,8 @@
 <div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
     <div class="col-12 col-lg-7">
         <div class="bg-white p-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
-    <div class="d-flex">
-        <div class="mr-2 mr-lg-5">
+    <div class="d-md-flex mb-2">
+        <div class="mr-2 mr-lg-5 mb-2">
             <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
         </div>
         <div class="flex-grow-1">
@@ -34,9 +34,8 @@
         <table class="table">
             <thead>
             <tr>
-                <th class="mr-0 pl-1 pr-0"><input type="checkbox"></th>
-                <th scope="col">@Html.DisplayNameFor(model => model.TicketId)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.TicketType)</th>
+                <th scope="col">ID</th>
+                <th scope="col">Type</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
@@ -47,7 +46,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="mr-0 pl-1 pr-0"><input type="checkbox"></td>
                     <td>@item.TicketId</td>
                     <td>@item.TicketType</td>
                     <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
@@ -67,8 +65,9 @@
 </div>
     </div>
     <div class="col-12 col-lg-5" id="paneDetailTicket">
-        <div class="bg-white p-3 d-flex justify-content-center align-content-center">
+        <div class="bg-white p-3 d-flex justify-content-center align-content-center h-100">
             <div class="d-flex flex-column justify-content-center align-content-center" id="content">
+                <h1 class="c-blue">No ticket was selected.</h1>
             </div>
         </div>
     </div>
@@ -81,6 +80,7 @@
     var url = '@Url.Action("Details", "Ticket")';
     var contextHTML = document.getElementById('content');
     $('#btn').click(function() {
+        contextHTML.innerHTML = ""
         console.log("start")
         $.ajax({
             url: url,
