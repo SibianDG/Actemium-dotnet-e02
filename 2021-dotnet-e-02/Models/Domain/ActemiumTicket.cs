@@ -99,7 +99,8 @@ namespace _2021_dotnet_e_02.Models
             //Quality = quality;
             //SupportNeeded = supportNeeded;
         }
-                
+        
+        // method not used yet, but don't remove it because we will need it
         public void EditTicketCompleted(TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {
             // Status cannot be edited by the customer

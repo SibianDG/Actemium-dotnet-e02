@@ -49,6 +49,8 @@
                 </select>
                 <!--<span asp-validation-for="TicketType" class="text-danger"></span>-->
             </div>
+            @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
+            {
             <div class="form-group">
                 <label asp-for="Solution"></label>
                 <input asp-for="Solution" class="form-control" />
@@ -64,6 +66,7 @@
                 <input asp-for="SupportNeeded" class="form-control" />
                 <!--<span asp-validation-for="SupportNeeded" class="text-danger"></span>-->
             </div>
+            }
 
             <div class="d-flex justify-content-center mb-3">
                 <button class="btn btn-primary mr-3" type="submit">Save</button>
