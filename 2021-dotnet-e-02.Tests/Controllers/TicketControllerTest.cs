@@ -62,8 +62,33 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         }
         #endregion
 
-        #region -- Edit POST --
+        #region -- Details --
+        [Fact]
+        public void Details2_PassesViewOfTicket()
+        {
+            _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
+            var result = Assert.IsType<ViewResult>(_controller.Details2(1));
+            var ticket = Assert.IsType<ActemiumTicket>(result.Model);
+            Assert.Equal("Title", ticket.Title);
+        }
+        #endregion
 
+        #region -- Details POST --
+
+        [Fact]
+        public void Details_returnsValidJsonOfTicket()
+        {
+            _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
+            var result = Assert.IsType<JsonResult>(_controller.Details(1));
+            var ticket = Assert.IsType<ActemiumTicket>(result.Value);
+            Assert.Equal("Title", ticket.Title);
+            Assert.Equal("Description", ticket.Description);
+            Assert.Equal("P1", ticket.Priority.ToString());
+        }
+        #endregion
+
+        #region -- Edit POST --
+        //TODO extra tests + test for edit completed ticket
         [Fact]
         public void Edit_ValidEdit_UpdatesAndPersistsTicket()
         {
@@ -94,6 +119,55 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             Assert.Equal("Title", ticket.Title);
             Assert.Equal("Description", ticketEvm.Description);
             _ticketRepository.Verify(t => t.SaveChanges(), Times.Never());
+        }
+        #endregion
+
+        #region -- Create GET--
+
+        [Fact]
+        public void Create_PassesNewTicketInEditViewModel()
+        {
+            var result = Assert.IsType<ViewResult>(_controller.Create());
+            var ticketEvm = Assert.IsType<EditViewModel>(result.Model);
+            Assert.Null(ticketEvm.Title);
+        }
+        #endregion
+
+        #region -- Create POST --
+
+        [Fact]
+        public void Create_ValidTicket_CreatesAndPersistsTicket()
+        {
+            //TODO
+        }
+        
+        [Fact]
+        public void Create_InValidTicket_DoesNotCreatesNorPersistsTicket()
+        {
+            //TODO
+        }
+        #endregion
+
+        #region -- Delete GET --
+        [Fact]
+        public void Delete_PassesTicketInView()
+        {
+            _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
+            var result = Assert.IsType<ViewResult>(_controller.Delete(1));
+            var ticket = Assert.IsType<ActemiumTicket>(result.Model);
+            Assert.Equal("Title", ticket.Title);
+        }
+        #endregion
+
+        #region -- Delete POST --
+        [Fact]
+        public void Delete_ExistingTicket_DeletesTicketAndPersistsChanges()
+        {
+            _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
+            var result = Assert.IsType<RedirectToActionResult>(_controller.DeleteConfirmed(1));
+            Assert.Equal("Index", result.ActionName);
+            _ticketRepository.Verify(t => t.GetById(1), Times.Once);
+            _ticketRepository.Verify(t => t.SaveChanges(), Times.Once);
         }
         #endregion
     }
