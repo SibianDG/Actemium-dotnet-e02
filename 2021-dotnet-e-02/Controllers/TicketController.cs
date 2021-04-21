@@ -1,4 +1,4 @@
-using _2021_dotnet_e_02.Models;
+﻿using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
+using _2021_dotnet_e_02.Data;
+using _2021_dotnet_e_02.Data.Repositories;
 
 namespace _2021_dotnet_e_02.Controllers
 {
@@ -118,12 +120,19 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
+                    // only for testing -> will be replaced by company of logged in user in the future
+                    CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
+
+                    Console.WriteLine("01 create");
                     // only ticketstatus created can be given to new tickets created by customer
                     var ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
-                        , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
-                        , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
+                        , tempCompanyRepo.GetBy(3), editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+                    Console.WriteLine("02 create");
+                    Console.WriteLine(tempCompanyRepo.GetBy(3).Name);
                     _ticketRepository.Add(ticket);
                     //TODO: company meegeven
+                    Console.WriteLine("03 create");
+                    // Code works up till here
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
                 }
