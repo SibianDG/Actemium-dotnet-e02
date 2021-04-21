@@ -24,8 +24,8 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Index()
         {
             IEnumerable<ActemiumTicket> allTickets = _ticketRepository.GetAll();
-            IEnumerable<ActemiumTicket> openTickets = allTickets.Where(t => t.Status != TicketStatus.COMPLETED);
-            IEnumerable<ActemiumTicket> resolvedTickets = allTickets.Where(t => t.Status == TicketStatus.COMPLETED);
+            IEnumerable<ActemiumTicket> openTickets = _ticketRepository.GetAllOpenTickets();
+            IEnumerable<ActemiumTicket> resolvedTickets = _ticketRepository.GetAllResolvedTickets();
 
             ViewData["OpentTickets"] = openTickets.ToList().Count();
             ViewData["ResolvedTickets"] = resolvedTickets.ToList().Count();

@@ -34,6 +34,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         {
             //Arange
             _ticketRepository.Setup(m => m.GetAll()).Returns(_dummyContext.Tickets.ToList());
+            _ticketRepository.Setup(m => m.GetAllOpenTickets()).Returns(_dummyContext.OpenTickets);
+            _ticketRepository.Setup(m => m.GetAllResolvedTickets()).Returns(_dummyContext.ResolvedTickets);
 
             //Act
             var result = Assert.IsType<ViewResult>(_controller.Index());
@@ -44,8 +46,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             Assert.Equal("Title", ticketsInModel[0].Title);
             Assert.Equal("Title2", ticketsInModel[1].Title);
             Assert.Equal(TicketStatus.IN_DEVELOPMENT, ticketsInModel[2].Status);
-            Assert.Equal(4, result.ViewData["OpentTickets"]);
-            Assert.Equal(1, result.ViewData["ResolvedTickets"]);
+            Assert.Equal(3, result.ViewData["OpentTickets"]);
+            Assert.Equal(2, result.ViewData["ResolvedTickets"]);
         }
 
         #endregion

@@ -8,6 +8,10 @@ namespace _2021_dotnet_e_02.Tests.Data
     public class DummyApplicationDbContext
     {
         public IEnumerable<ActemiumTicket> Tickets { get; }
+
+        public IEnumerable<ActemiumTicket> OpenTickets { get; }
+        public IEnumerable<ActemiumTicket> ResolvedTickets { get; }
+
         public ActemiumTicket Ticket1 { get; } 
         public ActemiumTicket Ticket2 { get; }
         public ActemiumTicket Ticket3 { get; }
@@ -49,6 +53,8 @@ namespace _2021_dotnet_e_02.Tests.Data
             Ticket5 = new ActemiumTicket(TicketStatus.COMPLETED, TicketPriority.P2, "Title5", Amazon, "Description5", "Attachments5", TicketType.INFRASTRUCTURE){TicketId = ticketId};
 
             Tickets = new[] {Ticket1, Ticket2, Ticket3, Ticket4, Ticket5};
+            OpenTickets = new[] { Ticket1, Ticket2, Ticket3 };
+            ResolvedTickets = new[] { Ticket4, Ticket5 };
         }
         
     }

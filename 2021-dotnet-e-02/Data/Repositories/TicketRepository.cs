@@ -1,4 +1,5 @@
 ﻿using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,16 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<ActemiumTicket> GetAllOpenTickets()
+        {
+            return _tickets.AsNoTracking().Where(t => t.Status != TicketStatus.COMPLETED || t.Status != TicketStatus.CANCELLED);
+        }
+
+        public IEnumerable<ActemiumTicket> GetAllResolvedTickets()
+        {
+            return _tickets.AsNoTracking().Where(t => t.Status == TicketStatus.COMPLETED || t.Status == TicketStatus.CANCELLED);
         }
     }
 }
