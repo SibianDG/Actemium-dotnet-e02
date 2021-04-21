@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
             builder.ToTable("USERMODEL");
-            
+
             /*builder.HasDiscriminator<string>("DTYPE")
                 .HasValue<ActemiumCustomer>("ActemiumCustomer")
                 .HasValue<ActemiumEmployee>("ActemiumEmployee");*/

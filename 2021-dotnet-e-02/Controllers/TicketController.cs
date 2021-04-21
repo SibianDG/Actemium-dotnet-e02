@@ -74,12 +74,12 @@ namespace _2021_dotnet_e_02.Controllers
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
                         ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
-                            , editViewModel.Description.Trim(), editViewModel.Attachments.Trim(), editViewModel.TicketType);
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType);
                     } else
                     {
                         Console.WriteLine(editViewModel.Solution ?? "");
                         ticket.EditTicketCompleted(editViewModel.Priority, editViewModel.Title.Trim()
-                            , editViewModel.Description.Trim(), editViewModel.Attachments.Trim(), editViewModel.TicketType
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
                             // Solution/Quality/SupportNeeded are optional values
                             //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 
                             // the above method works but then we don't Trim()
@@ -133,6 +133,7 @@ namespace _2021_dotnet_e_02.Controllers
                     //TODO: company meegeven
                     Console.WriteLine("03 create");
                     // Code works up till here
+                    // error is thrown, has to do with updating company in db fails or smth idk
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
                 }

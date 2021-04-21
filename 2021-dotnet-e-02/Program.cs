@@ -40,25 +40,7 @@ namespace _2021_dotnet_e_02
                     Console.WriteLine("GETBY ID TEST");
                     Console.WriteLine(companyRepo.GetBy(2).Name);
 
-                    // doesnt work yet
-                    TicketRepository ticketRepo = new TicketRepository(db);
-                    IEnumerable<ActemiumTicket> tickets = ticketRepo.GetAll();
-                    //Console.WriteLine(list);
-                    foreach (ActemiumTicket ticket in tickets)
-                    {
-                        Console.WriteLine(ticket.Priority);
-                    }
-                    // doesnt work yet
-                    //IEnumerable<ActemiumTicketChange> list2 = db.ActemiumTicketChanges.ToList();
-                    //Console.WriteLine(list);
-                    foreach (ActemiumTicket ticket in tickets)
-                    {
-                        Console.WriteLine(ticket.Title);
-                        foreach(ActemiumTicketChange ticketChange in ticket.TicketChanges)
-                        {
-                            Console.WriteLine(ticketChange.UserRole);
-                        }
-                    }
+                    
                     UserRepository userRepo = new UserRepository(db);
                     Console.WriteLine("#########CUSTOMERS########");
                     IEnumerable<UserModel> customers = userRepo.GetAllCustomers();
@@ -79,7 +61,18 @@ namespace _2021_dotnet_e_02
                     IEnumerable<ActemiumTicket> Tickets = TikcetRepo.GetAll();
                     foreach (ActemiumTicket Ticket in Tickets)
                     {
-                        Console.WriteLine(Ticket.Priority);
+                        Console.WriteLine(Ticket.Priority.ToString() + Ticket.Title);
+                        Console.WriteLine("Comments" + Ticket.Comments.Count);
+                        foreach(ActemiumTicketComment comment in Ticket.Comments)
+                        {
+                            Console.WriteLine(comment.CommentText);
+                            Console.WriteLine(comment.ToString());
+                        }
+                        Console.WriteLine("Changes" + Ticket.TicketChanges.Count);
+                        foreach (ActemiumTicketChange ticketChange in Ticket.TicketChanges)
+                        {
+                            Console.WriteLine(ticketChange.UserRole);
+                        }
                     }
                     
                     Console.WriteLine("#########LoginAttempts########");

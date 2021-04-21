@@ -1,5 +1,6 @@
 ﻿using _2021_dotnet_e_02.Models.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
@@ -31,8 +32,10 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Description")]
         [StringLength(255, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
+        // we will never need to edit this field because it's always the company of the logged in customer
         //public ActemiumCompany Company { get; set; }        
-        //public ICollection<ActemiumTicketComment> Comments { get; set; }
+
+        public ICollection<ActemiumTicketComment> Comments { get; set; }
 
         [Display(Name = "Attachments")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
@@ -67,9 +70,10 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
             Status = ticket.Status;
             Priority = ticket.Priority;
             Title = ticket.Title;
-            Attachments = ticket.Attachments;
-            Description = ticket.Description;
             TicketType = ticket.TicketType;
+            Description = ticket.Description;
+            Comments = ticket.Comments;
+            Attachments = ticket.Attachments;
             Solution = ticket.Solution;
             Quality = ticket.Quality;
             SupportNeeded = ticket.SupportNeeded;

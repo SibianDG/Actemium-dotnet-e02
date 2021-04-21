@@ -13,8 +13,6 @@ namespace _2021_dotnet_e_02.Data.Mapping
         {
             builder.ToTable("ACTEMIUMTICKET");
 
-            builder.Property(t => t.TicketId);
-
             builder.HasKey(t => t.TicketId);
 
             builder.Property(t => t.Status)
