@@ -27,7 +27,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.RegistrationDate)
                 .HasColumnName("REGISTRATIONDATE");
 
-            builder.HasMany(t => t.Tickets).WithOne();
+            //builder.HasMany(t => t.Tickets).WithOne();
 
             builder.HasMany(t => t.Contracts).WithOne(t => t.Company)
                 .IsRequired()

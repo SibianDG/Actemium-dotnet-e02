@@ -14,10 +14,12 @@ namespace _2021_dotnet_e_02.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        public TicketController(ITicketRepository ticketRepository)
+        public TicketController(ITicketRepository ticketRepository, ICompanyRepository companyRepository)
         {
             _ticketRepository = ticketRepository;
+            _companyRepository = companyRepository;
         }
         
         public IActionResult Index()
@@ -121,25 +123,35 @@ namespace _2021_dotnet_e_02.Controllers
                 try
                 {
                     // only for testing -> will be replaced by company of logged in user in the future
-                    CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
+                    //CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
+                    ActemiumCompany company = _companyRepository.GetBy(7);
 
                     Console.WriteLine("01 create");
                     // only ticketstatus created can be given to new tickets created by customer
                     var ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
-                        , tempCompanyRepo.GetBy(3), editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+                        , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
                     Console.WriteLine("02 create");
-                    Console.WriteLine(tempCompanyRepo.GetBy(3).Name);
-                    _ticketRepository.Add(ticket);
+                    Console.WriteLine(company.Name);
+                    company.addActemiumTicket(ticket);
+                    Console.WriteLine("company add ticket gelukt");
+                    //_ticketRepository.Add(ticket);
+
+                    Console.WriteLine("04 add ticketrepo");
                     //TODO: company meegeven
-                    Console.WriteLine("03 create");
+                    _companyRepository.Update(company);
+                    Console.WriteLine("05 update company");
+                    //_ticketRepository.Add(ticket);
+
                     // Code works up till here
                     // error is thrown, has to do with updating company in db fails or smth idk
-                    _ticketRepository.SaveChanges();
+                    _companyRepository.SaveChanges();
+                    //_ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
                 }
-                catch
+                catch (Exception ex)
                 {
                     TempData["error"] = "Sorry, something went wrong, the ticket was not added...";
+                    Console.WriteLine(ex.Message);
                 }
                 return RedirectToAction(nameof(Index));
             }

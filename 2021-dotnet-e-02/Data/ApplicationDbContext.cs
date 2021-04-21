@@ -44,6 +44,8 @@ namespace _2021_dotnet_e_02.Data
         {
             //"Server=.;Initial Catalog=Beerhall;Integrated Security=True"
             optionsBuilder.UseSqlServer("Server=.;Initial Catalog=ticketsysteme02;Integrated Security=True");
+
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

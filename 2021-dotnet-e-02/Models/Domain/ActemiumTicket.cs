@@ -9,44 +9,45 @@ using System.Runtime.CompilerServices;
 
 namespace _2021_dotnet_e_02.Models
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    //[JsonObject(MemberSerialization.OptIn)]
     public class ActemiumTicket
     {
-        [JsonProperty]
+        //[JsonProperty]
         public int TicketId { get; internal set; }
         public TicketStatus Status { get; set; }
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }
         public DateTime? DateAndTimeOfCompletion { get; set; }
-        /*private string _title;
-         * public string Title
+        private string _title;
+        public string Title
         {
             get
             {
-                return _title
-            }
-            {
-                if (value == String.Empty || value == null)
-                    throw new ArgumentException("Title must have a value and can't be null", nameof(Title));
-                _title = value;
-            } 
-        }*/
-        public string Title { get; set; }
-        /*private string _description;
-         * public string Description
-        {
-            get
-            {
-                return _description
+                return _title;
             }
             private set
             {
-                if (value == String.Empty || value == null)
+                if (String.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Title must have a value and can't be null", nameof(Title));
+                _title = value;
+            } 
+        }
+        //public string Title { get; set; }
+        private string _description;
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            private set
+            {
+                if (String.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Description must have a value and can't be null", nameof(Description));
                 _description = value;
             }
-        }*/
-        public string Description { get; set; }
+        }
+        //public string Description { get; set; }
         public ActemiumCompany Company { get; set; }
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public string Attachments { get; set; }
@@ -57,11 +58,11 @@ namespace _2021_dotnet_e_02.Models
         public string SupportNeeded { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
 
-        [JsonConstructor]
-        private ActemiumTicket(int ticketId)
-        {
-            TicketId = ticketId;
-        }
+        //[JsonConstructor]
+        //private ActemiumTicket(int ticketId)
+        //{
+        //    TicketId = ticketId;
+        //}
 
         public ActemiumTicket()
         {

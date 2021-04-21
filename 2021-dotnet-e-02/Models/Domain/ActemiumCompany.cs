@@ -24,5 +24,8 @@ namespace _2021_dotnet_e_02.Models
             ContactPersons = new List<ActemiumCustomer>();
             Contracts = new List<ActemiumContract>();
         }
+
+        public void addActemiumTicket(ActemiumTicket actemiumTicket) => Tickets.Add(actemiumTicket);
+
     }
 }

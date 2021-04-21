@@ -27,11 +27,11 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Description);
 
             builder.HasMany(t => t.Comments).WithOne();
-            
+
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.Tickets)
-                .HasForeignKey(t => t.TicketId);
-            
+                .HasForeignKey(c => c.TicketId);
+
             builder.Property(t => t.Attachments);
 
             builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
