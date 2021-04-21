@@ -27,7 +27,7 @@ namespace _2021_dotnet_e_02.Controllers
             IEnumerable<ActemiumTicket> openTickets = _ticketRepository.GetAllOpenTickets();
             IEnumerable<ActemiumTicket> resolvedTickets = _ticketRepository.GetAllResolvedTickets();
 
-            ViewData["OpentTickets"] = openTickets.ToList().Count();
+            ViewData["OpenTickets"] = openTickets.ToList().Count();
             ViewData["ResolvedTickets"] = resolvedTickets.ToList().Count();
 
             return View(allTickets.ToList());
