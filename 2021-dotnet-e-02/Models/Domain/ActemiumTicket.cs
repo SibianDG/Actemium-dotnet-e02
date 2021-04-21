@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 // Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
@@ -16,7 +14,7 @@ namespace _2021_dotnet_e_02.Models
     {
         [JsonProperty]
         public int TicketId { get; internal set; }
-        public TicketStatus Status{ get; set; }
+        public TicketStatus Status { get; set; }
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }
         public DateTime? DateAndTimeOfCompletion { get; set; }
@@ -49,7 +47,7 @@ namespace _2021_dotnet_e_02.Models
             }
         }*/
         public string Description { get; set; }
-        public ActemiumCompany Company { get; set; }        
+        public ActemiumCompany Company { get; set; }
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public string Attachments { get; set; }
         public ICollection<ActemiumEmployee> Technicians { get; set; }
@@ -71,18 +69,19 @@ namespace _2021_dotnet_e_02.Models
             Technicians = new List<ActemiumEmployee>();
             TicketChanges = new List<ActemiumTicketChange>();
         }
-        
-        public ActemiumTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
+
+        public ActemiumTicket(TicketStatus status, TicketPriority priority, string title, ActemiumCompany company, string description, string attachments, TicketType type/*, string solution, string quality, string supportNeeded*/)
         {
             Status = status;
             Priority = priority;
             Title = title;
+            Company = company;
             Description = description;
             Attachments = attachments;
             TicketType = type;
-            Solution = solution;
-            Quality = quality;
-            SupportNeeded = supportNeeded;
+            //Solution = solution;
+            //Quality = quality;
+            //SupportNeeded = supportNeeded;
         }
 
         public void EditTicket(TicketPriority priority, string title, string description, string attachments, TicketType type)
@@ -99,7 +98,7 @@ namespace _2021_dotnet_e_02.Models
             //Quality = quality;
             //SupportNeeded = supportNeeded;
         }
-        
+
         // method not used yet, but don't remove it because we will need it
         public void EditTicketCompleted(TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {

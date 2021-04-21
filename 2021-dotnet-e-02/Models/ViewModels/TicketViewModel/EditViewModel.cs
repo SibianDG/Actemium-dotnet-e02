@@ -52,7 +52,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string Quality { get; set; }
 
-        [Display(Name = "SupportNeeded")]
+        [Display(Name = "Support Needed")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string SupportNeeded { get; set; }
         //public ICollection<ActemiumTicketChange> TicketChanges { get; set; }

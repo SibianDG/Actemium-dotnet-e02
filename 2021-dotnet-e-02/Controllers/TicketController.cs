@@ -1,4 +1,4 @@
-﻿using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -69,11 +69,23 @@ namespace _2021_dotnet_e_02.Controllers
                 try
                 {
                     Console.WriteLine("01 edit");
-                    ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
-                        , editViewModel.Description.Trim() , editViewModel.Attachments.Trim(), editViewModel.TicketType
-                        /*, editViewModel.Solution.Trim(), editViewModel.Quality.Trim(), editViewModel.SupportNeeded.Trim()*/);
-                    //ticket.EditTicket(editViewModel.Description.Trim());
-                    Console.WriteLine("02 edit");
+                    if (ticket.Status != TicketStatus.COMPLETED)
+                    {
+                        ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
+                            , editViewModel.Description.Trim(), editViewModel.Attachments.Trim(), editViewModel.TicketType);
+                    } else
+                    {
+                        Console.WriteLine(editViewModel.Solution ?? "");
+                        ticket.EditTicketCompleted(editViewModel.Priority, editViewModel.Title.Trim()
+                            , editViewModel.Description.Trim(), editViewModel.Attachments.Trim(), editViewModel.TicketType
+                            // Solution/Quality/SupportNeeded are optional values
+                            //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 
+                            // the above method works but then we don't Trim()
+                            , editViewModel.Solution != null ? editViewModel.Solution.Trim() : ""
+                            , editViewModel.Quality != null ? editViewModel.Quality.Trim() : ""
+                            , editViewModel.SupportNeeded != null ? editViewModel.SupportNeeded.Trim() : "");
+                        Console.WriteLine("02 edit");
+                    }
                     _ticketRepository.SaveChanges();
                     Console.WriteLine("03 edit");
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
