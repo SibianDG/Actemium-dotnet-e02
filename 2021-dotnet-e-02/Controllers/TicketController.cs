@@ -60,15 +60,22 @@ namespace _2021_dotnet_e_02.Controllers
         {
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
+            {
+                Console.WriteLine("ticket is null => not found");
                 return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
-                    ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
-                        , editViewModel.Description.Trim(), editViewModel.Attachments.Trim(), editViewModel.TicketType
-                        , editViewModel.Solution.Trim(), editViewModel.Quality.Trim(), editViewModel.SupportNeeded.Trim());
+                    Console.WriteLine("01 edit");
+                    ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
+                        , editViewModel.Description.Trim() , editViewModel.Attachments.Trim(), editViewModel.TicketType
+                        /*, editViewModel.Solution.Trim(), editViewModel.Quality.Trim(), editViewModel.SupportNeeded.Trim()*/);
+                    //ticket.EditTicket(editViewModel.Description.Trim());
+                    Console.WriteLine("02 edit");
                     _ticketRepository.SaveChanges();
+                    Console.WriteLine("03 edit");
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
                 }
                 catch
@@ -99,7 +106,8 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    var ticket = new ActemiumTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
+                    // only ticketstatus created can be given to new tickets created by customer
+                    var ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
                         , editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType
                         , editViewModel.Solution, editViewModel.Quality, editViewModel.SupportNeeded);
                     _ticketRepository.Add(ticket);

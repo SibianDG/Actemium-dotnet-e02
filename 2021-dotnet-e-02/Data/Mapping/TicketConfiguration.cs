@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
         public void Configure(EntityTypeBuilder<ActemiumTicket> builder)
         {
             builder.ToTable("ACTEMIUMTICKET");
+
+            builder.Property(t => t.TicketId);
 
             builder.HasKey(t => t.TicketId);
 

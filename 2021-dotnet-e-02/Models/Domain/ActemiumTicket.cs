@@ -1,13 +1,21 @@
 ﻿using _2021_dotnet_e_02.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
+
+// Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
+[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
 
 namespace _2021_dotnet_e_02.Models
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class ActemiumTicket
     {
-        public int TicketId { get; set; }
+        [JsonProperty]
+        public int TicketId { get; internal set; }
         public TicketStatus Status{ get; set; }
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }
@@ -51,6 +59,12 @@ namespace _2021_dotnet_e_02.Models
         public string SupportNeeded { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
 
+        [JsonConstructor]
+        private ActemiumTicket(int ticketId)
+        {
+            TicketId = ticketId;
+        }
+
         public ActemiumTicket()
         {
             Comments = new List<ActemiumTicketComment>();
@@ -71,9 +85,25 @@ namespace _2021_dotnet_e_02.Models
             SupportNeeded = supportNeeded;
         }
 
-        public void EditTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
+        public void EditTicket(TicketPriority priority, string title, string description, string attachments, TicketType type)
         {
-            Status = status;
+            // Status cannot be edited by the customer
+            //Status = status;
+            Priority = priority;
+            Title = title;
+            Description = description;
+            Attachments = attachments;
+            TicketType = type;
+            // The attributes below can only be editted when the ticket has been completed
+            //Solution = solution;
+            //Quality = quality;
+            //SupportNeeded = supportNeeded;
+        }
+                
+        public void EditTicketCompleted(TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
+        {
+            // Status cannot be edited by the customer
+            //Status = status;
             Priority = priority;
             Title = title;
             Description = description;

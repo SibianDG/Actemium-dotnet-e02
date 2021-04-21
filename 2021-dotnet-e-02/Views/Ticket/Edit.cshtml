@@ -2,10 +2,12 @@
 @model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel
 
 @{
-    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit "+@Model.Title : "Create Product";
+    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit "+@Model.Title : "Create Ticket";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+
+@*-- This page is currently used for EDIT and CREATE or not ? --*@
 
 <div class="container">
 
@@ -16,7 +18,7 @@
             <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <label asp-for="Status"></label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control">
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control" disabled>
                 </select>
                 <!--<span asp-validation-for="Status" class="text-danger"></span>-->
             </div>
