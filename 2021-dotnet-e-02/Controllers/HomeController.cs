@@ -12,25 +12,25 @@ namespace _2021_dotnet_e_02.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
         private readonly ITicketRepository _ticketRepository;
 
-        public HomeController(ILogger<HomeController> logger, ITicketRepository ticketRepository)
+        public HomeController(/*ILogger<HomeController> logger,*/ ITicketRepository ticketRepository)
         {
-            _logger = logger;
+            //_logger = logger;
             _ticketRepository = ticketRepository;
         }
 
         public IActionResult Index()
         {
             IEnumerable<ActemiumTicket> allTickets = _ticketRepository.GetAll();
-            IEnumerable<ActemiumTicket> openTickets = _ticketRepository.GetAll().Where(t => t.Status != TicketStatus.COMPLETED);
-            IEnumerable<ActemiumTicket> resolvedTickets = _ticketRepository.GetAll().Where(t => t.Status == TicketStatus.COMPLETED);
+            IEnumerable<ActemiumTicket> openTickets = allTickets.Where(t => t.Status != TicketStatus.COMPLETED);
+            IEnumerable<ActemiumTicket> resolvedTickets = allTickets.Where(t => t.Status == TicketStatus.COMPLETED);
 
             ViewData["OpentTickets"] = openTickets.ToList().Count();
             ViewData["ResolvedTickets"] = resolvedTickets.ToList().Count();
 
-            return View(allTickets);
+            return View(allTickets.ToList());
         }
 
         public IActionResult Privacy()
