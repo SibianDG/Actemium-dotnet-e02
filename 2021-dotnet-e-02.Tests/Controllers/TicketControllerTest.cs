@@ -18,13 +18,15 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly TicketController _controller;
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly Mock<ITicketRepository> _ticketRepository;
+        private readonly Mock<ICompanyRepository> _companyRepository;
 
         public TicketControllerTest(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
             _dummyContext = new DummyApplicationDbContext();
             _ticketRepository = new Mock<ITicketRepository>();
-            _controller = new TicketController(_ticketRepository.Object)
+            _companyRepository = new Mock<ICompanyRepository>();
+            _controller = new TicketController(_ticketRepository.Object, _companyRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
