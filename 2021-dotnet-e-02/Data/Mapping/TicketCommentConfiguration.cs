@@ -14,7 +14,9 @@ namespace _2021_dotnet_e_02.Data.Mapping
             
             builder.HasOne(t => t.Ticket).WithMany(t => t.Comments).IsRequired().OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(t=> t.TicketCommentId);
-            builder.HasOne(t => t.User).WithMany(t => t.Comments);
+            builder.Property<int>("USER_USERID");
+            builder.HasOne(t => t.User).WithMany(t => t.Comments).HasForeignKey("USER_USERID");
+            //builder.Property(t => t.User).HasColumnName("USER_USERID");
             builder.Property(t => t.UserRole);
             builder.Property(t => t.DateTimeOfComment);
             builder.Property(t => t.CommentText);

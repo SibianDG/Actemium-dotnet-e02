@@ -22,8 +22,8 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public IEnumerable<ActemiumTicket> GetAll()
         {
             //return _tickets.Include(t => t.Comments).Include(t => t.Company).Include(t => t.Technicians).Include(t => t.TicketChanges).ToList();
-            //return _tickets.AsNoTracking().Include(t => t.Comments).ThenInclude(c => c.User).ToList();
-            return _tickets.AsNoTracking().ToList();
+            return _tickets.AsNoTracking().Include(t => t.Comments).ThenInclude(c => c.User).ToList();
+            //return _tickets.AsNoTracking().ToList();
         }
 
         public ActemiumTicket GetById(int id)

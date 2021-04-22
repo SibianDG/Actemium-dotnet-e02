@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 // Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
-[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
+//[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -13,7 +13,7 @@ namespace _2021_dotnet_e_02.Models
     public class ActemiumTicket
     {
         //[JsonProperty]
-        public int TicketId { get; internal set; }
+        public int TicketId { get; set; }
         public TicketStatus Status { get; set; }
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }

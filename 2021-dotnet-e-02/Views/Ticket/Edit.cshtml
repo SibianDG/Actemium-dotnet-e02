@@ -53,17 +53,21 @@
             @*-- Will work if UserId problem is fixed and getAll has .Include comments --*@
             @if ((bool)ViewData["IsEdit"])
             {
-                <table>
-                    <tbody>
-                        @foreach (var item in Model.Comments)
-                        {
-                            <tr>
-                                <td>@item.UserRole</td>
-                                <td>@item.ToString()</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+        <div>
+            <table>
+                <tbody>
+                    <tr><td>test</td></tr>
+                    @foreach (var item in Model.Comments)
+                    {
+                        <tr>
+                            <td>hier</td>
+                            <td>@item.UserRole</td>
+                            <td>@item.ToString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
             }
             @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
             {
