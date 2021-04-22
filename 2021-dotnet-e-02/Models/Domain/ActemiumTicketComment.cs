@@ -22,11 +22,10 @@ namespace _2021_dotnet_e_02.Models
         public override string ToString()
         {
             StringBuilder ticketComment = new StringBuilder();
-            ticketComment.Append(string.Format("%s: %s %s%n", UserRole, User.FirstName, User.LastName));
-            ticketComment.Append(string.Format("%s: %s%n", "Date", DateTimeOfComment.ToString("dd/MM/yyy")));
-            ticketComment.Append(string.Format("%s: %s%n", "Time", DateTimeOfComment.ToString("HH:mm::ss")));
-            ticketComment.Append(string.Format("%s: %s%n", "Text", CommentText));
-            Console.WriteLine(ticketComment.ToString());
+            ticketComment.Append($"{UserRole}: {User.FirstName} {User.LastName} {Environment.NewLine}");
+            ticketComment.Append($"Date: {DateTimeOfComment.ToString("dd/MM/yyyy")} {Environment.NewLine}");
+            ticketComment.Append($"Date: {DateTimeOfComment.ToString("HH:mm:ss")} {Environment.NewLine}");
+            ticketComment.Append($"Text: {CommentText} {Environment.NewLine}");
             return ticketComment.ToString();
         }
     }

@@ -26,6 +26,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
                     v => (UserStatus)Enum.Parse(typeof(UserStatus), v));
             builder.Property(t => t.RegistrationDate).HasColumnName("REGISTRATIONDATE");
             builder.Property(t => t.FailedLoginAttempts);
+
+            //builder.HasMany(t => t.Comments).WithOne(t=> t.UserModel)
             
             builder.HasMany(t => t.LoginAttempts).WithOne(t=> t.UserModel).HasForeignKey(t => t.Id);
         }

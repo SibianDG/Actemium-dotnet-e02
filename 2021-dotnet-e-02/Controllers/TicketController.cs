@@ -124,7 +124,7 @@ namespace _2021_dotnet_e_02.Controllers
                 {
                     // only for testing -> will be replaced by company of logged in user in the future
                     //CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
-                    ActemiumCompany company = _companyRepository.GetBy(7);
+                    ActemiumCompany company = _companyRepository.GetBy(3);
 
                     Console.WriteLine("01 create");
                     // only ticketstatus created can be given to new tickets created by customer
