@@ -28,8 +28,8 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumTicket GetById(int id)
         {
-            return _tickets
-                    //TODO: fout met includes
+            return _tickets.Include(t => t.Comments).ThenInclude(c => c.User)
+                //TODO: fout met includes
                 //.Include(t => t.Company)
                 //.Include(t => t.Technicians)
                 //.Include(t => t.Comments)

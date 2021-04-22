@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
 {
@@ -35,7 +36,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         // we will never need to edit this field because it's always the company of the logged in customer
         //public ActemiumCompany Company { get; set; }        
 
-        public ICollection<ActemiumTicketComment> Comments { get; set; }
+        public List<ActemiumTicketComment> Comments { get; set; }
 
         [Display(Name = "Attachments")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
@@ -72,7 +73,8 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
             Title = ticket.Title;
             TicketType = ticket.TicketType;
             Description = ticket.Description;
-            Comments = ticket.Comments;
+            Comments = ticket.Comments.ToList();
+            Console.WriteLine(Comments.Count);
             Attachments = ticket.Attachments;
             Solution = ticket.Solution;
             Quality = ticket.Quality;
