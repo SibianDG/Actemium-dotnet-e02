@@ -79,33 +79,42 @@
     <script>
     var url = '@Url.Action("Details", "Ticket")';
     var contextHTML = document.getElementById('content');
+    function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
     $('#btn').click(function() {
+        
         contextHTML.innerHTML = ""
-        console.log("start")
-        $.ajax({
-            url: url,
-            type: "post",
-            data: { id:1 },
-            dataType: "json",
-            success: function (result) {
-                result = JSON.stringify(result);
-                result = JSON.parse(result)
-                
-                Object.entries(result).forEach(([key, value]) => {
-                    contextHTML.insertAdjacentHTML('beforeend', `
-<div class="d-flex justify-content-left">
-<span class="font-weight-bold c-blue mr-3">${key}:</span> <span class="text-muted">${value}</span>
-</div>
-                    `);
-                    console.log(`${key} ${value}`);
-                });
-
-            },
-            error: function (xhr) {
-                alert("failded");
-            }
+        contextHTML.insertAdjacentHTML("beforeend", `<h1>Loading...</h1><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>` )
+        // Usage!
+        sleep(1000).then(() => {
+            console.log("start")
+            $.ajax({
+                url: url,
+                type: "post",
+                data: { id:1 },
+                dataType: "json",
+                success: function (result) {
+                    result = JSON.stringify(result);
+                    result = JSON.parse(result)
+                    contextHTML.innerHTML = ""
+                    Object.entries(result).forEach(([key, value]) => {
+                        contextHTML.insertAdjacentHTML('beforeend', `
+    <div class="d-flex justify-content-left">
+    <span class="font-weight-bold c-blue mr-3">${key}:</span> <span class="text-muted">${value}</span>
+    </div>
+                        `);
+                        console.log(`${key} ${value}`);
+                    });
+    
+                },
+                error: function (xhr) {
+                    alert("failded");
+                }
+            });
+            console.log("End")
         });
-        console.log("End")
+
 
     });
     </script>
