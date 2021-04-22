@@ -28,9 +28,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             builder.HasMany(t => t.Comments).WithOne();
 
+            builder.Property<int>("COMPANY_COMPANYID");
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.Tickets)
-                .HasForeignKey(c => c.TicketId);
+                .HasForeignKey("COMPANY_COMPANYID");
 
             builder.Property(t => t.Attachments);
 
