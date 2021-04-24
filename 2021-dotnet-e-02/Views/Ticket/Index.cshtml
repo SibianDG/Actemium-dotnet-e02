@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var iconDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "HARDWARE", "fas fa-desktop" },
+        { "DATABASE", "fas fa-database" },
+        { "SOFTWARE", "fas fa-terminal" },
+        { "INFRASTRUCTURE", "fas fa-server" },
+        { "NETWORK", "fas fa-network-wired" },
+        { "OTHER", "fas fa-random" },
+    };
 }
 
 <div class="my-4" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
@@ -47,13 +57,13 @@
             {
                 <tr>
                     <td>@item.TicketId</td>
-                    <td>@item.TicketType</td>
+                    <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(item.TicketType.ToString()[..1].ToUpper() + item.TicketType.ToString()[1..].ToLower())</small></td>
                     <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
                     <td>@item.Title</td>
-                    <td>@item.Status</td>
+                    <td>@(item.Status.ToString()[..1].ToUpper() + item.Status.ToString()[1..].ToLower())</td>
                     <td class="actions">
-                        <button id="btn">ViewRight</button>
-                        <a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> |
+                        <a id="getDetails"><i class="fas fa-info-circle"></i></a> |
+                        <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
                         <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
                         <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
                     </td>
@@ -82,16 +92,16 @@
     function sleep (time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
-    $('#btn').click(function() {
+    $('#getDetails').click(function() {
         
         contextHTML.innerHTML = ""
-        contextHTML.insertAdjacentHTML("beforeend", `<h1>Loading...</h1><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>` )
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
         // Usage!
-        sleep(1000).then(() => {
+        sleep(500).then(() => {
             console.log("start")
             $.ajax({
                 url: url,
-                type: "post",
+                type: "get",
                 data: { id:1 },
                 dataType: "json",
                 success: function (result) {

@@ -8,6 +8,7 @@ using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 using _2021_dotnet_e_02.Data;
 using _2021_dotnet_e_02.Data.Repositories;
+using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Controllers
 {
@@ -32,13 +33,18 @@ namespace _2021_dotnet_e_02.Controllers
             return View(tickets);
         }
         
-        [HttpPost]
-        public IActionResult Details(int id)
+        [HttpGet]
+        public ActionResult<JsonResult> Details(int id)
         {
+            //TODO: When he makes a JSON, it will go to ex. comment to make those a JSON, but comment has an association to the same ticket --> Cycle
+            Console.WriteLine("IDDDDDDDD: "+id);
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
                 return NotFound();
-            return Json(ticket);
+            Console.WriteLine("TICKKKETT: "+ticket.Title);
+            var json = JsonConvert.SerializeObject(ticket);
+            Console.WriteLine(json);
+            return Json(json); 
         }
         
         public IActionResult DetailsNewWindow(int id)

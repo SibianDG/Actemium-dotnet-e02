@@ -80,3 +80,9 @@
 #contentTicket {
   border: 3px $blue solid;
 }
+
+#getDetails {
+  &:hover {
+    cursor: pointer;
+  }
+}
