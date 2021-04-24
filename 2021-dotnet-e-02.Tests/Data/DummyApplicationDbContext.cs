@@ -54,7 +54,7 @@ namespace _2021_dotnet_e_02.Tests.Data
 
             Tickets = new[] {Ticket1, Ticket2, Ticket3, Ticket4, Ticket5};
             OpenTickets = new[] { Ticket1, Ticket2, Ticket3 };
-            ResolvedTickets = new[] { Ticket4, Ticket5 };
+            ResolvedTickets = new[] {Ticket5 };
         }
         
     }

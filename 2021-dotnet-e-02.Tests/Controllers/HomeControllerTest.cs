@@ -47,7 +47,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             Assert.Equal("Title2", ticketsInModel[1].Title);
             Assert.Equal(TicketStatus.IN_DEVELOPMENT, ticketsInModel[2].Status);
             Assert.Equal(3, result.ViewData["OpenTickets"]);
-            Assert.Equal(2, result.ViewData["ResolvedTickets"]);
+            Assert.Equal(1, result.ViewData["ResolvedTickets"]);
         }
 
         #endregion
