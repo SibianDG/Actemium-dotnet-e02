@@ -41,7 +41,7 @@ namespace _2021_dotnet_e_02.Controllers
             return Json(ticket);
         }
         
-        public IActionResult Details2(int id)
+        public IActionResult DetailsNewWindow(int id)
         {
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
