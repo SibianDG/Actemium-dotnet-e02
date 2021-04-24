@@ -2,6 +2,17 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    var iconDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "HARDWARE", "fas fa-desktop" },
+        { "DATABASE", "fas fa-database" },
+        { "SOFTWARE", "fas fa-terminal" },
+        { "INFRASTRUCTURE", "fas fa-server" },
+        { "NETWORK", "fas fa-network-wired" },
+        { "OTHER", "fas fa-random" },
+    };
+
 }
 
 
@@ -46,11 +57,15 @@
                                     <div class="card-body d-flex align-items-center">
                                         <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
                                             <i class="fas fa-exclamation-triangle"></i>
-                                            <i class="fas fa-database"></i>
+                                            <i class="@iconDict[item.TicketType.ToString()]"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <div class="d-flex flex-column pb-1 bb-1">
-                                                <a href="#" class="open-ticket-title">@item.Title <span class="badge badge-warning">update</span></a>
+                                                <!-- TODO! -->
+                                                <a href="#" class="open-ticket-title">@item.Title (@item.TicketChanges.Count)
+                                                    @if (item.TicketChanges.Count > 1)
+                                                    {<span class="badge badge-warning">update</span>}
+                                                    </a>
                                                 <small><span class="text-bold">Created</span> @item.DateAndTimeOfCreation</small>
                                             </div>
                                             <div class="d-flex justify-content-between">
@@ -140,12 +155,12 @@
                 <div class="d-flex flex-column align-items-stretch justify-content-center">
                     @foreach (var item in Model)
                     {
-                        @if (item.Status == _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED || item.Status == _2021_dotnet_e_02.Models.Enums.TicketStatus.CANCELLED)
+                        @if (item.Status == _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED)
                         {
                             <div class="card my-2 card-ticket resolved-background">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                        <i class="fas fa-database"></i>
+                                        <i class="@iconDict[item.TicketType.ToString()]"></i>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex flex-column pb-1 bb-1">
