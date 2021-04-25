@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Converters;
 
 // Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
 //[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
@@ -14,7 +15,9 @@ namespace _2021_dotnet_e_02.Models
     {
         //[JsonProperty]
         public int TicketId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TicketStatus Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TicketPriority Priority { get; set; }
         public DateTime DateAndTimeOfCreation { get; set; }
         public DateTime? DateAndTimeOfCompletion { get; set; }
@@ -52,6 +55,7 @@ namespace _2021_dotnet_e_02.Models
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public string Attachments { get; set; }
         public ICollection<ActemiumEmployee> Technicians { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TicketType TicketType { get; set; }
         public string Solution { get; set; }
         public string Quality { get; set; }
