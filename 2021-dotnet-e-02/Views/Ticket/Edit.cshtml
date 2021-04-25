@@ -2,7 +2,7 @@
 @model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel
 
 @{
-    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit "+@Model.Title : "Create Ticket";
+    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit - "+@Model.Title : "Create Ticket";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -51,23 +51,24 @@
             </div>
             @*--Trying to display all the comments, not functional yet, and it's just a test field version --*@
             @*-- Will work if UserId problem is fixed and getAll has .Include comments --*@
+            @* -- will move this in next commit -- *@
             @if ((bool)ViewData["IsEdit"])
             {
-        <div>
-            <table>
-                <tbody>
-                    <tr><td>test</td></tr>
-                    @foreach (var item in Model.Comments)
-                    {
-                        <tr>
-                            <td>hier</td>
-                            <td>@item.UserRole</td>
-                            <td>@item.ToString()</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                <div>
+                    <table>
+                        <tbody>
+                            <tr><td>test</td></tr>
+                            @foreach (var item in Model.Comments)
+                            {
+                                <tr>
+                                    <td>hier</td>
+                                    <td>@item.UserRole</td>
+                                    <td>@item.ToString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
             @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
             {

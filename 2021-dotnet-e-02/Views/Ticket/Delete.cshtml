@@ -1,4 +1,5 @@
-﻿@model _2021_dotnet_e_02.Models.ActemiumTicket
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model _2021_dotnet_e_02.Models.ActemiumTicket
 
 @{
     ViewData["Title"] = "Delete";
@@ -13,80 +14,83 @@
         <p>Please note: you can't really delete a ticket. The status will be changed to cancelled.</p>
         <hr />
         <dl class="row d-flex justify-content-center align-items-center p-3 text-center">
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Status)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Status)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Priority)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Priority)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.DateAndTimeOfCreation)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.DateAndTimeOfCreation)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.DateAndTimeOfCompletion)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.DateAndTimeOfCompletion)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Title)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Title)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Description)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Description)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Company)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Company.CompanyId)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.Attachments)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.Attachments)
             </dd>
-            <dt class = "col-sm-6">
+            <dt class="col-sm-6">
                 @Html.DisplayNameFor(model => model.TicketType)
             </dt>
-            <dd class = "col-sm-6">
+            <dd class="col-sm-6">
                 @Html.DisplayFor(model => model.TicketType)
             </dd>
-            <dt class = "col-sm-6">
-                @Html.DisplayNameFor(model => model.Solution)
-            </dt>
-            <dd class = "col-sm-6">
-                @Html.DisplayFor(model => model.Solution)
-            </dd>
-            <dt class = "col-sm-6">
-                @Html.DisplayNameFor(model => model.Quality)
-            </dt>
-            <dd class = "col-sm-6">
-                @Html.DisplayFor(model => model.Quality)
-            </dd>
-            <dt class = "col-sm-6">
-                @Html.DisplayNameFor(model => model.SupportNeeded)
-            </dt>
-            <dd class = "col-sm-6">
-                @Html.DisplayFor(model => model.SupportNeeded)
-            </dd>
+            @if (Model.Status == TicketStatus.COMPLETED)
+            {
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Solution)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Solution)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Quality)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Quality)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.SupportNeeded)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.SupportNeeded)
+                </dd>
+            }
         </dl>
-            
+
         <form asp-action="Delete">
             <input type="hidden" asp-for="TicketId" />
             <input type="submit" value="Delete" class="btn btn-danger" />
