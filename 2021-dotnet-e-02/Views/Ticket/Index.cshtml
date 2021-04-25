@@ -20,69 +20,69 @@
     }
 }
 
-<div class="my-4" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+<div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
     <div class="container">
         <div class="container-fluid">
-            <h1 class="text-center c-blue font-weight-bold">Tickets</h1>
+            <h1 class="text-center c-blue font-weight-bold text-uppercase">Tickets</h1>
         </div>
     </div>
 </div>
 
 <div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
     <div class="col-12 col-lg-7">
-        <div class="bg-white p-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
-    <div class="d-md-flex mb-2">
-        <div class="mr-2 mr-lg-5 mb-2">
-            <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
-        </div>
-        <div class="flex-grow-1">
-            <form action="#">
-                <div class="form-group d-flex">
-                    <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
-                    <input type="text" class="form-control" id="searchTickets" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+        <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+            <div class="d-md-flex mb-2">
+                <div class="mr-2 mr-lg-5 mb-2">
+                    <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
                 </div>
-            </form>
-        </div>
-    </div>
+                <div class="flex-grow-1">
+                    <form action="#">
+                        <div class="form-group d-flex">
+                            <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
+                            <input type="text" class="form-control" id="searchTickets" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Type</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.TicketId</td>
-                    <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
-                    <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
-                    <td>@item.Title</td>
-                    <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
-                    <td class="actions">
-                        <a id="getDetails"><i class="fas fa-info-circle"></i></a> |
-                        <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
-                        <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
-                        <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </div>
-</div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TicketId</td>
+                            <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
+                            <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
+                            <td>@item.Title</td>
+                            <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
+                            <td class="actions">
+                                <a id="getDetails"><i class="fas fa-info-circle"></i></a> |
+                                <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
+                                <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
+                                <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="col-12 col-lg-5" id="paneDetailTicket">
-        <div class="bg-white p-3 d-flex justify-content-center align-content-center h-100">
+        <div class="bg-white pane d-flex justify-content-center align-content-center h-100">
             <div class="d-flex flex-column justify-content-center align-content-center" id="content">
-                <h1 class="c-blue">No ticket was selected.</h1>
+                <h1 class="c-blue text-center">No ticket was selected.</h1>
             </div>
         </div>
     </div>

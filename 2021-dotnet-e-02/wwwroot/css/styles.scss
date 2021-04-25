@@ -171,6 +171,12 @@ footer {
   font-size: .9rem !important;
 }
 
+.pane {
+  background-color: $white;
+  padding: 2.5rem;
+  border-radius: 25px;
+}
+
 //PAGES:
 @import "login";
 @import "dashboard";
