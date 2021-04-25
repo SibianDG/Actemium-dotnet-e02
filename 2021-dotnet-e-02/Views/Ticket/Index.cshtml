@@ -21,7 +21,9 @@
     }
 
     // should contain the ticket of which the info/details icon was pressed
-    var selectedTicket = Model.First();
+    ViewBag.SelectedTicket = Model.Last();
+    //selectedTicket = SelectedTicket;
+    Console.WriteLine(ViewBag.SelectedTicket.TicketId);
 }
 
 <div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
@@ -52,32 +54,32 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                        <th scope="col">Actions</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.TicketId</td>
-                            <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
-                            <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
-                            <td>@item.Title</td>
-                            <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
-                            <td class="actions">
-                                <a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
-                                <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
-                                <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
-                                <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.TicketId</td>
+                                <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
+                                <td><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
+                                <td>@item.Title</td>
+                                <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
+                                <td class="actions">
+                                    <a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
+                                    <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
+                                    <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -116,9 +118,10 @@
             `
                <ul class="nav nav-tabs">
                  <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
-                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments & Changes</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
                  <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
                  <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Other</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-5">Changes</a></li>
                </ul>
                <div class="tab-content">
 
@@ -168,13 +171,19 @@
                     <div class="col-12 row text-left">
                       <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.Comments}</div>
-                    </div>
-                    <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
+                      @foreach (var comment in ViewBag.SelectedTicket.Comments)
+                      {
+                         Console.WriteLine("jajajajja");
+                          @* -- shows up once when you render the page -- *@
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
+                          <div class="col-8 class-muted d-flex align-items-center"> @comment.ToString() </div>
+                        </div>
+                      }
                     </div>
                    </div>
                  </div>
+
                  <div class="tab-pane" role="tabpanel" id="tab-3">
                    <div class="row">
                         <div class="col-12 row text-left">
@@ -183,6 +192,7 @@
                         </div>
                    </div>
                  </div>
+
                  <div class="tab-pane" role="tabpanel" id="tab-4">
                    <div class="row">
                     <div class="col-12 row text-left">
@@ -190,7 +200,7 @@
                       <div class="col-8 class-muted d-flex align-items-center">${data.Attachments}</div>
                     </div>
                    @*-- selectedTicket is not set to the right ticket yet, please help -- *@
-                   @if (selectedTicket.Status == TicketStatus.COMPLETED)
+                   @if (ViewBag.SelectedTicket.Status == TicketStatus.COMPLETED)
                     {
                     <div class="col-12 row text-left">
                       <div class="col-4 d-flex align-content-center ">Solution: TODO</div>
@@ -207,6 +217,24 @@
                     }
                    </div>
                  </div>
+
+                <div class="tab-pane" role="tabpanel" id="tab-5">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
+                    </div>
+                    @foreach (var change in ViewBag.SelectedTicket.TicketChanges)
+                    {
+                    <div class="col-12 row text-left">
+                        <div class="col-4 d-flex align-content-center ">Change: </div>
+                        <div class="col-8 class-muted d-flex align-items-center"> @change.ToString() </div>
+                    </div>
+                    }
+                    </div>
+                   </div>
+                 </div>
+
                </div>
              `
         )
@@ -217,10 +245,14 @@
     }
 
         $('.ticketDetailsButton').click(function () {
+        //TODO
         // need to put selected ticket in a variable that can be seen in @*if*@-statements, how can I do this?
         // @* @{ selectedTicket = $(this) } *@ something like this but I have no idea how it could be done
         // will also come in handy to be able to display comments and changes of the selected ticket
         // or is there another way?
+        //
+        // tried it with ViewBag but that value is only assigned once at runtime and is not reassigned when selecting a new ticket
+        //
         contextHTML.innerHTML = ""
         contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
         // Usage!
@@ -247,4 +279,4 @@
 
     });
     </script>
-    }
+}
