@@ -15,12 +15,6 @@
         { "OTHER", "fas fa-random" },
     };
 
-    string getStatus(string value)
-    {
-        int number = Int32.Parse(value);
-        return ((TicketStatus) number).ToString();
-    }
-
     string makeStringCapitalized(string s)
     {
         return s[..1].ToUpper() + s[1..].ToLower();
@@ -74,7 +68,7 @@
                             <td>@item.Title</td>
                             <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
                             <td class="actions">
-                                <a id="getDetails" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
+                                <a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
                                 <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
                                 <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
                                 <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
@@ -215,7 +209,7 @@
       return new Promise((resolve) => setTimeout(resolve, time));
     }
     
-    $('#getDetails').click(function() {
+    $('.ticketDetailsButton').click(function() {
         contextHTML.innerHTML = ""
         contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
         // Usage!
