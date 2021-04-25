@@ -8,16 +8,24 @@ namespace _2021_dotnet_e_02.Tests.Data
     public class DummyApplicationDbContext
     {
         public IEnumerable<ActemiumTicket> Tickets { get; }
-
         public IEnumerable<ActemiumTicket> OpenTickets { get; }
         public IEnumerable<ActemiumTicket> ResolvedTickets { get; }
+
+        public IEnumerable<ActemiumContract> Contracts { get; }
 
         public ActemiumTicket Ticket1 { get; } 
         public ActemiumTicket Ticket2 { get; }
         public ActemiumTicket Ticket3 { get; }
         public ActemiumTicket Ticket4 { get; }
         public ActemiumTicket Ticket5 { get; }
-        
+
+        public ActemiumContract Contract1 { get; }
+        public ActemiumContract Contract2 { get; }
+        public ActemiumContract Contract3 { get; }
+
+        public ActemiumContractType ContractType1 { get; }
+        public ActemiumContractType ContractType2 { get; }
+
         public ActemiumCompany Google { get; }
         public ActemiumCompany Amazon { get; }
         
@@ -55,6 +63,14 @@ namespace _2021_dotnet_e_02.Tests.Data
             Tickets = new[] {Ticket1, Ticket2, Ticket3, Ticket4, Ticket5};
             OpenTickets = new[] { Ticket1, Ticket2, Ticket3 };
             ResolvedTickets = new[] {Ticket5 };
+
+            ContractType1 = new ActemiumContractType() { ContractTypeId = 1, HasApplication = true, HasEmail = true, HasPhone = false, MaxHandlingTime = 3, MinThroughputTime = 2, Name = "TestContractType1", Price = 25.00, Status = ContractTypeStatus.ACTIVE };
+            ContractType2 = new ActemiumContractType() { ContractTypeId = 2, HasApplication = true, HasEmail = false, HasPhone = false, MaxHandlingTime = 4, MinThroughputTime = 1, Name = "TestContractType2", Price = 15.50, Status = ContractTypeStatus.ACTIVE };
+            Contract1 = new ActemiumContract() { ContractId = 1, Company = Google, ContractType = ContractType1, EndDate = new DateTime().AddMonths(1), StartDate = new DateTime(), Status = ContractStatus.CURRENT.ToString() };
+            Contract2 = new ActemiumContract() { ContractId = 2, Company = Google, ContractType = ContractType1, EndDate = new DateTime().AddMonths(3), StartDate = new DateTime(), Status = ContractStatus.CANCELLED.ToString() };
+            Contract3 = new ActemiumContract() { ContractId = 3, Company = Amazon, ContractType = ContractType2, EndDate = new DateTime().AddYears(1), StartDate = new DateTime(), Status = ContractStatus.EXPIRED.ToString() };
+
+            Contracts = new[] { Contract1, Contract2, Contract3 };
         }
         
     }

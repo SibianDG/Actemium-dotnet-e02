@@ -19,10 +19,11 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Index()
         {
             IEnumerable<ActemiumContract> contracts;
-            //TODO performace??
+            //TODO performace?? this is good i think
             contracts = _contractRepository.GetAll();
             contracts = contracts.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ToList();
             Console.WriteLine("NUMBER" + contracts.Count());
+            Console.WriteLine("COMPANYNAME CONTRACT 1" + contracts.First().Company.Name);
             return View(contracts);
         }
     }
