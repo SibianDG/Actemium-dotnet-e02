@@ -1,4 +1,5 @@
-﻿@model IEnumerable<_2021_dotnet_e_02.Models.ActemiumTicket>
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model IEnumerable<_2021_dotnet_e_02.Models.ActemiumTicket>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,6 +14,12 @@
         { "NETWORK", "fas fa-network-wired" },
         { "OTHER", "fas fa-random" },
     };
+
+    string getStatus(string value)
+    {
+        int number = Int32.Parse(value);
+        return ((TicketStatus) number).ToString();
+    }
 
     string makeStringCapitalized(string s)
     {
@@ -81,7 +88,7 @@
     </div>
     <div class="col-12 col-lg-5" id="paneDetailTicket">
         <div class="bg-white pane d-flex justify-content-center align-content-center h-100">
-            <div class="d-flex flex-column justify-content-center align-content-center" id="content">
+            <div class="d-flex flex-column" id="content">
                 <h1 class="c-blue text-center">No ticket was selected.</h1>
             </div>
         </div>
@@ -92,11 +99,122 @@
 @section Scripts
 {
     <script>
-    var url = '@Url.Action("Details", "Ticket")';
-    var contextHTML = document.getElementById('content');
+    const url = '@Url.Action("Details", "Ticket")';
+    const contextHTML = document.getElementById('content');
+    var _convertDate = function (date) {
+        const t = new Date(date);
+        const dateItSelf = ('0' + t.getDate()).slice(-2);
+        const month = ('0' + (t.getMonth() + 1)).slice(-2);
+        const year = t.getFullYear();
+        const hours = ('0' + t.getHours()).slice(-2);
+        const minutes = ('0' + t.getMinutes()).slice(-2);
+        const seconds = ('0' + t.getSeconds()).slice(-2);
+        return `${dateItSelf}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
+    }
+    var _dateOfCompletion = function (date) { return date === null ? "Not yet completed" : _convertDate(date)  }
+    
+    function fillInDetails(data) {
+        contextHTML.innerHTML = "";
+        contextHTML.insertAdjacentHTML("beforeend", 
+            `
+               <ul class="nav nav-tabs">
+                 <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments & Changes</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Other</a></li>
+               </ul>
+               <div class="tab-content">
+               
+                 <div class="tab-pane active" role="tabpanel" id="tab-1">
+                   <div class="row">
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Title:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Title}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Description:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Description}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Ticket ID:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.TicketId}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Status:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Status}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Priority:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Priority}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Type:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Type}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Date and Time of creation:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.DateAndTimeOfCreation)}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Date and Time of creation:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${_dateOfCompletion(data.DateAndTimeOfCompletion)}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Company:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Company}</div>
+                        </div>
+                   </div>
+                 </div>
+
+                 <div class="tab-pane" role="tabpanel" id="tab-2">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Comments}</div>
+                    </div>
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
+                    </div>
+                   </div>
+                 </div>
+                 <div class="tab-pane" role="tabpanel" id="tab-3">
+                   <div class="row">
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Technicians: TODO</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Technicians}</div>
+                        </div>
+                   </div>
+                 </div>
+                 <div class="tab-pane" role="tabpanel" id="tab-4">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Attachments: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Attachments}</div>
+                    </div>
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Solution: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Solution}</div>
+                    </div>
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Quality: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Quality}</div>
+                    </div>
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Support Needed: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.SupportNeeded}</div>
+                    </div>
+                   </div>
+                 </div>
+               </div>
+             `
+        )
+    }
+    
     function sleep (time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
+    
     $('#getDetails').click(function() {
         
         contextHTML.innerHTML = ""
@@ -113,19 +231,10 @@
                     //result = JSON.stringify(result);
                     result = JSON.parse(result);
                     console.log(result);
-                    contextHTML.innerHTML = ""
-                    Object.entries(result).forEach(([key, value]) => {
-                        contextHTML.insertAdjacentHTML('beforeend', `
-    <div class="d-flex justify-content-left">
-    <span class="font-weight-bold c-blue mr-3">${key}:</span> <span class="text-muted">${value}</span>
-    </div>
-                        `);
-                        console.log(`${key} ${value}`);
-                    });
-    
+                    fillInDetails(result);
                 },
                 error: function (xhr) {
-                    alert("failded");
+                    alert("failed");
                 }
             });
             console.log("End")
@@ -134,4 +243,4 @@
 
     });
     </script>
-}
+    }
