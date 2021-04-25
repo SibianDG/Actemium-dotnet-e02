@@ -1,6 +1,7 @@
 ﻿using _2021_dotnet_e_02.Models.Enums;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -15,6 +16,7 @@ namespace _2021_dotnet_e_02.Models
         public DateTime RegistrationDate { get; set; }
         public ICollection<LoginAttempt> LoginAttempts { get; set; }
         public int FailedLoginAttempts { get; set; }
+        [JsonIgnore]
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
 

@@ -34,7 +34,7 @@ namespace _2021_dotnet_e_02.Controllers
         }
         
         [HttpGet]
-        public ActionResult<JsonResult> Details(int id)
+        public IActionResult Details(int id)
         {
             //TODO: When he makes a JSON, it will go to ex. comment to make those a JSON, but comment has an association to the same ticket --> Cycle
             Console.WriteLine("IDDDDDDDD: "+id);
@@ -44,6 +44,7 @@ namespace _2021_dotnet_e_02.Controllers
             Console.WriteLine("TICKKKETT: "+ticket.Title);
             var json = JsonConvert.SerializeObject(ticket);
             Console.WriteLine(json);
+            Console.WriteLine("jsonTYPE: "+ json.GetType());
             return Json(json); 
         }
         

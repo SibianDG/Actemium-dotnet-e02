@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Models
 {
     public class ActemiumTicketComment
     {
         public int TicketCommentId { get; set; }
+        [JsonIgnore]
         public ActemiumTicket Ticket { get; set; }
         public UserModel User { get; set; }
         public string UserRole { get; set; }

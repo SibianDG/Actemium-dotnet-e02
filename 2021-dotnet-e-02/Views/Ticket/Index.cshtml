@@ -13,12 +13,17 @@
         { "NETWORK", "fas fa-network-wired" },
         { "OTHER", "fas fa-random" },
     };
+
+    string makeStringCapitalized(string s)
+    {
+        return s[..1].ToUpper() + s[1..].ToLower();
+    }
 }
 
 <div class="my-4" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
     <div class="container">
         <div class="container-fluid">
-            <h1 class="text-center c-blue">Tickets</h1>
+            <h1 class="text-center c-blue font-weight-bold">Tickets</h1>
         </div>
     </div>
 </div>
@@ -57,10 +62,10 @@
             {
                 <tr>
                     <td>@item.TicketId</td>
-                    <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(item.TicketType.ToString()[..1].ToUpper() + item.TicketType.ToString()[1..].ToLower())</small></td>
+                    <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
                     <td ><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
                     <td>@item.Title</td>
-                    <td>@(item.Status.ToString()[..1].ToUpper() + item.Status.ToString()[1..].ToLower())</td>
+                    <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
                     <td class="actions">
                         <a id="getDetails"><i class="fas fa-info-circle"></i></a> |
                         <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
@@ -105,8 +110,9 @@
                 data: { id:1 },
                 dataType: "json",
                 success: function (result) {
-                    result = JSON.stringify(result);
-                    result = JSON.parse(result)
+                    //result = JSON.stringify(result);
+                    result = JSON.parse(result);
+                    console.log(result);
                     contextHTML.innerHTML = ""
                     Object.entries(result).forEach(([key, value]) => {
                         contextHTML.insertAdjacentHTML('beforeend', `
