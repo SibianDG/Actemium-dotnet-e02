@@ -1,4 +1,5 @@
-﻿@model List<_2021_dotnet_e_02.Models.ActemiumTicket>
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model List<_2021_dotnet_e_02.Models.ActemiumTicket>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -61,9 +62,8 @@
                                         </div>
                                         <div class="flex-grow-1">
                                             <div class="d-flex flex-column pb-1 bb-1">
-                                                <!-- TODO! -->
                                                 <a href="#" class="open-ticket-title">@item.Title (@item.TicketChanges.Count)
-                                                    @if (item.TicketChanges.Count > 1)
+                                                    @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
                                                     {<span class="badge badge-warning">update</span>}
                                                     </a>
                                                 <small><span class="text-bold">Created</span> @item.DateAndTimeOfCreation</small>
