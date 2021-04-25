@@ -112,6 +112,19 @@
     }
     var _dateOfCompletion = function (date) { return date === null ? "Not yet completed" : _convertDate(date)  }
 
+    // TODO
+    var _displayComments = function (comments) {
+        let allCommentsAsString = "testjenVoorComments";
+        comments.forEach(com => console.log(com.toString()));
+        comments.forEach(com => {
+            allCommentsAsString += "\n";
+            allCommentsAsString += com.toString();
+            allCommentsAsString += "\n";
+            allCommentsAsString += com.CommentText;
+        });
+        return allCommentsAsString;
+    }
+
     function fillInDetails(data) {
         contextHTML.innerHTML = "";
         contextHTML.insertAdjacentHTML("beforeend",
@@ -182,6 +195,7 @@
                       }
                     </div>
                    </div>
+                   <div class="text-left">${_displayComments(data.Comments)}</div>
                  </div>
 
                  <div class="tab-pane" role="tabpanel" id="tab-3">
