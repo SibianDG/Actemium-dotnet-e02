@@ -48,28 +48,7 @@
                 <select asp-for="TicketType" asp-items="Html.GetEnumSelectList<TicketType>()" class="form-control">
                 </select>
                 <!--<span asp-validation-for="TicketType" class="text-danger"></span>-->
-            </div>
-            @*--Trying to display all the comments, not functional yet, and it's just a test field version --*@
-            @*-- Will work if UserId problem is fixed and getAll has .Include comments --*@
-            @* -- will move this in next commit -- *@
-            @if ((bool)ViewData["IsEdit"])
-            {
-                <div>
-                    <table>
-                        <tbody>
-                            <tr><td>test</td></tr>
-                            @foreach (var item in Model.Comments)
-                            {
-                                <tr>
-                                    <td>hier</td>
-                                    <td>@item.UserRole</td>
-                                    <td>@item.ToString()</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+            </div>            
             @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
             {
                 <div class="form-group">

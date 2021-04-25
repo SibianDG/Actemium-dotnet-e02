@@ -11,9 +11,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.ToTable("ACTEMIUMTICKETCOMMENT");
 
             builder.HasKey(t => t.TicketCommentId);
-            
+
+            builder.Property<int>("TICKET_TICKETID");
             builder.HasOne(t => t.Ticket).WithMany(t => t.Comments).IsRequired().OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(t=> t.TicketCommentId);
+                .HasForeignKey("TICKET_TICKETID");
             builder.Property<int>("USER_USERID");
             builder.HasOne(t => t.User).WithMany(t => t.Comments).HasForeignKey("USER_USERID");
             //builder.Property(t => t.User).HasColumnName("USER_USERID");

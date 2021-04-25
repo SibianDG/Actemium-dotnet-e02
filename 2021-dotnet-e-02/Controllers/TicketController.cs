@@ -59,7 +59,15 @@ namespace _2021_dotnet_e_02.Controllers
                 return NotFound();
             return View(ticket);
         }
-        
+
+        public IActionResult CommentsNewWindow(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return View(ticket);
+        }
+
         public IActionResult Edit(int id)
         {
             ActemiumTicket ticket = _ticketRepository.GetById(id);

@@ -75,6 +75,7 @@
                                 <td class="actions">
                                     <a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
                                     <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
+                                    <a asp-controller="Ticket" asp-action="CommentsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-comments"></i></a> |
                                     <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
                                     <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
                                 </td>
