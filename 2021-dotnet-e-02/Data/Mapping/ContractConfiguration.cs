@@ -23,7 +23,17 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Status)
                 .HasColumnName("STATUS");
 
-            builder.HasOne(t => t.ContractType).WithMany().IsRequired().HasForeignKey(t => t.ContractId);
+            builder.Property<int>("CONTRACTTYPE_CONTRACTTYPEID");
+            builder.HasOne(t => t.ContractType)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey("CONTRACTTYPE_CONTRACTTYPEID");
+            
+            builder.Property<int>("COMPANY_COMPANYID");
+            builder.HasOne(t => t.Company)
+                .WithMany(c => c.Contracts)
+                .IsRequired()
+                .HasForeignKey("COMPANY_COMPANYID");
 
         }
     }

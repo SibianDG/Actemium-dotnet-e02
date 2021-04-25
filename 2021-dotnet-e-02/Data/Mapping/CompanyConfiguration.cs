@@ -29,10 +29,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             //builder.HasMany(t => t.Tickets).WithOne();
 
-            builder.HasMany(t => t.Contracts).WithOne(t => t.Company)
+            /*builder.HasMany(t => t.Contracts).WithOne(t => t.Company)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasForeignKey(t => t.ContractId);
+                .HasForeignKey(t => t.ContractId);*/
         }
     }
 }

@@ -69,7 +69,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         public void Details2_PassesViewOfTicket()
         {
             _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
-            var result = Assert.IsType<ViewResult>(_controller.Details2(1));
+            var result = Assert.IsType<ViewResult>(_controller.DetailsNewWindow(1));
             var ticket = Assert.IsType<ActemiumTicket>(result.Model);
             Assert.Equal("Title", ticket.Title);
         }

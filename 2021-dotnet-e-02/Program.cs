@@ -94,7 +94,9 @@ namespace _2021_dotnet_e_02
                     IEnumerable<ActemiumContract> contracts = db.ActemiumContracts.ToList();
                     foreach (ActemiumContract c in contracts)
                     {
-                        Console.WriteLine(c.Status);
+                        Console.WriteLine(c.ContractId);
+                        Console.WriteLine(c.ContractType.Name);
+                        //Console.WriteLine(c.Company.Name);
                     }
                 }
             }
