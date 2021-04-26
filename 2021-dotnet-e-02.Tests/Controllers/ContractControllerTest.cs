@@ -14,13 +14,14 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly ContractController _controller;
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly Mock<IContractRepository> _contractRepository;
+        private readonly Mock<IContractTypeRepository> _contractTypeRepository;
 
 
         public ContractControllerTest()
         {
             _dummyContext = new DummyApplicationDbContext();
             _contractRepository = new Mock<IContractRepository>();
-            _controller = new ContractController(_contractRepository.Object)
+            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
