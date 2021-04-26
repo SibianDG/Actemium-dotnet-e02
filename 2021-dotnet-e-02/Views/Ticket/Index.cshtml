@@ -66,16 +66,17 @@
                     <tbody>
                     @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId">
                                 <td>@item.TicketId</td>
                                 <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
                                 <td><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
                                 <td>@item.Title</td>
                                 <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
                                 <td class="actions">
-                                    <a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
+                                    <!--<a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> | -->
                                     <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
-                                    <a asp-controller="Ticket" asp-action="CommentsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-comments"></i></a> |
+                                    <!--<a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-comments"></i></a> | -->
+                                    <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-info-circle"></i></a> |
                                     <a asp-action="Edit" asp-route-id="@item.TicketId"><i class="fas fa-pen"></i></a> |
                                     <a asp-action="Delete" asp-route-id="@item.TicketId"><i class="far fa-trash-alt"></i></a>
                                 </td>
