@@ -44,11 +44,25 @@ namespace _2021_dotnet_e_02.Controllers
         [HttpPost] //BASIC IMPLEMENTATION DOES NOT FULLY WORK YET
         public IActionResult Create(ContractCreateViewModel createViewModel)
         {
-            ActemiumContract contract = new ActemiumContract();
-            MapCreateViewModelToContract(createViewModel, contract);
-            _contractRepository.Add(contract);
-            _contractRepository.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    ActemiumContract contract = new ActemiumContract();
+                    MapCreateViewModelToContract(createViewModel, contract);
+                    _contractRepository.Add(contract);
+                    _contractRepository.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Sorry, something went wrong, the contract was not signed...";
+                    Console.WriteLine(ex.Message);
+                }
+                return View(nameof(Create), createViewModel);
+            }
+            
             return RedirectToAction(nameof(Index));
+
         }
 
         #endregion
