@@ -27,9 +27,14 @@ namespace _2021_dotnet_e_02.Controllers
             IEnumerable<ActemiumTicket> openTickets = _ticketRepository.GetAllOpenTickets();
             IEnumerable<ActemiumTicket> resolvedTickets = _ticketRepository.GetAllResolvedTickets();
 
+            resolvedTickets = resolvedTickets.ToList()
+                .Where(t => t.DateAndTimeOfCompletion.Value.AddDays(5) >= DateTime.Now);
+
             ViewData["OpenTickets"] = openTickets.ToList().Count();
             ViewData["ResolvedTickets"] = resolvedTickets.ToList().Count();
 
+            
+            //TODO: should all tickets be passed??
             return View(allTickets.ToList());
         }
 
