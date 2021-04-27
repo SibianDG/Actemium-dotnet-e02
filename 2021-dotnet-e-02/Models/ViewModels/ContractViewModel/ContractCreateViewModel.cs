@@ -11,10 +11,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.ContractViewModel
     {
         [Required(ErrorMessage = "ContractType is required")]
         [Display(Name = "Contract type")]
-        [EnumDataType(typeof(ContractTypeStatus))]
-        public ActemiumContractType ContractType { get; set; }
-        [Display(Name = "Contract status")]
-        public string Status { get; set; }
+        public int ContractType { get; set; }
         [Required(ErrorMessage = "StartDate is required")]
         [Display(Name = "Contract start date")]
         public DateTime StartDate { get; set; }
@@ -27,10 +24,6 @@ namespace _2021_dotnet_e_02.Models.ViewModels.ContractViewModel
         {
 
         }
-        public ContractCreateViewModel(ActemiumContract contract)
-        {
-            ContractType = contract.ContractType;
-            StartDate = contract.StartDate;
-        }
+        
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.ContractViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -63,8 +64,9 @@ namespace _2021_dotnet_e_02.Controllers
 
         private void MapCreateViewModelToContract(ContractCreateViewModel contractCreateViewModel, ActemiumContract contract)
         {
-            contract.ContractType = contractCreateViewModel.ContractType == null ? null : _contractTypeRepository.GetBy(contractCreateViewModel.ContractType.ContractTypeId);
-            contract.Status = contractCreateViewModel.Status;
+            Console.WriteLine("contracttype id: " + contractCreateViewModel.ContractType);
+            contract.ContractType = _contractTypeRepository.GetBy(contractCreateViewModel.ContractType);
+            contract.Status = ContractStatus.IN_REQUEST;
             contract.StartDate = contractCreateViewModel.StartDate;
             contract.EndDate = contractCreateViewModel.StartDate.AddYears(contractCreateViewModel.Duration);
         }
