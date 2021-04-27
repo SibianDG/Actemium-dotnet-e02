@@ -39,13 +39,39 @@
         <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
             <div class="d-md-flex py-4">
                 <div class="mr-2 mr-lg-5 mb-2">
-                    <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
                 </div>
                 <div class="flex-grow-1">
-                    <form action="#">
-                        <div class="form-group d-flex">
-                            <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
-                            <input type="text" class="form-control" id="searchTickets" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+                    <form class="row">
+                        <!-- TODO: select options disable/not visable on mobile -->
+                        <div class="col-12 row">
+                            <div class="col-12 col-md-6 form-group d-flex">
+                                <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
+                                <input type="text" class="form-control" id="searchTickets" name="searchText" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+                            </div>
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="ticketType" class="w-100">Ticket Type:</label>
+                                <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="form-control">
+                                    <option value="" selected>-- Select Type --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 row">
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="ticketPriority" class="w-100">Ticket Priority:</label>
+                                <select name="priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" id="ticketPriority" class="form-control">
+                                    <option value="" selected>-- Select Priority --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="ticketStatus" class="w-100">Ticket Status:</label>
+                                <select name="status" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="form-control">
+                                    <option value="" selected>-- Select Status --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 row">
+                            <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+                            <button type="submit" class="col-12 col-md-6 col-lg-3 ml-auto btn btn-secondary ml-1">Search</button>
                         </div>
                     </form>
                 </div>
