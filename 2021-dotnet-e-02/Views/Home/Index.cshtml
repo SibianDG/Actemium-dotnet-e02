@@ -52,7 +52,7 @@
                 {
                     @if (item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED && item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.CANCELLED)
                      {
-                        <div class="card my-2 card-ticket ticket-updated">
+                         <div class="card my-2 card-ticket @(item.Status == TicketStatus.WAITING_ON_USER_INFORMATION ? "ticket-updated" : "" )">
                             <div class="card-body d-flex align-items-center">
                                 <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
                                     <i class="fas fa-exclamation-triangle"></i>
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex flex-column pb-1 bb-1">
-                                        <a href="#" class="open-ticket-title">@item.Title (@item.TicketChanges.Count)
+                                        <a href="#" class="open-ticket-title">@item.Title
                                             @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
                                             {<span class="badge badge-warning">update</span>}
                                             </a>
