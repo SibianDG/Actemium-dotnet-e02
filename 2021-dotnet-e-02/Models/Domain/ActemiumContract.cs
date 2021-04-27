@@ -1,4 +1,5 @@
 ﻿using System;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -7,7 +8,7 @@ namespace _2021_dotnet_e_02.Models
         public int ContractId { get; set; }
         public ActemiumContractType ContractType { get; set; }
         public ActemiumCompany Company { get; set; }
-        public string Status { get; set; }
+        public ContractStatus Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
