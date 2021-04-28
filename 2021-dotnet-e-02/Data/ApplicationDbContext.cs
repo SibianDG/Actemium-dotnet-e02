@@ -20,6 +20,7 @@ namespace _2021_dotnet_e_02.Data
         //public DbSet<ActemiumTicketChangeContent> ActemiumTicketChangeContent { get; set; }
         public DbSet<ActemiumTicketComment> ActemiumTicketComments { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<ActemiumTicketActemiumUser> ActemiumTicketActemiumUsers { get; set; }
         public DbSet<ActemiumCustomer> Customers { get; set; }
         public DbSet<ActemiumEmployee> Employees { get; set; }
         public DbSet<LoginAttempt> LoginAttempts { get; set; }
@@ -59,6 +60,7 @@ namespace _2021_dotnet_e_02.Data
             //modelBuilder.ApplyConfiguration(new TicketChangeContentConfiguration());
             modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketUserConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new LoginAttemptConfiguration());

@@ -30,6 +30,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
             //builder.HasMany(t => t.Comments).WithOne(t=> t.UserModel)
             
             builder.HasMany(t => t.LoginAttempts).WithOne(t=> t.UserModel).HasForeignKey(t => t.Id);
+
+            //builder.Property<int>("technicians_USERID");
+            builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Technician).HasForeignKey(t => t.UserId);
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Technician).HasForeignKey("technicians_USERID");
         }
         
     }

@@ -24,7 +24,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
             //return _tickets.Include(t => t.Comments).Include(t => t.Company).Include(t => t.Technicians).Include(t => t.TicketChanges).ToList();
             return _tickets.AsNoTracking().Include(t => t.Comments).ThenInclude(c => c.User)
                                           //.Include(t => t.Company)
-                                          //.Include(t => t.Technicians)
+                                          //.Include(t => t.TicketTechnicians)
                                           .Include(t => t.TicketChanges).ThenInclude(c => c.User)
                                           .ToList();
             //return _tickets.AsNoTracking().ToList();
@@ -33,7 +33,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public ActemiumTicket GetById(int id)
         {
             return _tickets.Include(t => t.Comments).ThenInclude(c => c.User)
-                           //.Include(t => t.Technicians)
+                           //.Include(t => t.TicketTechnicians)
                            .Include(t => t.TicketChanges).ThenInclude(c => c.User)
                             //TODO: fout met includes
                             //.Include(t => t.Company)
@@ -52,7 +52,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumTicket GetBy(int id)
         {
-            return _tickets.AsNoTracking().Include(t => t.Comments).Include(t => t.Technicians).Include(t => t.TicketChanges).SingleOrDefault(t => t.TicketId == id);
+            return _tickets.AsNoTracking().Include(t => t.Comments).Include(t => t.TicketTechnicians).Include(t => t.TicketChanges).SingleOrDefault(t => t.TicketId == id);
             //return _tickets.Include(t => t.Comments).Include(t => t.Company).Include(t => t.Technicians).Include(t => t.TicketChanges).SingleOrDefault(t => t.TicketId == id);
             //return _tickets.AsNoTracking().SingleOrDefault(t => t.TicketId == id);
         }
