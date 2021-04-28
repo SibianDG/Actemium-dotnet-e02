@@ -11,11 +11,13 @@ namespace _2021_dotnet_e_02.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<ActemiumTicketChangeContent> builder)
         {
-            builder.ToTable("ActemiumTicketChange_CHANGECONTENT");
+            builder.ToTable("ACTEMIUMTICKETCHANGECONTENT");
 
-            //builder.Property<int>("ActemiumTicketChange_TICKETCHANGEID");
-            //builder.HasOne(t => t.TicketChange).WithMany(t => t.ChangeContent).IsRequired(false).OnDelete(DeleteBehavior.Restrict)
-            //    .HasForeignKey("ActemiumTicketChange_TICKETCHANGEID");
+            builder.HasKey(c => c.TicketChangeContentId);
+
+            builder.Property<int>("TICKETCHANGE_TICKETCHANGEID");
+            builder.HasOne(t => t.TicketChange).WithMany(t => t.ChangeContents).IsRequired(false).OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey("TICKETCHANGE_TICKETCHANGEID");
 
             builder.Property(c => c.ChangeContent);
         }

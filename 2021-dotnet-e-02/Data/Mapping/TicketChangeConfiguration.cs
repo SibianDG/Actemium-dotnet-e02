@@ -36,7 +36,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             //            v => JsonConvert.DeserializeObject<List<string>>(v));
 
             //builder.HasMany(t => t.ChangeContent).WithOne().IsRequired(false);
-            builder.Ignore(t => t.ChangeContent);
+            //builder.Ignore(t => t.ChangeContent);
         }
     }
 }

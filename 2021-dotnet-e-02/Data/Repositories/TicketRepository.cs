@@ -35,8 +35,9 @@ namespace _2021_dotnet_e_02.Data.Repositories
             return _tickets.Include(t => t.Comments).ThenInclude(c => c.User)
                            //.Include(t => t.TicketTechnicians)
                            .Include(t => t.TicketChanges).ThenInclude(c => c.User)
-                            //TODO: fout met includes
-                            //.Include(t => t.Company)
+                           .Include(t => t.TicketChanges).ThenInclude(c => c.ChangeContents)
+                           //TODO: fout met includes
+                           //.Include(t => t.Company)
                            .SingleOrDefault(t => id == t.TicketId);
         }
 

@@ -218,10 +218,10 @@
                             @foreach (var change in Model.TicketChanges.OrderBy(c => c.DateTimeOfChange).ToList())
                             {
                                 <table style="width: 100%; margin-bottom:15px">
-                                    <tbody>                                       
+                                    <tbody>
                                         <tr>
                                             <td rowspan="2" style="text-align: right;
-                                        width:15%;
+                                        width:25%;
                                         padding-right: 15px;
                                         font-size: 1rem;
                                         font-family: 'Source Sans Pro';
@@ -231,7 +231,7 @@
                                                 @change.DateTimeOfChange.ToString("HH:mm:ss")
                                             </td>
                                             <td style="text-align: left;
-                                        width:85%;
+                                        width:75%;
                                         padding-right: 15px;
                                         font-size: 1.1rem;
                                         color: #004087;
@@ -242,14 +242,17 @@
                                             </td>
                                         </tr>
                                         <tr> <td>@change.ChangeDescription</td> </tr>
+                                        @foreach (var changeContent in change.ChangeContents.OrderBy(c => c.TicketChangeContentId).ToList())
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@changeContent.ChangeContent</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             }
                         }
-                        <div class="d-flex justify-content-center mb-3">
-                            <a asp-action="Edit" asp-route-id="@Model.TicketId" class="btn btn-primary mr-3">Add comment</a>
-                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                        </div>
                     </div>
                 </div>
             </div>

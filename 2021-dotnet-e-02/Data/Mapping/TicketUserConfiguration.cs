@@ -16,7 +16,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property<int>("technicians_USERID");
 
             builder
-            .HasKey("ActemiumTicket_TICKETID", "technicians_USERID");
+            .HasKey(new String[] { "ActemiumTicket_TICKETID", "technicians_USERID" });
 
             //builder
             //.HasKey(t => new { t.TicketId, t.UserId });

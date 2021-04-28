@@ -47,7 +47,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.HasMany(t => t.TicketChanges).WithOne();
 
             //builder.Property<int>("ActemiumTicket_TICKETID");
-            builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey(t => t.TicketId);
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey(t => t.TicketId);
             //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey("ActemiumTicket_TICKETID");
         }
     }

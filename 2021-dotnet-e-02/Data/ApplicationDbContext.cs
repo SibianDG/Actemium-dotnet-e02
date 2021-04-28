@@ -17,7 +17,7 @@ namespace _2021_dotnet_e_02.Data
         public DbSet<ActemiumCompany> ActemiumCompanies { get; set; }
         public DbSet<ActemiumTicket> ActemiumTickets { get; set; }
         public DbSet<ActemiumTicketChange> ActemiumTicketChanges { get; set; }
-        //public DbSet<ActemiumTicketChangeContent> ActemiumTicketChangeContent { get; set; }
+        public DbSet<ActemiumTicketChangeContent> ActemiumTicketChangeContent { get; set; }
         public DbSet<ActemiumTicketComment> ActemiumTicketComments { get; set; }
         public DbSet<UserModel> Users { get; set; }
         public DbSet<ActemiumTicketActemiumUser> ActemiumTicketActemiumUsers { get; set; }
@@ -53,11 +53,12 @@ namespace _2021_dotnet_e_02.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new KbItemConfiguration());
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new TicketChangeConfiguration());
-            //modelBuilder.ApplyConfiguration(new TicketChangeContentConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketChangeContentConfiguration());
             modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
             modelBuilder.ApplyConfiguration(new TicketUserConfiguration());
@@ -74,8 +75,6 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.Entity<ActemiumCustomer>().HasBaseType<UserModel>();
             modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();*/
 
-            // do not remove
-            //modelBuilder.Entity<ActemiumTicketChangeContent>().HasNoKey();
 
         }
     }
