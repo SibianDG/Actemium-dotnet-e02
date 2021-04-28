@@ -54,28 +54,55 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.ContractType)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.StartDate)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.EndDate)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.ContractType)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.StartDate)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.EndDate)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr id="getDetails" class="contractDetailsButtonTr" contractId="@item.ContractId">
-                                <td>@item.ContractId</td>
-                                <td>@(makeStringCapitalized(item.ContractType.Name))</td>
-                                <td>@item.StartDate</td>
-                                <td>@item.EndDate</td>
-                                <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
-                            </tr>
-                        }
+                    @foreach (var item in Model)
+                    {
+                        <tr id="getDetails" class="contractDetailsButtonTr" contractId="@item.ContractId">
+                            <td>@item.ContractId</td>
+                            <td>@(makeStringCapitalized(item.ContractType.Name))</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
+            @if ((int) ViewData["totalPages"] > 1)
+                                {
+                                <nav aria-label="ticket navigation" class="d-flex justify-content-center align-content-center">
+                                    <ul class="pagination">
+                                        @if ((int) ViewData["page"] > 1)
+                                        {
+                                            <li class="page-item">
+                                                <a asp-action="Index" asp-route-page="@((int) ViewData["page"] - 1)" class="page-link" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= (int) ViewData["totalPages"]; i++)
+                                        {
+                                            <li class="page-item"><a asp-action="Index" asp-route-page="@i" class="page-link @((int) ViewData["page"] == i || ((int) ViewData["page"] == 0 && i == 1) ? "page-link-active" : "")">@i</a></li>
+                                        }
+                                        @if ((int) ViewData["page"] < (int) ViewData["totalPages"])
+                                        {
+                                            <li class="page-item">
+                                                <a asp-action="Index" asp-route-page="@((int) ViewData["page"] + 1)" class="page-link" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                                }
         </div>
     </div>
     <div class="col-12 col-lg-5" id="paneDetailTicket">

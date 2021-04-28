@@ -25,14 +25,24 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         #region Index
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
+            page ??= 1;
+            page = page == 0 ? 1 : page;
+            
             IEnumerable<ActemiumContract> contracts;
             //TODO performace?? this is good i think
             contracts = _contractRepository.GetAll();
             contracts = contracts.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ToList();
-            Console.WriteLine("NUMBER" + contracts.Count());
-            Console.WriteLine("COMPANYNAME CONTRACT 1" + contracts.First().Company.Name);
+            
+            int totalPages = contracts.Count() / 10;
+            if (contracts.Count() % 10 != 0)
+                totalPages++;
+            ViewData["totalPages"] = totalPages;
+            
+            contracts = contracts.Skip((page.Value - 1) * 10).Take(10);
+            ViewData["page"] = page;
+            
             return View(contracts);
         }
         #endregion
