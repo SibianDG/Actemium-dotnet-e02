@@ -23,12 +23,20 @@ namespace _2021_dotnet_e_02.Controllers
             _companyRepository = companyRepository;
         }
         
-        public IActionResult Index(string searchText = null, int? type = null, int? priority = null, int? status = null)
+        public IActionResult Index(int? page, string searchText = null, int? type = null, int? priority = null, int? status = null)
         {
+            Console.WriteLine("PAGE first: "+page);
+            page ??= 1;
+            page = page == 0 ? 1 : page;
+            Console.WriteLine("PAGE2: "+page);
+
+
             IEnumerable<ActemiumTicket> tickets;
-            //TODO performace??
+            //TODO performance??
             tickets = _ticketRepository.GetAll();
+
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
+            
             if (searchText != null)
             {
                 tickets = tickets.Where(t => t.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
@@ -45,8 +53,18 @@ namespace _2021_dotnet_e_02.Controllers
                 tickets = tickets.Where(t => priority.Equals((int)t.Priority));
             if (status != null)
                 tickets = tickets.Where(t => status.Equals((int)t.Status));
+            
+            int totalPages = tickets.Count() / 10;
+            if (tickets.Count() % 10 != 0)
+                totalPages++;
+            ViewData["totalPages"] = totalPages;
+
+            Console.WriteLine("PAGE value: "+(page.Value));
+            Console.WriteLine("PAGE skip: "+((page.Value - 1) * 10));
+            tickets = tickets.Skip((page.Value - 1) * 10).Take(10);
 
             ViewData["SearchText"] = searchText;
+            ViewData["page"] = page;
             //TODO: you should know what type you selected...
             return View(tickets);
         }

@@ -91,3 +91,17 @@
   margin-top: 3rem;
   width: 100%;
 }
+
+.pagination {
+  .page-link {
+    color: $blue;
+    &.page-link-active {
+      color: $white;
+      background-color: $blue;
+    }
+    &:hover {
+      background-color: $light-green;
+    }
+  }
+}
+
