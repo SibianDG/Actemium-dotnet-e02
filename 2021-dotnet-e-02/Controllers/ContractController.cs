@@ -6,6 +6,7 @@ using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.ContractViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Controllers
 {
@@ -14,11 +15,13 @@ namespace _2021_dotnet_e_02.Controllers
 
         private readonly IContractRepository _contractRepository;
         private readonly IContractTypeRepository _contractTypeRepository;
+        private readonly ICompanyRepository _companyRepository;
         
-        public ContractController(IContractRepository contractRepository, IContractTypeRepository contractTypeRepository)
+        public ContractController(IContractRepository contractRepository, IContractTypeRepository contractTypeRepository, ICompanyRepository companyRepository)
         {
             _contractRepository = contractRepository;
             _contractTypeRepository = contractTypeRepository;
+            _companyRepository = companyRepository;
         }
 
         #region Index
@@ -32,6 +35,24 @@ namespace _2021_dotnet_e_02.Controllers
             Console.WriteLine("COMPANYNAME CONTRACT 1" + contracts.First().Company.Name);
             return View(contracts);
         }
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            //TODO: When he makes a JSON, it will go to ex. comment to make those a JSON, but comment has an association to the same ticket --> Cycle
+            ActemiumContract contract = _contractRepository.GetBy(id);
+            if (contract == null)
+                return NotFound();
+            var json = JsonConvert.SerializeObject(contract);
+            Console.WriteLine(json);
+            Console.WriteLine("jsonTYPE: "+ json.GetType());
+            
+            return Json(json); 
+        }
+
         #endregion
 
         #region Create
@@ -50,6 +71,7 @@ namespace _2021_dotnet_e_02.Controllers
                 {
                     ActemiumContract contract = new ActemiumContract();
                     MapCreateViewModelToContract(createViewModel, contract);
+                    contract.Company = _companyRepository.GetBy(3);
                     _contractRepository.Add(contract);
                     _contractRepository.SaveChanges();
                 }
@@ -62,7 +84,6 @@ namespace _2021_dotnet_e_02.Controllers
             }
             
             return RedirectToAction(nameof(Index));
-
         }
 
         #endregion

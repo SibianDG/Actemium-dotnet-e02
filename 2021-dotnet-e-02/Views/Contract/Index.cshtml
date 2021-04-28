@@ -60,24 +60,17 @@
                             <th scope="col">@Html.DisplayNameFor(model => model.StartDate)</th>
                             <th scope="col">@Html.DisplayNameFor(model => model.EndDate)</th>
                             <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr id="getDetails" class="contractDetailsButtonTr" contractId="@item.ContractId">
                                 <td>@item.ContractId</td>
                                 <td>@(makeStringCapitalized(item.ContractType.Name))</td>
                                 <td>@item.StartDate</td>
                                 <td>@item.EndDate</td>
                                 <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
-                                <td class="actions">
-                                    <a id="getDetails" class="ticketDetailsButton" contractId="@item.ContractId"><i class="fas fa-info-circle"></i></a> |
-                                    <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.ContractId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
-                                    <a asp-action="Edit" asp-route-id="@item.ContractId"><i class="fas fa-pen"></i></a> |
-                                    <a asp-action="Delete" asp-route-id="@item.ContractId"><i class="far fa-trash-alt"></i></a>
-                                </td>
                             </tr>
                         }
                     </tbody>
@@ -94,4 +87,160 @@
     </div>
 </div>
 
+
+@section Scripts
+{
+<script>
+    const url = '@Url.Action("Details", "Contract")';
+    const contextHTML = document.getElementById('content');
+    var _convertDate = function (date) {
+        const t = new Date(date);
+        const dateItSelf = ('0' + t.getDate()).slice(-2);
+        const month = ('0' + (t.getMonth() + 1)).slice(-2);
+        const year = t.getFullYear();
+        const hours = ('0' + t.getHours()).slice(-2);
+        const minutes = ('0' + t.getMinutes()).slice(-2);
+        const seconds = ('0' + t.getSeconds()).slice(-2);
+        return `${dateItSelf}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
+    }
+        
+    function fillInDetails(data) {
+        contextHTML.innerHTML = "";
+        contextHTML.insertAdjacentHTML("beforeend",
+            `
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details contract</a></li>
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Details contractType</a></li>
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Details Company</a></li>
+                              </ul>
+                              <div class="tab-content">
+               
+                                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                                  <div class="row">
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">ContractType:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.Name}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">Status:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Status}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">Start date:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.StartDate)}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">End date:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.EndDate)}</div>
+                                       </div>
+                                  </div>
+                                </div>
+               
+                                <div class="tab-pane" role="tabpanel" id="tab-2">
+                                  <div class="row">
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Name: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.Name}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasEmail: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasEmail}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasPhone: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasPhone}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasApplication: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasApplication}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">TimeStamp: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.TimeStamp}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Maximum handling time: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.MaxHandlingTime}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Minimum throughput time: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.MinThroughputTime}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Price: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">€${data.ContractType.Price}</div>
+                                   </div>
+                                  </div>
+                                </div>
+               
+                                <div class="tab-pane" role="tabpanel" id="tab-3">
+                                  <div class="row">
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Name: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Name}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Country: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Country}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">City: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.City}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Address: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Address}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Phone number: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.PhoneNumber}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Registartion date: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.RegistrationDate}</div>
+                                       </div>
+                                  </div>
+                                </div>
+                            </div>
+             `
+        )
+    }
+
+    function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    
+    $('.contractDetailsButton').click(function () {
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+    });
+
+    $('.contractDetailsButtonTr').click(function () {
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+        // Usage!
+        sleep(500).then(() => {
+            console.log("start")
+            $.ajax({
+                url: url,
+                type: "get",
+                data: { id: $(this).attr('contractId') },
+                dataType: "json",
+                success: function (result) {
+                    //result = JSON.stringify(result);
+                    result = JSON.parse(result);
+                    console.log(result);
+                    fillInDetails(result);
+                },
+                error: function (xhr) {
+                    alert("failed");
+                }
+            });
+            console.log("End")
+    });
+
+
+    });
+</script>
+}
 
