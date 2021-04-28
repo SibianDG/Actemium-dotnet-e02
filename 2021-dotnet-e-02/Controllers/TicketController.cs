@@ -8,6 +8,7 @@ using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 using _2021_dotnet_e_02.Data;
 using _2021_dotnet_e_02.Data.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Controllers
@@ -66,6 +67,7 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["SearchText"] = searchText;
             ViewData["page"] = page;
             //TODO: you should know what type you selected...
+            //ViewData["status"] = GetTicketStatusSelectList(status??=0);
             return View(tickets);
         }
         
@@ -247,6 +249,11 @@ namespace _2021_dotnet_e_02.Controllers
             return RedirectToAction(nameof(Index));
         }
         
-        
+        private SelectList GetTicketStatusSelectList(int selected = 0)
+        {
+            return new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>(),
+                nameof(TicketStatus.GetTypeCode), nameof(TicketStatus.ToString), selected);
+        }
     }
+    
 }
