@@ -61,6 +61,7 @@ namespace _2021_dotnet_e_02.Models
         public string Quality { get; set; }
         public string SupportNeeded { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
+        public ICollection<ActemiumTicketActemiumUser> TicketTechnicians { get; set; }
 
         //[JsonConstructor]
         //private ActemiumTicket(int ticketId)
@@ -73,6 +74,7 @@ namespace _2021_dotnet_e_02.Models
             Comments = new List<ActemiumTicketComment>();
             Technicians = new List<ActemiumEmployee>();
             TicketChanges = new List<ActemiumTicketChange>();
+            TicketTechnicians = new List<ActemiumTicketActemiumUser>();
         }
 
         public ActemiumTicket(TicketStatus status, TicketPriority priority, string title, ActemiumCompany company, string description, string attachments, TicketType type/*, string solution, string quality, string supportNeeded*/)

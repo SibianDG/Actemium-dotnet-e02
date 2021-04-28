@@ -17,8 +17,10 @@ namespace _2021_dotnet_e_02.Data
         public DbSet<ActemiumCompany> ActemiumCompanies { get; set; }
         public DbSet<ActemiumTicket> ActemiumTickets { get; set; }
         public DbSet<ActemiumTicketChange> ActemiumTicketChanges { get; set; }
+        //public DbSet<ActemiumTicketChangeContent> ActemiumTicketChangeContent { get; set; }
         public DbSet<ActemiumTicketComment> ActemiumTicketComments { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<ActemiumTicketActemiumUser> ActemiumTicketActemiumUsers { get; set; }
         public DbSet<ActemiumCustomer> Customers { get; set; }
         public DbSet<ActemiumEmployee> Employees { get; set; }
         public DbSet<LoginAttempt> LoginAttempts { get; set; }
@@ -55,8 +57,10 @@ namespace _2021_dotnet_e_02.Data
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new TicketChangeConfiguration());
+            //modelBuilder.ApplyConfiguration(new TicketChangeContentConfiguration());
             modelBuilder.ApplyConfiguration(new TicketCommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketUserConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new LoginAttemptConfiguration());
@@ -69,6 +73,9 @@ namespace _2021_dotnet_e_02.Data
                 .IsComplete(false);
             modelBuilder.Entity<ActemiumCustomer>().HasBaseType<UserModel>();
             modelBuilder.Entity<ActemiumEmployee>().HasBaseType<UserModel>();*/
+
+            // do not remove
+            //modelBuilder.Entity<ActemiumTicketChangeContent>().HasNoKey();
 
         }
     }

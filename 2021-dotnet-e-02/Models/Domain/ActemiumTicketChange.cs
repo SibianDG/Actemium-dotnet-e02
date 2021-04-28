@@ -13,12 +13,14 @@ namespace _2021_dotnet_e_02.Models
         public string ChangeDescription { get; set; }
         //TODO convert string to List<String>
         // input string from db should be split after every newline char
-        public string ChangeContent { get; set; }
-        //public ICollection<string> ChangeContent { get; set; }
+        //public string ChangeContent { get; set; }
+        public ICollection<string> ChangeContent { get; set; }
+        //public ICollection<ActemiumTicketChangeContent> ChangeContent { get; set; }
 
         public ActemiumTicketChange()
         {
-            //ChangeContent = new List<string>();
+            //ChangeContent = new List<ActemiumTicketChangeContent>();
+            ChangeContent = new List<string>();
         }
     }
 }

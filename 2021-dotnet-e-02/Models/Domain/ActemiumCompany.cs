@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Models
 {
@@ -16,6 +17,7 @@ namespace _2021_dotnet_e_02.Models
 
         public ICollection<ActemiumCustomer> ContactPersons { get; set; }
         public ICollection<ActemiumTicket> Tickets { get; set; }
+        [JsonIgnore]
         public ICollection<ActemiumContract> Contracts { get; set; }
 
         public ActemiumCompany()

@@ -20,11 +20,14 @@ namespace _2021_dotnet_e_02.Models
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
 
+        public ICollection<ActemiumTicketActemiumUser> TicketTechnicians { get; set; }
+
         public UserModel()
         {
             LoginAttempts = new List<LoginAttempt>();
             Comments = new HashSet<ActemiumTicketComment>();
             TicketChanges = new HashSet<ActemiumTicketChange>();
+            TicketTechnicians = new List<ActemiumTicketActemiumUser>();
         }
     }
 }

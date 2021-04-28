@@ -35,7 +35,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
 
             builder.Property(t => t.Attachments);
 
-            builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
+            //builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
 
             builder.Property(t => t.TicketType)
                 .HasConversion(v => v.ToString(),
@@ -45,6 +45,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.SupportNeeded);
             
             builder.HasMany(t => t.TicketChanges).WithOne();
+
+            //builder.Property<int>("ActemiumTicket_TICKETID");
+            builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey(t => t.TicketId);
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey("ActemiumTicket_TICKETID");
         }
     }
 }
