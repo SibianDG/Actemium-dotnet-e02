@@ -38,10 +38,14 @@
                 <div class="flex-grow-1">
                     <form class="row">
                         <!-- TODO: select options disable/not visable on mobile -->
+                        <!-- TODO: multiple selected (see bootstrap) -->
                         <div class="col-12 row">
                             <div class="col-12 col-md-6 form-group d-flex">
                                 <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
-                                <input type="text" class="form-control" id="searchTickets" name="searchText" aria-describedby="todo" placeholder="Search for ticket (TODO)">
+                                <input type="text" class="form-control" id="searchTickets"
+                                       name="searchText" aria-describedby="search text" placeholder="Search in tickets"
+                                       value="@(ViewData["searchText"] ?? "")"
+                                >
                             </div>
                             <div class="col-md-6 form-group d-flex">
                                 <label for="ticketType" class="w-100">Ticket Type:</label>
@@ -65,8 +69,12 @@
                             </div>
                         </div>
                         <div class="col-12 row">
-                            <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
-                            <button type="submit" class="col-12 col-md-6 col-lg-3 ml-auto btn btn-secondary ml-1">Search</button>
+                            <div class="mb-2">
+                                <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 ml-auto ">
+                                <button type="submit" class="btn btn-secondary ml-1">Search</button>
+                            </div>
                         </div>
                     </form>
                 </div>

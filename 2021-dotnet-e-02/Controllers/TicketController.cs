@@ -23,7 +23,7 @@ namespace _2021_dotnet_e_02.Controllers
             _companyRepository = companyRepository;
         }
         
-        public IActionResult Index(string searchText = null, string type = null, string priority = null, string status = null)
+        public IActionResult Index(string searchText = null, int? type = null, int? priority = null, int? status = null)
         {
             IEnumerable<ActemiumTicket> tickets;
             //TODO performace??
@@ -31,27 +31,23 @@ namespace _2021_dotnet_e_02.Controllers
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
             if (searchText != null)
             {
-                tickets = tickets.Where(t => string.Equals(t.Title, searchText, StringComparison.OrdinalIgnoreCase) ||
-                                             string.Equals(t.Description, searchText,
-                                                 StringComparison.OrdinalIgnoreCase) ||
-                                             string.Equals(t.Priority.ToString(), searchText,
-                                                 StringComparison.OrdinalIgnoreCase) ||
-                                             string.Equals(t.TicketType.ToString(), searchText,
-                                                 StringComparison.OrdinalIgnoreCase) ||
-                                             string.Equals(t.Status.ToString(), searchText,
-                                                 StringComparison.OrdinalIgnoreCase)
+                tickets = tickets.Where(t => t.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Priority.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.TicketType.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Status.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)
                 );
             }
             
-            //TODO: you get number from view
             if (type != null)
-                tickets = tickets.Where(t => string.Equals(t.TicketType.ToString(), type, StringComparison.OrdinalIgnoreCase));
+                tickets = tickets.Where(t => type.Equals((int)t.TicketType));
             if (priority != null)
-                tickets = tickets.Where(t => string.Equals(t.Priority.ToString(), priority, StringComparison.OrdinalIgnoreCase));
+                tickets = tickets.Where(t => priority.Equals((int)t.Priority));
             if (status != null)
-                tickets = tickets.Where(t => string.Equals(t.Status.ToString(), status, StringComparison.OrdinalIgnoreCase));
+                tickets = tickets.Where(t => status.Equals((int)t.Status));
 
-            
+            ViewData["SearchText"] = searchText;
+            //TODO: you should know what type you selected...
             return View(tickets);
         }
         
