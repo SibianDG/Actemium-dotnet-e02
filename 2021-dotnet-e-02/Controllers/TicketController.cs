@@ -67,10 +67,7 @@ namespace _2021_dotnet_e_02.Controllers
             var json = JsonConvert.SerializeObject(ticket);
             Console.WriteLine(json);
             Console.WriteLine("jsonTYPE: "+ json.GetType());
-
-            //ViewBag["SelectedTicket"] = ticket;
-            ViewBag.SelectedTicket = ticket;
-
+            
             return Json(json); 
         }
         

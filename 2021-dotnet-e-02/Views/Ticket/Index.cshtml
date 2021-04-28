@@ -19,11 +19,6 @@
     {
         return s[..1].ToUpper() + s[1..].ToLower();
     }
-
-    // should contain the ticket of which the info/details icon was pressed
-    ViewBag.SelectedTicket = Model.Last();
-    //selectedTicket = SelectedTicket;
-    Console.WriteLine(ViewBag.SelectedTicket.TicketId);
 }
 
 <div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
@@ -139,20 +134,7 @@
         return `${dateItSelf}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
     }
     var _dateOfCompletion = function (date) { return date === null ? "Not yet completed" : _convertDate(date)  }
-
-    // TODO
-    var _displayComments = function (comments) {
-        let allCommentsAsString = "testjenVoorComments";
-        comments.forEach(com => console.log(com.toString()));
-        comments.forEach(com => {
-            allCommentsAsString += "\n";
-            allCommentsAsString += com.toString();
-            allCommentsAsString += "\n";
-            allCommentsAsString += com.CommentText;
-        });
-        return allCommentsAsString;
-    }
-
+        
     function fillInDetails(data) {
         contextHTML.innerHTML = "";
         contextHTML.insertAdjacentHTML("beforeend",
@@ -212,15 +194,6 @@
                     <div class="col-12 row text-left">
                       <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.Comments}</div>
-                      @foreach (var comment in ViewBag.SelectedTicket.Comments)
-                      {
-                          Console.WriteLine("jajajajja");
-                          @* -- shows up once when you render the page -- *@
-                          <div class="col-12 row text-left">
-                          <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
-                          <div class="col-8 class-muted d-flex align-items-center"> @comment.ToString() </div>
-                        </div>
-                      }
                     </div>
                    </div>
                    <div class="text-left">${_displayComments(data.Comments)}</div>
@@ -241,9 +214,6 @@
                       <div class="col-4 d-flex align-content-center ">Attachments: TODO</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.Attachments}</div>
                     </div>
-                   @*-- selectedTicket is not set to the right ticket yet, please help -- *@
-                   @if (ViewBag.SelectedTicket.Status == TicketStatus.COMPLETED)
-                   {
                        <div class="col-12 row text-left">
                       <div class="col-4 d-flex align-content-center ">Solution: TODO</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.Solution}</div>
@@ -256,7 +226,6 @@
                       <div class="col-4 d-flex align-content-center ">Support Needed: TODO</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.SupportNeeded}</div>
                     </div>
-                   }
                    </div>
                  </div>
 
@@ -266,13 +235,6 @@
                       <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
                       <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
                     </div>
-                    @foreach (var change in ViewBag.SelectedTicket.TicketChanges)
-                    {
-                        <div class="col-12 row text-left">
-                        <div class="col-4 d-flex align-content-center ">Change: </div>
-                        <div class="col-8 class-muted d-flex align-items-center"> @change.ToString() </div>
-                    </div>
-                    }
                     </div>
                    </div>
                  </div>
