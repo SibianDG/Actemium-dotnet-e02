@@ -178,6 +178,13 @@ footer {
   border-radius: 25px;
 }
 
+.vertical-line {
+  &:before {
+    content: '|';
+    margin-right: .2rem;
+  }
+}
+
 //PAGES:
 @import "login";
 @import "dashboard";
