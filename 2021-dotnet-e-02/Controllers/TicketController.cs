@@ -67,7 +67,9 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["SearchText"] = searchText;
             ViewData["page"] = page;
             //TODO: you should know what type you selected...
-            //ViewData["status"] = GetTicketStatusSelectList(status??=0);
+            ViewData["status"] = GetTicketStatusSelectList();
+            Console.WriteLine("OOOOOOOOOOOOOOOOO: "+ViewData["status"]);
+            Console.WriteLine(ViewData["status"]);
             return View(tickets);
         }
         
@@ -253,8 +255,22 @@ namespace _2021_dotnet_e_02.Controllers
         
         private SelectList GetTicketStatusSelectList(int selected = 0)
         {
-            return new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>(),
-                nameof(TicketStatus.GetTypeCode), nameof(TicketStatus.ToString), selected);
+            Console.WriteLine("GetTicketStatusSelectList");
+            Console.WriteLine(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList());
+            SelectList sl = new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList(),
+                nameof(TicketStatus), nameof(TicketStatus.ToString), selected);
+            return sl;
+            //SelectListItem selListItem = new SelectListItem() { Value = "null", Text = "Select One" };
+//
+            //if (selected == null)
+            //    selListItem.Selected = true;
+            //sl.ToList().Add(selListItem);
+            //return new SelectList(sl, "Value", "Text", null);
+            
+            List<SelectListItem> _list = sl.ToList();
+            _list.Insert(0, new SelectListItem() { Value = "-1", Text = "This Is First Item" });
+            return new SelectList((IEnumerable<SelectListItem>)_list, "Value", "Text");
+            
         }
     }
     

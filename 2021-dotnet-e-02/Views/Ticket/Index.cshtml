@@ -21,7 +21,7 @@
     }
 }
 
-<div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+<div class="my-2 mt-5 mt-md-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
     <div class="container">
         <div class="container-fluid">
             <h1 class="text-center c-blue font-weight-bold text-uppercase">Tickets</h1>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
-    <div class="col-12 col-lg-7">
+    <div class="col-12 col-lg-7 mb-2">
         <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
             <div class="d-md-flex py-4">
                 <div class="mr-2 mr-lg-5 mb-2">
@@ -47,14 +47,15 @@
                                        value="@(ViewData["searchText"] ?? "")"
                                 >
                             </div>
-                            <div class="col-md-6 form-group d-flex">
+                            <!-- TODO: hide mobile 2804 -->
+                            <div class="col-md-6 form-group d-none d-md-flex">
                                 <label for="ticketType" class="w-100">Ticket Type:</label>
                                 <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="form-control">
-                                    <option value="" selected>-- Select Type --</option>
+                                    <option value="">-- Select Type --</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 row">
+                        <div class="col-12 row d-none d-md-flex">
                             <div class="col-md-6 form-group d-flex">
                                 <label for="ticketPriority" class="w-100">Ticket Priority:</label>
                                 <select name="priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" id="ticketPriority" class="form-control">
@@ -63,8 +64,8 @@
                             </div>
                             <div class="col-md-6 form-group d-flex">
                                 <label for="ticketStatus" class="w-100">Ticket Status:</label>
-                                <select name="status" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="form-control">
-                                    <option value="" selected>-- Select Status --</option>
+                                <select name="TicketStatus" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="form-control">
+                                    <option value="">-- Select Status --</option>
                                 </select>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
                             <div class="mb-2">
                                 <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-3 ml-auto ">
+                            <div class="ml-auto">
                                 <button type="submit" class="btn btn-secondary ml-1">Search</button>
                             </div>
                         </div>
@@ -147,7 +148,7 @@
             }
         </div>
     </div>
-    <div class="col-12 col-lg-5" id="paneDetailTicket">
+    <div class="col-12 col-lg-5 mb-2" id="paneDetailTicket">
         <div class="bg-white pane d-flex justify-content-center align-content-center h-100 py-4">
             <div class="d-flex flex-column" id="content">
                 <h1 class="c-blue text-center">No ticket was selected.</h1>
@@ -337,6 +338,7 @@
     });
 
     $('.ticketDetailsButtonTr').click(function () {
+
         contextHTML.innerHTML = ""
         contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
         // Usage!
@@ -356,8 +358,14 @@
                 error: function (xhr) {
                     alert("failed");
                 }
+            })
+            .then(() => {
+                if( /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                  window.scrollBy(0, 1000);
+                };
             });
-            console.log("End")
+
+        console.log("End")
     });
 
 
