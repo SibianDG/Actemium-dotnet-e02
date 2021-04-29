@@ -14,10 +14,24 @@
         { "NETWORK", "fas fa-network-wired" },
         { "OTHER", "fas fa-random" },
     };
+    
+    var prioDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "P1", "High" },
+        { "P2", "Medium" },
+        { "P3", "Low" },
+    };
 
     string makeStringCapitalized(string s)
     {
         return s[..1].ToUpper() + s[1..].ToLower();
+    }
+
+    bool isResolved(ActemiumTicket item)
+    {
+        return !item.Status.ToString().Equals(TicketStatus.CANCELLED.ToString(), StringComparison.OrdinalIgnoreCase)
+               && !item.Status.ToString().Equals(TicketStatus.COMPLETED.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 }
 
@@ -90,7 +104,7 @@
                         <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
                         <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
                         <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -99,20 +113,16 @@
                         <tr id="getDetails" class="ticketDetailsButtonTr" ticketId="@item.TicketId">
                             <td>@item.TicketId</td>
                             <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
-                            <td><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
+                            <td><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@prioDict[item.Priority.ToString()]</span></td>
                             <td>@item.Title</td>
                             <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
                             <td class="actions d-flex justify-content-center">
                                 <!--<a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> | -->
                                 <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
                                 <!--<a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-comments"></i></a> | -->
-                                <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-info-circle"></i></a>
-                                @if (!item.Status.ToString().Equals(TicketStatus.CANCELLED.ToString(), StringComparison.OrdinalIgnoreCase)
-                                     && !item.Status.ToString().Equals(TicketStatus.COMPLETED.ToString(), StringComparison.OrdinalIgnoreCase))
-                                {
-                                    <a asp-action="Edit" asp-route-id="@item.TicketId" class="vertical-line"><i class="fas fa-pen"></i></a>
-                                    <a ticketId="@item.TicketId" class="deleteLink vertical-line"><i class="far fa-trash-alt"></i></a>
-                                }
+                                <!--<a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-info-circle"></i></a>-->
+                                <!--<a asp-action="Edit" asp-route-id="@item.TicketId" class="vertical-line @(!isResolved(item) ? "disabled" : "")"><i class="fas fa-pen"></i></a>-->
+                                <a ticketId="@item.TicketId" class="deleteLink @(!isResolved(item) ? "disabled" : "c-slightly-red")"><i class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
@@ -206,10 +216,6 @@
             `
                <ul class="nav nav-tabs">
                  <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
-                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
-                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
-                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Other</a></li>
-                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-5">Changes</a></li>
                </ul>
                <div class="tab-content">
 
@@ -253,55 +259,10 @@
                         </div>
                    </div>
                  </div>
-
-                 <div class="tab-pane" role="tabpanel" id="tab-2">
-                   <div class="row">
-                    <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Comments}</div>
-                    </div>
-                   </div>
-                 </div>
-
-                 <div class="tab-pane" role="tabpanel" id="tab-3">
-                   <div class="row">
-                        <div class="col-12 row text-left">
-                          <div class="col-4 d-flex align-content-center ">Technicians: TODO</div>
-                          <div class="col-8 class-muted d-flex align-items-center">${data.Technicians}</div>
-                        </div>
-                   </div>
-                 </div>
-
-                 <div class="tab-pane" role="tabpanel" id="tab-4">
-                   <div class="row">
-                    <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Attachments: TODO</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Attachments}</div>
-                    </div>
-                       <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Solution: TODO</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Solution}</div>
-                    </div>
-                       <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Quality: TODO</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Quality}</div>
-                    </div>
-                       <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Support Needed: TODO</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.SupportNeeded}</div>
-                    </div>
-                   </div>
-                 </div>
-
-                <div class="tab-pane" role="tabpanel" id="tab-5">
-                   <div class="row">
-                    <div class="col-12 row text-left">
-                      <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
-                      <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
-                    </div>
-                    </div>
-                   </div>
-                 </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <a href="/Ticket/FullDetailsNewWindow/${data.TicketId}" class="btn btn-primary mr-2"><i class="fas fa-info-circle mr-1"></i>Extra information</a>
+                    <a href="/Ticket/Edit/${data.TicketId}" class="btn btn-secondary"><i class="fas fa-pen mr-2"></i>Edit</a>
+                </div>
 
                </div>
              `

@@ -114,7 +114,6 @@
 }
 
 .overflow {
-  width: 75%;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -149,4 +148,6 @@
 
 .ticket-updated {
   border: 2px $red solid;
+  background-color: rgba(232, 156, 26, 0.15);
+  
 }

@@ -40,7 +40,7 @@
 }
 
 .c-slightly-red {
-  color: #d95e5e;
+  color: #d95e5e !important;
 }
 
 .c-open {
@@ -199,6 +199,10 @@ a:hover::after {
 }
 a:active {
   color: #004087;
+}
+a.disabled {
+  color: #666 !important;
+  cursor: not-allowed;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
@@ -360,7 +364,7 @@ footer {
 
 .pane {
   background-color: #fff;
-  padding: 2.5rem;
+  padding: 1rem;
   border-radius: 25px;
 }
 
@@ -526,7 +530,6 @@ footer {
 }
 
 .overflow {
-  width: 75%;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -561,6 +564,7 @@ footer {
 
 .ticket-updated {
   border: 2px #b31212 solid;
+  background-color: rgba(232, 156, 26, 0.15);
 }
 
 #searchTickets {

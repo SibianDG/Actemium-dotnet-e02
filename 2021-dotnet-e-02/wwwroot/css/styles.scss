@@ -150,7 +150,12 @@ a {
   &:active {
     color: $blue
   }
+  &.disabled {
+    color: $dark-gray!important;
+    cursor: not-allowed;
+  }
 }
+
 
 @import "buttons";
 
@@ -174,7 +179,7 @@ footer {
 
 .pane {
   background-color: $white;
-  padding: 2.5rem;
+  padding: 1rem;
   border-radius: 25px;
 }
 
