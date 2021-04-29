@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex flex-column pb-1 bb-1">
-                                            <a href="#" class="open-ticket-title">@item.Title
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="open-ticket-title">@item.Title
                                                 @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
                                                 {<span class="badge badge-warning">update</span>}
                                             </a>
@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex flex-column pb-1 bb-1">
-                                            <a href="#" class="resolved-ticket-title">@item.Title</a>
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="resolved-ticket-title">@item.Title</a>
                                             <small><span class="text-bold">Resolved</span> @item.DateAndTimeOfCompletion</small>
                                         </div>
                                         <div class="d-flex justify-content-between">
