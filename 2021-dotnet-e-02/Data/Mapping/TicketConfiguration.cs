@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -26,14 +27,15 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Description);
 
             builder.HasMany(t => t.Comments).WithOne();
-            
+
+            builder.Property<int>("COMPANY_COMPANYID");
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.Tickets)
-                .HasForeignKey(t => t.TicketId);
-            
+                .HasForeignKey("COMPANY_COMPANYID");
+
             builder.Property(t => t.Attachments);
 
-            builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
+            //builder.HasMany(t => t.Technicians).WithMany(t => t.Tickets);
 
             builder.Property(t => t.TicketType)
                 .HasConversion(v => v.ToString(),
@@ -43,6 +45,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.SupportNeeded);
             
             builder.HasMany(t => t.TicketChanges).WithOne();
+
+            //builder.Property<int>("ActemiumTicket_TICKETID");
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey(t => t.TicketId);
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Ticket).HasForeignKey("ActemiumTicket_TICKETID");
         }
     }
 }

@@ -1,7 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model List<_2021_dotnet_e_02.Models.ActemiumTicket>
 
+@{
+    ViewData["Title"] = "Home Page";
+    var iconDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "HARDWARE", "fas fa-desktop" },
+        { "DATABASE", "fas fa-database" },
+        { "SOFTWARE", "fas fa-terminal" },
+        { "INFRASTRUCTURE", "fas fa-server" },
+        { "NETWORK", "fas fa-network-wired" },
+        { "OTHER", "fas fa-random" },
+    };
+
+}
 
 <div class="welcome-dashboard">
     <div class="container">
@@ -13,12 +26,12 @@
                 </div>
                 <div class="col-10 col-lg-6 d-flex justify-content-end align-items-center">
                     <div class="total-tickets">
-                        <span class="number-tickets number-open-tickets">4</span>
+                        <span class="number-tickets number-open-tickets">@ViewData["OpenTickets"]</span>
                         <p class="company-tickets">open<br>Company Tickets</p>
                     </div>
                     <div class="total-tickets">
-                        <span class="number-tickets number-resolved-tickets">14</span>
-                        <p class="company-tickets">resolved<br>Company Tickets</p>
+                        <span class="number-tickets number-resolved-tickets">@ViewData["ResolvedTickets"]</span>
+                        <p class="company-tickets" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days">Last resolved<br>Company Tickets</p>
                     </div>
                 </div>
             </div>
@@ -26,8 +39,7 @@
     </div>
 </div>
 
-
-<div class="container d-flex align-items-center dashboard-main mt-4" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+<div class="container d-flex align-items-center pane mt-4" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-lg-8 overview-open-tickets">
@@ -36,169 +48,81 @@
                     <div class="text-uppercase">open company tickets</div>
                 </div>
                 <div class="d-flex flex-column align-items-stretch justify-content-center">
-                    <div class="card my-2 card-ticket">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="open-ticket-title">Database broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
-                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
-                                        et laboriosam maxime vel.</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="open-ticket-title">Printer broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
-                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
-                                        et laboriosam maxime vel.</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED && item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.CANCELLED)
+                        {
+                            <div class="card my-2 card-ticket @(item.Status == TicketStatus.WAITING_ON_USER_INFORMATION ? "ticket-updated" : "" )">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <i class="@iconDict[item.TicketType.ToString()]"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex flex-column pb-1 bb-1">
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="open-ticket-title">@item.Title
+                                                @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
+                                                {<span class="badge badge-warning">update</span>}
+                                            </a>
+                                            <small><span class="text-bold">Created</span> @item.DateAndTimeOfCreation</small>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="overflow my-1">
+                                                @item.Description
+                                            </p>
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-terminal"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="open-ticket-title">Software broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="overflow my-1">Test123</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-server"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="open-ticket-title">No connection...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="overflow my-1">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Accusantium adipisci animi, commodi deleniti doloribus est, in, libero
-                                        maiores modi neque quia reiciendis veniam voluptatem. Aspernatur blanditiis
-                                        et laboriosam maxime vel.</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        }                  
+
+                    }
                 </div>
             </div>
             <div class="col-12 col-lg-4 overview-resolved-tickets mt-2 mt-lg-0">
                 <div class="d-flex ">
                     <i class="far fa-check-circle i-bigger c-closed mb-1"></i>
-                    <div class="text-uppercase">resolved company tickets</div>
+                    <div class="text-uppercase" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days">Last resolved company tickets</div>
                 </div>
                 <div class="d-flex flex-column align-items-stretch justify-content-center">
-                    <div class="card my-2 card-ticket resolved-background">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="resolved-ticket-title">Database broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="my-1 resolved">Resolved</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket resolved-background">
-                        <div class="card-body d-flex align-items-center d-flex">
-                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="resolved-ticket-title">Printer broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="my-1 resolved">Resolved</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.Status == _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED && item.DateAndTimeOfCompletion.Value.AddDays(5) >= DateTime.Now)
+                        {
+                            <div class="card my-2 card-ticket resolved-background">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                        <i class="@iconDict[item.TicketType.ToString()]"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex flex-column pb-1 bb-1">
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="resolved-ticket-title">@item.Title</a>
+                                            <small><span class="text-bold">Resolved</span> @item.DateAndTimeOfCompletion</small>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="my-1 resolved">Resolved</p>
+                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket resolved-background">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-terminal"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="resolved-ticket-title">Software broken...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="my-1 resolved">Resolved</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card my-2 card-ticket resolved-background">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <i class="fas fa-server"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex flex-column pb-1 bb-1">
-                                    <a href="#" class="resolved-ticket-title">No connection...</a>
-                                    <small><span class="text-bold">Created</span> 2021/03/28 11:01AM</small>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="my-1 resolved">Resolved</p>
-                                    <a href="#">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+    $(function () {
+     
+      $('[data-toggle="tooltip"]').tooltip()
+     
+    })
+    </script>
+    
+}

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Data.Mapping
 {
@@ -21,9 +22,21 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.EndDate)
                 .HasColumnName("ENDDATE");
             builder.Property(t => t.Status)
-                .HasColumnName("STATUS");
+                .HasColumnName("STATUS")
+                .HasConversion(v => v.ToString(),
+                    v => (ContractStatus)Enum.Parse(typeof(ContractStatus), v));
 
-            builder.HasOne(t => t.ContractType).WithMany().IsRequired().HasForeignKey(t => t.ContractId);
+            builder.Property<int>("CONTRACTTYPE_CONTRACTTYPEID");
+            builder.HasOne(t => t.ContractType)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey("CONTRACTTYPE_CONTRACTTYPEID");
+            
+            builder.Property<int>("COMPANY_COMPANYID");
+            builder.HasOne(t => t.Company)
+                .WithMany(c => c.Contracts)
+                .IsRequired()
+                .HasForeignKey("COMPANY_COMPANYID");
 
         }
     }

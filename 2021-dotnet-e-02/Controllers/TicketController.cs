@@ -1,0 +1,277 @@
+﻿using _2021_dotnet_e_02.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using _2021_dotnet_e_02.Models.Enums;
+using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
+using _2021_dotnet_e_02.Data;
+using _2021_dotnet_e_02.Data.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+
+namespace _2021_dotnet_e_02.Controllers
+{
+    public class TicketController : Controller
+    {
+        private readonly ITicketRepository _ticketRepository;
+        private readonly ICompanyRepository _companyRepository;
+
+        public TicketController(ITicketRepository ticketRepository, ICompanyRepository companyRepository)
+        {
+            _ticketRepository = ticketRepository;
+            _companyRepository = companyRepository;
+        }
+        
+        public IActionResult Index(int? page, string searchText = null, int? type = null, int? priority = null, int? status = null)
+        {
+            Console.WriteLine("PAGE first: "+page);
+            page ??= 1;
+            page = page == 0 ? 1 : page;
+            Console.WriteLine("PAGE2: "+page);
+
+
+            IEnumerable<ActemiumTicket> tickets;
+            //TODO performance??
+            tickets = _ticketRepository.GetAll();
+
+            tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
+            
+            if (searchText != null)
+            {
+                tickets = tickets.Where(t => t.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Priority.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.TicketType.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                                             t.Status.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+            
+            if (type != null)
+                tickets = tickets.Where(t => type.Equals((int)t.TicketType));
+            if (priority != null)
+                tickets = tickets.Where(t => priority.Equals((int)t.Priority));
+            if (status != null)
+                tickets = tickets.Where(t => status.Equals((int)t.Status));
+            
+            int totalPages = tickets.Count() / 10;
+            if (tickets.Count() % 10 != 0)
+                totalPages++;
+            ViewData["totalPages"] = totalPages;
+
+            Console.WriteLine("PAGE value: "+(page.Value));
+            Console.WriteLine("PAGE skip: "+((page.Value - 1) * 10));
+            tickets = tickets.Skip((page.Value - 1) * 10).Take(10);
+
+            ViewData["SearchText"] = searchText;
+            ViewData["page"] = page;
+            //TODO: you should know what type you selected...
+            ViewData["status"] = GetTicketStatusSelectList();
+            Console.WriteLine("OOOOOOOOOOOOOOOOO: "+ViewData["status"]);
+            Console.WriteLine(ViewData["status"]);
+            return View(tickets);
+        }
+        
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            //TODO: When he makes a JSON, it will go to ex. comment to make those a JSON, but comment has an association to the same ticket --> Cycle
+            Console.WriteLine("IDDDDDDDD: "+id);
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            Console.WriteLine("TICKKKETT: "+ticket.Title);
+            var json = JsonConvert.SerializeObject(ticket);
+            Console.WriteLine(json);
+            Console.WriteLine("jsonTYPE: "+ json.GetType());
+            
+            return Json(json); 
+        }
+        
+        public IActionResult DetailsNewWindow(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return View(ticket);
+        }
+
+        public IActionResult FullDetailsNewWindow(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return View(ticket);
+        }
+
+        public IActionResult CommentsNewWindow(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return View(ticket);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            ViewData["IsEdit"] = true;
+            Console.WriteLine("RETURN VIEW EDIT");
+            return View(new EditViewModel(ticket));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, EditViewModel editViewModel)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+            {
+                Console.WriteLine("ticket is null => not found");
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Console.WriteLine("01 edit");
+                    if (ticket.Status != TicketStatus.COMPLETED)
+                    {
+                        ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType);
+                    } else
+                    {
+                        Console.WriteLine(editViewModel.Solution ?? "");
+                        ticket.EditTicketCompleted(editViewModel.Priority, editViewModel.Title.Trim()
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
+                            // Solution/Quality/SupportNeeded are optional values
+                            //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 
+                            // the above method works but then we don't Trim()
+                            , editViewModel.Solution != null ? editViewModel.Solution.Trim() : ""
+                            , editViewModel.Quality != null ? editViewModel.Quality.Trim() : ""
+                            , editViewModel.SupportNeeded != null ? editViewModel.SupportNeeded.Trim() : "");
+                        Console.WriteLine("02 edit");
+                    }
+                    _ticketRepository.SaveChanges();
+                    Console.WriteLine("03 edit");
+                    TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
+                }
+                catch
+                {
+                    TempData["error"] = "Sorry, something went wrong, ticket was not updated...";
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                Console.WriteLine("NOT VALID");
+            }
+            ViewData["IsEdit"] = true;
+            return View(editViewModel);
+
+        }
+        
+        public IActionResult Create()
+        {
+            ViewData["IsEdit"] = false;
+            return View(nameof(Edit), new EditViewModel());
+        }
+        
+        [HttpPost]
+        public IActionResult Create(EditViewModel editViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // only for testing -> will be replaced by company of logged in user in the future
+                    //CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
+                    ActemiumCompany company = _companyRepository.GetBy(3);
+
+                    Console.WriteLine("01 create");
+                    // only ticketstatus created can be given to new tickets created by customer
+                    var ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
+                        , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+                    Console.WriteLine("02 create");
+                    Console.WriteLine(company.Name);
+                    company.addActemiumTicket(ticket);
+                    Console.WriteLine("company add ticket gelukt");
+                    //_ticketRepository.Add(ticket);
+
+                    Console.WriteLine("04 add ticketrepo");
+                    //TODO: company meegeven
+                    _companyRepository.Update(company);
+                    Console.WriteLine("05 update company");
+                    //_ticketRepository.Add(ticket);
+
+                    // Code works up till here
+                    // error is thrown, has to do with updating company in db fails or smth idk
+                    _companyRepository.SaveChanges();
+                    //_ticketRepository.SaveChanges();
+                    TempData["message"] = $"You successfully added ticket {ticket.Title}.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Sorry, something went wrong, the ticket was not added...";
+                    Console.WriteLine(ex.Message);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IsEdit"] = false;
+            return View(nameof(Edit), editViewModel);
+        }
+        
+        public IActionResult Delete(int id)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            if (ticket == null)
+                return NotFound();
+            return View(ticket);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public void DeleteConfirmed(int id)
+        {
+            Console.WriteLine("IN DeleteConfirmed: "+id);
+            try
+            {
+                ActemiumTicket ticket = _ticketRepository.GetById(id);
+                // if (ticket == null)
+                //     return NotFound();
+                ticket.Status = TicketStatus.CANCELLED;
+                _ticketRepository.Update(ticket);
+                TempData["message"] = "You successfully changed the ticket status to cancelled.";
+                _ticketRepository.SaveChanges();
+                Console.WriteLine("SUCCESS");
+            }
+            catch
+            {
+                TempData["error"] = "Sorry, something went wrong, the ticket status wasn't changed";
+            }
+            // return RedirectToAction(nameof(Index));
+        }
+        
+        private SelectList GetTicketStatusSelectList(int selected = 0)
+        {
+            Console.WriteLine("GetTicketStatusSelectList");
+            Console.WriteLine(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList());
+            SelectList sl = new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList(),
+                nameof(TicketStatus), nameof(TicketStatus.ToString), selected);
+            return sl;
+            //SelectListItem selListItem = new SelectListItem() { Value = "null", Text = "Select One" };
+//
+            //if (selected == null)
+            //    selListItem.Selected = true;
+            //sl.ToList().Add(selListItem);
+            //return new SelectList(sl, "Value", "Text", null);
+            
+            List<SelectListItem> _list = sl.ToList();
+            _list.Insert(0, new SelectListItem() { Value = "-1", Text = "This Is First Item" });
+            return new SelectList((IEnumerable<SelectListItem>)_list, "Value", "Text");
+            
+        }
+    }
+    
+}

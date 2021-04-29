@@ -11,7 +11,7 @@ namespace _2021_dotnet_e_02.Data.Mapping
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
             builder.ToTable("USERMODEL");
-            
+
             /*builder.HasDiscriminator<string>("DTYPE")
                 .HasValue<ActemiumCustomer>("ActemiumCustomer")
                 .HasValue<ActemiumEmployee>("ActemiumEmployee");*/
@@ -26,8 +26,14 @@ namespace _2021_dotnet_e_02.Data.Mapping
                     v => (UserStatus)Enum.Parse(typeof(UserStatus), v));
             builder.Property(t => t.RegistrationDate).HasColumnName("REGISTRATIONDATE");
             builder.Property(t => t.FailedLoginAttempts);
+
+            //builder.HasMany(t => t.Comments).WithOne(t=> t.UserModel)
             
             builder.HasMany(t => t.LoginAttempts).WithOne(t=> t.UserModel).HasForeignKey(t => t.Id);
+
+            //builder.Property<int>("technicians_USERID");
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Technician).HasForeignKey(t => t.UserId);
+            //builder.HasMany(t => t.TicketTechnicians).WithOne(t => t.Technician).HasForeignKey("technicians_USERID");
         }
         
     }

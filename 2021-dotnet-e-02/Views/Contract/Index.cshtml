@@ -1,0 +1,270 @@
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model System.Collections.Generic.IEnumerable<_2021_dotnet_e_02.Models.ActemiumContract>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var iconDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "HARDWARE", "fas fa-desktop" },
+        { "DATABASE", "fas fa-database" },
+        { "SOFTWARE", "fas fa-terminal" },
+        { "INFRASTRUCTURE", "fas fa-server" },
+        { "NETWORK", "fas fa-network-wired" },
+        { "OTHER", "fas fa-random" },
+    };
+
+    string makeStringCapitalized(string s)
+    {
+        return s[..1].ToUpper() + s[1..].ToLower();
+    }
+
+    // should contain the ticket of which the info/details icon was pressed
+    ViewBag.SelectedContract = Model.Last();
+    //selectedTicket = SelectedTicket;
+    Console.WriteLine(ViewBag.SelectedContract.ContractId);
+}
+
+<div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+    <div class="container">
+        <div class="container-fluid">
+            <h1 class="text-center c-blue font-weight-bold text-uppercase">Contracts</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="col-12 col-lg-7">
+        <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+            <div class="d-md-flex py-4">
+                <div class="mr-2 mr-lg-5 mb-2">
+                    <a asp-action="Create" class="btn btn-primary">Sign new contract</a>
+                </div>
+                <div class="flex-grow-1">
+                    <form action="#">
+                        <div class="form-group d-flex">
+                            <label for="searchContracts"><i class="fas fa-search mr-2"></i></label>
+                            <input type="text" class="form-control" id="searchContracts" aria-describedby="todo" placeholder="Search for contract (TODO)">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.ContractType)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.StartDate)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.EndDate)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="getDetails" class="contractDetailsButtonTr" contractId="@item.ContractId">
+                            <td>@item.ContractId</td>
+                            <td>@(makeStringCapitalized(item.ContractType.Name))</td>
+                            <td>@item.StartDate.Day/@item.StartDate.Month/@item.StartDate.Year</td>
+                            <td>@item.EndDate.Day/@item.EndDate.Month/@item.EndDate.Year</td>
+                            <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            @if ((int) ViewData["totalPages"] > 1)
+                                {
+                                <nav aria-label="ticket navigation" class="d-flex justify-content-center align-content-center">
+                                    <ul class="pagination">
+                                        @if ((int) ViewData["page"] > 1)
+                                        {
+                                            <li class="page-item">
+                                                <a asp-action="Index" asp-route-page="@((int) ViewData["page"] - 1)" class="page-link" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= (int) ViewData["totalPages"]; i++)
+                                        {
+                                            <li class="page-item"><a asp-action="Index" asp-route-page="@i" class="page-link @((int) ViewData["page"] == i || ((int) ViewData["page"] == 0 && i == 1) ? "page-link-active" : "")">@i</a></li>
+                                        }
+                                        @if ((int) ViewData["page"] < (int) ViewData["totalPages"])
+                                        {
+                                            <li class="page-item">
+                                                <a asp-action="Index" asp-route-page="@((int) ViewData["page"] + 1)" class="page-link" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                                }
+        </div>
+    </div>
+    <div class="col-12 col-lg-5" id="paneDetailTicket">
+        <div class="bg-white pane d-flex justify-content-center align-content-center h-100 py-4">
+            <div class="d-flex flex-column" id="content">
+                <h1 class="c-blue text-center">No contract was selected.</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+<script>
+    const url = '@Url.Action("Details", "Contract")';
+    const contextHTML = document.getElementById('content');
+    var _convertDate = function (date) {
+        const t = new Date(date);
+        const dateItSelf = ('0' + t.getDate()).slice(-2);
+        const month = ('0' + (t.getMonth() + 1)).slice(-2);
+        const year = t.getFullYear();
+        return `${dateItSelf}/${month}/${year}`;
+    }
+        
+    function fillInDetails(data) {
+        contextHTML.innerHTML = "";
+        contextHTML.insertAdjacentHTML("beforeend",
+            `
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details contract</a></li>
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Details contractType</a></li>
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Details Company</a></li>
+                              </ul>
+                              <div class="tab-content">
+               
+                                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                                  <div class="row">
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">ContractType:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.Name}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">Status:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Status}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">Start date:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.StartDate)}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center">End date:</div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.EndDate)}</div>
+                                       </div>
+                                  </div>
+                                </div>
+               
+                                <div class="tab-pane" role="tabpanel" id="tab-2">
+                                  <div class="row">
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Name: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.Name}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasEmail: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasEmail}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasPhone: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasPhone}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">HasApplication: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.HasApplication}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">TimeStamp: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.TimeStamp}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Maximum handling time: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.MaxHandlingTime}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Minimum throughput time: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">${data.ContractType.MinThroughputTime}</div>
+                                   </div>
+                                   <div class="col-12 row text-left">
+                                     <div class="col-4 d-flex align-content-center ">Price: </div>
+                                     <div class="col-8 class-muted d-flex align-items-center">€${data.ContractType.Price}</div>
+                                   </div>
+                                  </div>
+                                </div>
+               
+                                <div class="tab-pane" role="tabpanel" id="tab-3">
+                                  <div class="row">
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Name: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Name}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Country: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Country}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">City: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.City}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Address: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.Address}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Phone number: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.PhoneNumber}</div>
+                                       </div>
+                                       <div class="col-12 row text-left">
+                                         <div class="col-4 d-flex align-content-center ">Registartion date: </div>
+                                         <div class="col-8 class-muted d-flex align-items-center">${data.Company.RegistrationDate}</div>
+                                       </div>
+                                  </div>
+                                </div>
+                            </div>
+             `
+        )
+    }
+
+    function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    
+    $('.contractDetailsButton').click(function () {
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+    });
+
+    $('.contractDetailsButtonTr').click(function () {
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+        // Usage!
+        sleep(500).then(() => {
+            console.log("start")
+            $.ajax({
+                url: url,
+                type: "get",
+                data: { id: $(this).attr('contractId') },
+                dataType: "json",
+                success: function (result) {
+                    //result = JSON.stringify(result);
+                    result = JSON.parse(result);
+                    console.log(result);
+                    fillInDetails(result);
+                },
+                error: function (xhr) {
+                    alert("failed");
+                }
+            });
+            console.log("End")
+    });
+
+
+    });
+</script>
+}
+

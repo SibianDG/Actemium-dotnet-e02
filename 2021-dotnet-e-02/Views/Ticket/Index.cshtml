@@ -1,0 +1,374 @@
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model IEnumerable<_2021_dotnet_e_02.Models.ActemiumTicket>
+
+@{
+    ViewData["Title"] = "Overview tickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var iconDict = new Dictionary<string, string>
+    {
+        // I've added "fas" because it can also be "fa" - see FontAwesome
+        { "HARDWARE", "fas fa-desktop" },
+        { "DATABASE", "fas fa-database" },
+        { "SOFTWARE", "fas fa-terminal" },
+        { "INFRASTRUCTURE", "fas fa-server" },
+        { "NETWORK", "fas fa-network-wired" },
+        { "OTHER", "fas fa-random" },
+    };
+
+    string makeStringCapitalized(string s)
+    {
+        return s[..1].ToUpper() + s[1..].ToLower();
+    }
+}
+
+<div class="my-2 mt-5 mt-md-3" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+    <div class="container">
+        <div class="container-fluid">
+            <h1 class="text-center c-blue font-weight-bold text-uppercase">Tickets</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="col-12 col-lg-7 mb-2">
+        <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+            <div class="d-md-flex py-4">
+                <div class="mr-2 mr-lg-5 mb-2">
+                </div>
+                <div class="flex-grow-1">
+                    <form class="row">
+                        <!-- TODO: select options disable/not visable on mobile -->
+                        <!-- TODO: multiple selected (see bootstrap) -->
+                        <div class="col-12 row">
+                            <div class="col-12 col-md-6 form-group d-flex">
+                                <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
+                                <input type="text" class="form-control" id="searchTickets"
+                                       name="searchText" aria-describedby="search text" placeholder="Search in tickets"
+                                       value="@(ViewData["searchText"] ?? "")"
+                                >
+                            </div>
+                            <!-- TODO: hide mobile 2804 -->
+                            <div class="col-md-6 form-group d-none d-md-flex">
+                                <label for="ticketType" class="w-100">Ticket Type:</label>
+                                <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="form-control">
+                                    <option value="">-- Select Type --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 row d-none d-md-flex">
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="ticketPriority" class="w-100">Ticket Priority:</label>
+                                <select name="priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" id="ticketPriority" class="form-control">
+                                    <option value="" selected>-- Select Priority --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="ticketStatus" class="w-100">Ticket Status:</label>
+                                <select name="TicketStatus" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="form-control">
+                                    <option value="">-- Select Status --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 row">
+                            <div class="mb-2">
+                                <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+                            </div>
+                            <div class="ml-auto">
+                                <button type="submit" class="btn btn-secondary ml-1">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Priority)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Status)</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="getDetails" class="ticketDetailsButtonTr" ticketId="@item.TicketId">
+                            <td>@item.TicketId</td>
+                            <td><i class="@iconDict[item.TicketType.ToString()]"></i> <small>@(makeStringCapitalized(item.TicketType.ToString()))</small></td>
+                            <td><span class="prio prio-@(item.Priority.ToString()[item.Priority.ToString().Length - 1])">@item.Priority</span></td>
+                            <td>@item.Title</td>
+                            <td>@(makeStringCapitalized(item.Status.ToString()).Replace("_", " "))</td>
+                            <td class="actions d-flex justify-content-center">
+                                <!--<a id="getDetails" class="ticketDetailsButton" ticketId="@item.TicketId"><i class="fas fa-info-circle"></i></a> | -->
+                                <!--<a asp-action="DetailsNewWindow" asp-route-id="@item.TicketId">ViewNew <i class="fas fa-info-circle"></i></a> | -->
+                                <!--<a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-comments"></i></a> | -->
+                                <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId"><i class="fas fa-info-circle"></i></a>
+                                @if (!item.Status.ToString().Equals(TicketStatus.CANCELLED.ToString(), StringComparison.OrdinalIgnoreCase)
+                                     && !item.Status.ToString().Equals(TicketStatus.COMPLETED.ToString(), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.TicketId" class="vertical-line"><i class="fas fa-pen"></i></a>
+                                    <a ticketId="@item.TicketId" class="deleteLink vertical-line"><i class="far fa-trash-alt"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            @if ((int) ViewData["totalPages"] > 1)
+            {
+            <nav aria-label="ticket navigation" class="d-flex justify-content-center align-content-center">
+                <ul class="pagination">
+                    @if ((int) ViewData["page"] > 1)
+                    {
+                        <li class="page-item">
+                            <a asp-action="Index" asp-route-page="@((int) ViewData["page"] - 1)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    @for (int i = 1; i <= (int) ViewData["totalPages"]; i++)
+                    {
+                        <li class="page-item"><a asp-action="Index" asp-route-page="@i" class="page-link @((int) ViewData["page"] == i || ((int) ViewData["page"] == 0 && i == 1) ? "page-link-active" : "")">@i</a></li>
+                    }
+                    @if ((int) ViewData["page"] < (int) ViewData["totalPages"])
+                    {
+                        <li class="page-item">
+                            <a asp-action="Index" asp-route-page="@((int) ViewData["page"] + 1)" class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+            }
+        </div>
+    </div>
+    <div class="col-12 col-lg-5 mb-2" id="paneDetailTicket">
+        <div class="bg-white pane d-flex justify-content-center align-content-center h-100 py-4">
+            <div class="d-flex flex-column" id="content">
+                <h1 class="c-blue text-center">No ticket was selected.</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this ticket?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Please note: you can't really delete a ticket. The status will be changed to cancelled.</p>
+        <div id="model-content"></div>
+      </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="deleteConfirm" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+    const urlDetails = '@Url.Action("Details", "Ticket")';
+    const urlDelete = '@Url.Action("Delete", "Ticket")'
+    const contextHTML = document.getElementById('content');
+    const modalContent = document.getElementById('model-content');
+    let ticketIDToRemove;
+    var _convertDate = function (date) {
+        const t = new Date(date);
+        const dateItSelf = ('0' + t.getDate()).slice(-2);
+        const month = ('0' + (t.getMonth() + 1)).slice(-2);
+        const year = t.getFullYear();
+        const hours = ('0' + t.getHours()).slice(-2);
+        const minutes = ('0' + t.getMinutes()).slice(-2);
+        const seconds = ('0' + t.getSeconds()).slice(-2);
+        return `${dateItSelf}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
+    }
+    var _dateOfCompletion = function (date) { return date === null ? "Not yet completed" : _convertDate(date)  }
+        
+    function fillInDetails(data) {
+        contextHTML.innerHTML = "";
+        contextHTML.insertAdjacentHTML("beforeend",
+            `
+               <ul class="nav nav-tabs">
+                 <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Other</a></li>
+                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-5">Changes</a></li>
+               </ul>
+               <div class="tab-content">
+
+                 <div class="tab-pane active" role="tabpanel" id="tab-1">
+                   <div class="row">
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Title:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Title}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Description:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Description}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Ticket ID:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.TicketId}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Status:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Status}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Priority:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Priority}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Type:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.TicketType}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Date and Time of creation:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.DateAndTimeOfCreation)}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Date and Time of creation:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${_dateOfCompletion(data.DateAndTimeOfCompletion)}</div>
+                        </div>
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center">Company:</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Company}</div>
+                        </div>
+                   </div>
+                 </div>
+
+                 <div class="tab-pane" role="tabpanel" id="tab-2">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Comments: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Comments}</div>
+                    </div>
+                   </div>
+                 </div>
+
+                 <div class="tab-pane" role="tabpanel" id="tab-3">
+                   <div class="row">
+                        <div class="col-12 row text-left">
+                          <div class="col-4 d-flex align-content-center ">Technicians: TODO</div>
+                          <div class="col-8 class-muted d-flex align-items-center">${data.Technicians}</div>
+                        </div>
+                   </div>
+                 </div>
+
+                 <div class="tab-pane" role="tabpanel" id="tab-4">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Attachments: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Attachments}</div>
+                    </div>
+                       <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Solution: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Solution}</div>
+                    </div>
+                       <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Quality: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Quality}</div>
+                    </div>
+                       <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Support Needed: TODO</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.SupportNeeded}</div>
+                    </div>
+                   </div>
+                 </div>
+
+                <div class="tab-pane" role="tabpanel" id="tab-5">
+                   <div class="row">
+                    <div class="col-12 row text-left">
+                      <div class="col-4 d-flex align-content-center ">Changes: TODO: scrollbar?</div>
+                      <div class="col-8 class-muted d-flex align-items-center">${data.Changes}</div>
+                    </div>
+                    </div>
+                   </div>
+                 </div>
+
+               </div>
+             `
+        )
+    }
+
+    function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    
+    $('.deleteLink').click(function () {
+        $('#deleteModal').modal('show');
+        ticketIDToRemove = $(this).attr('ticketId');
+        modalContent.insertAdjacentHTML("beforeend", `TicketID: ${ticketIDToRemove}`)
+    });
+    
+    $('#deleteConfirm').click(function () {
+        $.ajax({
+            url: urlDelete,
+            type: "post",
+            data: { id: ticketIDToRemove },
+            success: function () {
+                location.reload();
+            },
+            error: function (xhr) {
+                alert("failed");
+            }
+        });
+    });
+    
+    $('.ticketDetailsButton').click(function () {
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+    });
+
+    $('.ticketDetailsButtonTr').click(function () {
+
+        contextHTML.innerHTML = ""
+        contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
+        // Usage!
+        sleep(500).then(() => {
+            console.log("start")
+            $.ajax({
+                url: urlDetails,
+                type: "get",
+                data: { id: $(this).attr('ticketId') },
+                dataType: "json",
+                success: function (result) {
+                    //result = JSON.stringify(result);
+                    result = JSON.parse(result);
+                    console.log(result);
+                    fillInDetails(result);
+                },
+                error: function (xhr) {
+                    alert("failed");
+                }
+            })
+            .then(() => {
+                if( /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                  window.scrollBy(0, 1000);
+                };
+            });
+
+        console.log("End")
+    });
+
+
+    });
+</script>
+}

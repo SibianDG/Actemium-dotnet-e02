@@ -20,6 +20,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.Property(t => t.Role)
                 .HasConversion(v => v.ToString(),
                     v => (EmployeeRole)Enum.Parse(typeof(EmployeeRole), v));
+
+            //builder.HasMany(t => t.Tickets).WithMany(t => t.Technicians);
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿
+.pagination {
+  .page-link {
+    color: $blue;
+    &.page-link-active {
+      color: $white;
+      background-color: $blue;
+    }
+    &:hover {
+      background-color: $light-green;
+    }
+    &:focus {
+      box-shadow: 0 0 0 .2rem $greentint;
+    }
+  }
+}

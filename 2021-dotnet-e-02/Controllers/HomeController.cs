@@ -6,21 +6,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 
 namespace _2021_dotnet_e_02.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
+        private readonly ITicketRepository _ticketRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(/*ILogger<HomeController> logger,*/ ITicketRepository ticketRepository)
         {
-            _logger = logger;
+            //_logger = logger;
+            _ticketRepository = ticketRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<ActemiumTicket> allTickets = _ticketRepository.GetAll();
+            IEnumerable<ActemiumTicket> openTickets = _ticketRepository.GetAllOpenTickets();
+            IEnumerable<ActemiumTicket> resolvedTickets = _ticketRepository.GetAllResolvedTickets();
+
+            resolvedTickets = resolvedTickets.ToList()
+                .Where(t => t.DateAndTimeOfCompletion.Value.AddDays(5) >= DateTime.Now);
+
+            ViewData["OpenTickets"] = openTickets.ToList().Count();
+            ViewData["ResolvedTickets"] = resolvedTickets.ToList().Count();
+
+            
+            //TODO: should all tickets be passed??
+            return View(allTickets.ToList());
         }
 
         public IActionResult Privacy()

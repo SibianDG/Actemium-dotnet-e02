@@ -1,0 +1,47 @@
+﻿@using _2021_dotnet_e_02.Models.Enums
+@model _2021_dotnet_e_02.Models.ViewModels.ContractViewModel.ContractCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Contract";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container">
+
+    <div class="edit-view-model">
+        <h2>@ViewData["Title"]</h2>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ContractType"></label>
+                <select asp-for="ContractType" asp-items="@(ViewData["ContractTypes"] as SelectList)" class="form-control">
+                    <option value="">-- Select ContractType --</option>
+                </select>
+                <span asp-validation-for="ContractType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>    
+
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-primary mr-3" type="submit">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

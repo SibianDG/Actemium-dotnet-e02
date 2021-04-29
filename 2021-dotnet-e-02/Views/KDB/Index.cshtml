@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Overview tickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-2 mt-lg-4" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <h1 class="c-blue text-center">What are you looking for?</h1>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <form action="#" class="form-kdb">
+                    <div class="form-group d-flex">
+                        <button type="submit" class="btn-ghost">
+                            <label for="searchKDB"><i class="fas fa-search mr-2"></i></label>
+                        </button>
+                        <input type="text" class="form-control" id="searchKDB" aria-describedby="search in knowledge database" placeholder="Search for knowledge base item">
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex suggestions align-items-center">
+                <p class="c-blue mb-0">Suggestions:</p>
+                <span>Wifi</span>
+                <span>Printer</span>
+                <span>Phone</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container kdb-main mt-5" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <a asp-action="OverviewType" asp-route-type="database" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/database.jpg" alt="database">
+                <div>
+                    <h4>Databases</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+            <a asp-action="OverviewType" asp-route-type="hardware" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/hardware.jpg" alt="hardware">
+                <div>
+                    <h4>Hardware</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+            <a asp-action="OverviewType" asp-route-type="software" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/software.jpg" alt="software">
+                <div>
+                    <h4>Software</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+            <a asp-action="OverviewType" asp-route-type="infrastructure" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/infrastructure.jpg" alt="Infrastructure">
+                <div>
+                    <h4>Infrastructure</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+            <a asp-action="OverviewType" asp-route-type="network" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/network.jpg" alt="Network">
+                <div>
+                    <h4>Network</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+            <a asp-action="OverviewType" asp-route-type="other" class="col-10 col-md-6 col-lg-4 kdb-item mb-3">
+                <img src="images/kdb/other.jpg" alt="Other">
+                <div>
+                    <h4>Other</h4>
+                    <span>Learn more <i class="fas fa-arrow-right small ml-2"></i></span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script >
+    const suggestions = [...document.querySelectorAll('.suggestions span')];
+    suggestions.forEach(e => {
+        $(e).click(function () {
+            const searchKDB = $('#searchKDB');
+            if (searchKDB.val()) 
+                searchKDB.val(searchKDB.val() + ", " + e.innerText);
+            else
+                searchKDB.val(e.innerText);
+        });
+    })
+</script>
+}

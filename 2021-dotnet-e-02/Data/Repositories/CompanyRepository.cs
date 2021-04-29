@@ -45,8 +45,8 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumCompany GetBy(int id)
         {
-            //return _companies.Include(c => c.ContactPersons).Include(c => c.Tickets).Include(c => c.Contracts).SingleOrDefault(c => c.CompanyId == id);
-            return _companies.SingleOrDefault(c => c.CompanyId == id);
+            return _companies.Include(c => c.ContactPersons).Include(c => c.Tickets).Include(c => c.Contracts).SingleOrDefault(c => c.CompanyId == id);
+            //return _companies.Include(c => c.Tickets).SingleOrDefault(c => c.CompanyId == id);
         }
     }
 }

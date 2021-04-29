@@ -11,14 +11,14 @@
 .btn-primary {
   color: $blue;
   background-color: $green;
-  border-color: transparent;
+  border: 2px $green solid;
   border-radius: 50px;
   padding: .5rem 1rem;
   &:hover{
-    border: none;
     text-decoration: none;
     color: $green;
     background-color: $blue;
+    border: 2px $blue solid;
     &::after {
       width: 0;
     }
@@ -31,15 +31,14 @@
 .btn-secondary {
   color: $white;
   background-color: $blue;
-  border-color: transparent;
+  border: 2px $blue solid;
   border-radius: 50px;
-  padding: .6rem 1.75rem;
+  padding: .5rem 1rem;
   &:hover{
     text-decoration: none;
-    margin: -1px 0;
     color: $blue;
     background-color: transparent;
-    border: 3px $green solid;
+    border: 2px $green solid;
     &::after {
       width: 0;
     }
@@ -47,4 +46,35 @@
   &:focus {
     box-shadow: none;
   }
+}
+
+
+.btn-danger {
+  color: $white;
+  background-color: $red;
+  border-color: transparent;
+  border-radius: 50px!important;
+  padding: .6rem 1.75rem;
+  &:hover{
+    text-decoration: none;
+    margin: -1px 0;
+    color: $red;
+    background-color: $white;
+    border: 2px $red solid;
+    &::after {
+      width: 0!important;
+    }
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-ghost {
+  background-color: transparent;
+  border: none;
+  &:hover{
+    cursor: pointer !important;
+  }
+
 }

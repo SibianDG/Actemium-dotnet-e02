@@ -33,12 +33,6 @@
   }
 }
 
-.dashboard-main {
-  background-color: $white;
-  padding: 2rem;
-  border-radius: 25px;
-}
-
 .number-tickets {
   font-size: 3rem;
   font-weight: bold;
@@ -142,17 +136,17 @@
 
 .icon-resolved-ticket {
   text-align: center;
-  margin-bottom: 3px;
   margin-right: .5rem;
   i {
     color: #04790F;
     font-size: 25px;
-    &:first-of-type {
-      margin-bottom: 1rem;
-    }
   }
 }
 
 .resolved {
   color: #04790F;
+}
+
+.ticket-updated {
+  border: 2px $red solid;
 }
