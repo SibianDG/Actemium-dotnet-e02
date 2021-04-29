@@ -10,28 +10,38 @@ namespace _2021_dotnet_e_02.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<ActemiumTicketActemiumUser> builder)
         {
-            builder.ToTable("ACTEMIUMTICKET_ACTEMIUMEMPLOYEE");
+            builder.ToTable("ActemiumTicket_ActemiumEmployee");
 
-            builder.Property<int>("ActemiumTicket_TICKETID");
-            builder.Property<int>("technicians_USERID");
-
-            builder
-            .HasKey(new String[] { "ActemiumTicket_TICKETID", "technicians_USERID" });
+            //builder.Property<int>("ActemiumTicket_TICKETID");
+            //builder.Property<int>("technicians_USERID");
 
             //builder
-            //.HasKey(t => new { t.TicketId, t.UserId });
+            //.HasKey(new String[] { "ActemiumTicket_TICKETID", "technicians_USERID" });
 
-            builder.Property<int>("ActemiumTicket_TICKETID");
+            //builder.Property<int>("ActemiumTicket_TICKETID");
+            //builder
+            //    .HasOne(tu => tu.Ticket)
+            //    .WithMany(t => t.TicketTechnicians)
+            //    .HasForeignKey("ActemiumTicket_TICKETID");
+
+            //builder.Property<int>("technicians_USERID");
+            //builder
+            //    .HasOne(tu => tu.Technician)
+            //    .WithMany(u => u.TicketTechnicians)
+            //    .HasForeignKey("technicians_USERID");
+
+            builder
+            .HasKey(t => new { t.TicketId, t.UserId });
+
             builder
                 .HasOne(tu => tu.Ticket)
                 .WithMany(t => t.TicketTechnicians)
-                .HasForeignKey("ActemiumTicket_TICKETID");
+                .HasForeignKey(tu => tu.TicketId);
 
-            builder.Property<int>("technicians_USERID");
             builder
                 .HasOne(tu => tu.Technician)
                 .WithMany(u => u.TicketTechnicians)
-                .HasForeignKey("technicians_USERID");
+                .HasForeignKey(tu => tu.UserId);
         }
         
     }

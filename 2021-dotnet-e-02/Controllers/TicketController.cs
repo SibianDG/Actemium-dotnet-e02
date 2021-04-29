@@ -77,6 +77,7 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Details(int id)
         {
             //TODO: When he makes a JSON, it will go to ex. comment to make those a JSON, but comment has an association to the same ticket --> Cycle
+            //Temp solution with different getBy and getById methods, getById doesnt include tickets and will be used for right details pane
             Console.WriteLine("IDDDDDDDD: "+id);
             ActemiumTicket ticket = _ticketRepository.GetById(id);
             if (ticket == null)
@@ -91,7 +92,7 @@ namespace _2021_dotnet_e_02.Controllers
         
         public IActionResult DetailsNewWindow(int id)
         {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
                 return NotFound();
             return View(ticket);
@@ -99,7 +100,7 @@ namespace _2021_dotnet_e_02.Controllers
 
         public IActionResult FullDetailsNewWindow(int id)
         {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
                 return NotFound();
             return View(ticket);
@@ -107,7 +108,7 @@ namespace _2021_dotnet_e_02.Controllers
 
         public IActionResult CommentsNewWindow(int id)
         {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
                 return NotFound();
             return View(ticket);
@@ -115,7 +116,7 @@ namespace _2021_dotnet_e_02.Controllers
 
         public IActionResult Edit(int id)
         {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
                 return NotFound();
             ViewData["IsEdit"] = true;
@@ -126,7 +127,7 @@ namespace _2021_dotnet_e_02.Controllers
         [HttpPost]
         public IActionResult Edit(int id, EditViewModel editViewModel)
         {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
             {
                 Console.WriteLine("ticket is null => not found");
