@@ -272,6 +272,14 @@ a:active {
   box-shadow: none;
 }
 
+.btn-ghost {
+  background-color: transparent;
+  border: none;
+}
+.btn-ghost:hover {
+  cursor: pointer !important;
+}
+
 #nav-logo {
   height: 30px;
   width: auto;
@@ -650,6 +658,7 @@ footer {
   border: 1px #004087 solid;
   border-radius: 5px;
   margin: 0 0.5rem;
+  cursor: pointer;
 }
 
 .kdb-main {

@@ -69,3 +69,12 @@
     box-shadow: none;
   }
 }
+
+.btn-ghost {
+  background-color: transparent;
+  border: none;
+  &:hover{
+    cursor: pointer !important;
+  }
+
+}

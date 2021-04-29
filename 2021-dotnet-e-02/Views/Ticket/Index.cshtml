@@ -2,7 +2,7 @@
 @model IEnumerable<_2021_dotnet_e_02.Models.ActemiumTicket>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Overview tickets";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var iconDict = new Dictionary<string, string>
     {
@@ -173,7 +173,7 @@
       </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" id="deleteConfirm" class="btn btn-primary">Delete</button>
+            <button type="button" id="deleteConfirm" class="btn btn-danger">Delete</button>
         </div>
     </div>
   </div>
