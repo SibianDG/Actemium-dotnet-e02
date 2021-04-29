@@ -14,7 +14,16 @@ namespace _2021_dotnet_e_02.Models
         IEnumerable<ActemiumEmployee> GetAllTechnicians();
 
         IEnumerable<ActemiumCustomer> GetAllCustomers();
-        
-        
+
+        void Add(UserModel user);
+        void Update(UserModel user);
+
+
+
+        void AddCustomer(ActemiumCustomer customer);
+
+        void UpdateCustomer(ActemiumCustomer customer);
+
+        void SaveChanges();
     }
 }

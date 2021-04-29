@@ -17,6 +17,8 @@ namespace _2021_dotnet_e_02.Data.Mapping
                 .HasValue<ActemiumEmployee>("ActemiumEmployee");*/
 
             builder.HasKey(t => t.UserId);
+            //builder.Property(t => t.UserId).ValueGeneratedOnAdd();
+            
             builder.Property(t => t.UserName);
             builder.Property(t => t.Password);
             builder.Property(t => t.FirstName);

@@ -12,7 +12,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public ContractTypeRepository(ApplicationDbContext dbContext)
         {
             _context = dbContext;
-            _contractTypes = _context.ActemiumContractTypes;
+            _contractTypes = dbContext.ActemiumContractTypes;
         }
 
         public ActemiumContractType GetBy(int id)
