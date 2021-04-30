@@ -7,9 +7,12 @@
 Restore database via [ticketsysteme02.bak](./SQL/ticketsysteme02_backup30april.bak)
 
 If database ticketsysteme02 already exists => Delete first
+
 ![step001](./SQL/tutorialImages/Step-001.png)
 ![step001](./SQL/tutorialImages/Step-002.png)
+
 Then Create new Database
+
 ![step101](./SQL/tutorialImages/Step-101.png)
 ![step102](./SQL/tutorialImages/Step-102.png)
 ![step103](./SQL/tutorialImages/Step-103.png)
