@@ -108,9 +108,9 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         //TODO cannot insert into ERROR
-                        //_userRepository.Add(userModel);
-                        //Console.WriteLine(userModel.UserId + ' ' + userModel.UserName);
-                        //_userRepository.SaveChanges();
+                        _userRepository.Add(userModel);
+                        Console.WriteLine(userModel.UserId + ' ' + userModel.UserName);
+                        _userRepository.SaveChanges();
                         return LocalRedirect(returnUrl);
                     }
                 }
