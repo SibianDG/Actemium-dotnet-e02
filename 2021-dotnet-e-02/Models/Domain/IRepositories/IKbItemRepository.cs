@@ -6,6 +6,8 @@ namespace _2021_dotnet_e_02.Models
     {
         ActemiumKbItem GetBy(int id);
         IEnumerable<ActemiumKbItem> GetAll();
+        IEnumerable<ActemiumKbItem> GetByType(string type);
+        
 
 
     }

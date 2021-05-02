@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _2021_dotnet_e_02.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,20 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public IEnumerable<ActemiumKbItem> GetAll()
         {
             return _kbItems.AsNoTracking().ToList();
+        }
+
+        public IEnumerable<ActemiumKbItem> GetByType(string type)
+        {
+            Console.WriteLine("GetByType: "+type);
+            return _kbItems.AsNoTracking()
+                .Where(kbi => 
+                    //remark: StringComparison.InvariantCultureIgnoreCase does not work on DBSets
+                    //TODO: he can't get the type...
+                    //kbi.Type.ToString().Contains(type.ToLower())
+                    //||
+                    kbi.Keywords.ToLower().Contains(type.ToLower())
+                    )
+                .ToList();
         }
     }
 }

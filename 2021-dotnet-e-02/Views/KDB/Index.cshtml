@@ -14,12 +14,13 @@
                 <h1 class="c-blue text-center">What are you looking for?</h1>
             </div>
             <div class="col-12 d-flex justify-content-center">
-                <form action="#" class="form-kdb">
+                <form class="form-kdb">
                     <div class="form-group d-flex">
-                        <button type="submit" class="btn-ghost">
+                        <!-- TODO -->
+                        <button type="submit" class="btn-ghost" asp-controller="KDB" asp-action="OverviewType" asp-route-type="searchKB.value">
                             <label for="searchKDB"><i class="fas fa-search mr-2"></i></label>
                         </button>
-                        <input type="text" class="form-control" id="searchKDB" aria-describedby="search in knowledge database" placeholder="Search for knowledge base item">
+                        <input asp-controller="KDB" asp-action="OverviewType" type="text" class="form-control" id="searchKDB" aria-describedby="search in knowledge database" placeholder="Search for knowledge base item">
                     </div>
                 </form>
             </div>
