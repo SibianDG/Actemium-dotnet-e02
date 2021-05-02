@@ -19,6 +19,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly Mock<IContractRepository> _contractRepository;
         private readonly Mock<IContractTypeRepository> _contractTypeRepository;
+        private readonly Mock<ICompanyRepository> _companyRepository;
 
 
         public ContractControllerTest()
@@ -26,7 +27,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _contractRepository = new Mock<IContractRepository>();
             _contractTypeRepository = new Mock<IContractTypeRepository>();
-            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object)
+            _companyRepository = new Mock<ICompanyRepository>();
+            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object, _companyRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -41,7 +43,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _contractRepository.Setup(c => c.GetAll()).Returns(_dummyContext.Contracts);
 
             //act
-            var result = Assert.IsType<ViewResult>(_controller.Index());
+            var result = Assert.IsType<ViewResult>(_controller.Index(1));
             var contractsInModel = Assert.IsType<List<ActemiumContract>>(result.Model);
 
             //assert

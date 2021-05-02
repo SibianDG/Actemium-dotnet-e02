@@ -41,7 +41,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             {
                 _testOutputHelper.WriteLine(t.TicketId.ToString());
             }
-            var result = Assert.IsType<ViewResult>(_controller.Index());
+            var result = Assert.IsType<ViewResult>(_controller.Index(1));
             var ticketsInModel = Assert.IsType<List<ActemiumTicket>>(result.Model);
             Assert.Equal(5, ticketsInModel.Count);
             Assert.Equal("Title", ticketsInModel[0].Title);

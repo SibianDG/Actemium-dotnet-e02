@@ -232,7 +232,7 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public void DeleteConfirmed(int id)
+        public void DeleteConfirmed(int id) //TODO has to return IActionResult but does return void now because there was an error
         {
             Console.WriteLine("IN DeleteConfirmed: "+id);
             try
