@@ -16,11 +16,10 @@
             <div class="col-12 d-flex justify-content-center">
                 <form class="form-kdb">
                     <div class="form-group d-flex">
-                        <!-- TODO -->
-                        <button type="submit" class="btn-ghost" asp-controller="KDB" asp-action="OverviewType" asp-route-type="searchKB.value">
+                        <button type="submit" class="btn-ghost" asp-controller="KDB" asp-action="OverviewType">
                             <label for="searchKDB"><i class="fas fa-search mr-2"></i></label>
                         </button>
-                        <input asp-controller="KDB" asp-action="OverviewType" type="text" class="form-control" id="searchKDB" aria-describedby="search in knowledge database" placeholder="Search for knowledge base item">
+                        <input name="type" type="text" class="form-control" id="searchKDB" aria-describedby="search in knowledge database" placeholder="Search for knowledge base item">
                     </div>
                 </form>
             </div>
@@ -97,8 +96,10 @@
     suggestions.forEach(e => {
         $(e).click(function () {
             const searchKDB = $('#searchKDB');
-            if (searchKDB.val()) 
-                searchKDB.val(searchKDB.val() + ", " + e.innerText);
+            if (searchKDB.val()){
+                if (!searchKDB.val().includes(e.innerText)) 
+                    searchKDB.val(searchKDB.val() + ", " + e.innerText);
+            }
             else
                 searchKDB.val(e.innerText);
         });

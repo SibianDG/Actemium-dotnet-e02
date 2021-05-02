@@ -22,10 +22,23 @@ namespace _2021_dotnet_e_02.Controllers
             return View();
         }
         
-        public IActionResult OverviewType(string type)
+        public IActionResult OverviewType(string type, int? page)
         {
+            page ??= 1;
+            page = page == 0 ? 1 : page;
+            
             IEnumerable<ActemiumKbItem> kbItems;
             kbItems = _kbItemRepository.GetByType(type);
+            kbItems = kbItems.OrderBy(c => c.Title).ThenBy(c => c.KbItemId).ToList();
+            
+            int totalPages = kbItems.Count() / 10;
+            if (kbItems.Count() % 10 != 0)
+                totalPages++;
+            ViewData["totalPages"] = totalPages;
+            
+            kbItems = kbItems.Skip((page.Value - 1) * 10).Take(10);
+            ViewData["page"] = page;
+            
             ViewData["type"] = type;
             return View(kbItems);
         }

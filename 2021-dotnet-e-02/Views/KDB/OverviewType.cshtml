@@ -25,8 +25,10 @@
                 <div class="flex-grow-1">
                     <form action="#">
                         <div class="form-group d-flex">
-                            <label for="searchContracts"><i class="fas fa-search mr-2"></i></label>
-                            <input type="text" class="form-control" id="searchContracts" aria-describedby="todo" placeholder="Search for KBI (TODO)">
+                            <button type="submit" class="btn-ghost" asp-controller="KDB" asp-action="OverviewType">
+                                <label for="searchKDB"><i class="fas fa-search mr-2"></i></label>
+                            </button>
+                            <input name="type" type="text" class="form-control" id="searchKDB" aria-describedby="todo" value="@ViewData["type"]" placeholder="Search for KBI">
                         </div>
                     </form>
                 </div>
@@ -53,7 +55,33 @@
                     </tbody>
                 </table>
             </div>
-<!-- TODO Paginaering-->
+            @if ((int) ViewData["totalPages"] > 1)
+            {
+            <nav aria-label="ticket navigation" class="d-flex justify-content-center align-content-center">
+                <ul class="pagination">
+                    @if ((int) ViewData["page"] > 1)
+                    {
+                        <li class="page-item">
+                            <a asp-action="OverviewType" asp-route-type="@ViewData["type"]" asp-route-page="@((int) ViewData["page"] - 1)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    @for (int i = 1; i <= (int) ViewData["totalPages"]; i++)
+                    {
+                        <li class="page-item"><a asp-action="OverviewType" asp-route-type="@ViewData["type"]" asp-route-page="@i" class="page-link @((int) ViewData["page"] == i || ((int) ViewData["page"] == 0 && i == 1) ? "page-link-active" : "")">@i</a></li>
+                    }
+                    @if ((int) ViewData["page"] < (int) ViewData["totalPages"])
+                    {
+                        <li class="page-item">
+                            <a asp-action="OverviewType" asp-route-type="@ViewData["type"]" asp-route-page="@((int) ViewData["page"] + 1)" class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+            }
         </div>
     </div>
     <div class="col-12 col-lg-5" id="paneDetail">
