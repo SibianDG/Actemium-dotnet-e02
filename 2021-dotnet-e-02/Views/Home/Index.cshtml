@@ -1,4 +1,5 @@
 ﻿@using _2021_dotnet_e_02.Models.Enums
+@using System.Collections
 @model List<_2021_dotnet_e_02.Models.ActemiumTicket>
 
 @{
@@ -26,12 +27,12 @@
                 </div>
                 <div class="col-10 col-lg-6 d-flex justify-content-end align-items-center">
                     <div class="total-tickets">
-                        <span class="number-tickets number-open-tickets">@ViewData["OpenTickets"]</span>
+                        <span class="number-tickets number-open-tickets">@ViewData["OpenTicketCount"]</span>
                         <p class="company-tickets">open<br>Company Tickets</p>
                     </div>
                     <div class="total-tickets">
-                        <span class="number-tickets number-resolved-tickets">@ViewData["ResolvedTickets"]</span>
-                        <p class="company-tickets" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days">Last resolved<br>Company Tickets</p>
+                        <span class="number-tickets number-resolved-tickets">@ViewData["ResolvedTicketCount"]</span>
+                        <p class="company-tickets" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days with a maximum of 10 tickets">Last resolved<br>Company Tickets</p>
                     </div>
                 </div>
             </div>
@@ -50,64 +51,84 @@
                 <div class="d-flex flex-column align-items-stretch justify-content-center">
                     @foreach (var item in Model)
                     {
-                        @if (item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED && item.Status != _2021_dotnet_e_02.Models.Enums.TicketStatus.CANCELLED)
-                        {
-                            <div class="card my-2 card-ticket @(item.Status == TicketStatus.WAITING_ON_USER_INFORMATION ? "ticket-updated" : "" )">
-                                <div class="card-body d-flex align-items-center">
-                                    <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                        <i class="@iconDict[item.TicketType.ToString()]"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex flex-column pb-1 bb-1">
-                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="open-ticket-title">@item.Title
-                                                @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
-                                                {<span class="badge badge-warning">update</span>}
-                                            </a>
-                                            <small><span class="text-bold">Created</span> @item.DateAndTimeOfCreation</small>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="overflow my-1">
-                                                @item.Description
-                                            </p>
-                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                        </div>
-                                    </div>
+                    <div class="card my-2 card-ticket @(item.Status == TicketStatus.WAITING_ON_USER_INFORMATION ? "ticket-updated" : "" )">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-open-ticket d-flex flex-column">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <i class="@iconDict[item.TicketType.ToString()]"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="open-ticket-title">@item.Title
+                                        @if (item.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
+                                        {<span class="badge badge-warning">update</span>}
+                                    </a>
+                                    <small><span class="text-bold">Created</span> @item.DateAndTimeOfCreation</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="overflow my-1">
+                                        @item.Description
+                                    </p>
+                                    <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
                                 </div>
                             </div>
-                        }                  
-
+                        </div>
+                    </div>
                     }
                 </div>
+                @if ((int) ViewData["totalPages"] > 1)
+                {
+                <nav aria-label="ticket navigation" class="d-flex justify-content-center align-content-center mt-4">
+                    <ul class="pagination">
+                        @if ((int) ViewData["page"] > 1)
+                        {
+                            <li class="page-item">
+                                <a asp-action="Index" asp-route-type="@ViewData["type"]" asp-route-page="@((int) ViewData["page"] - 1)" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= (int) ViewData["totalPages"]; i++)
+                        {
+                            <li class="page-item"><a asp-action="Index" asp-route-type="@ViewData["type"]" asp-route-page="@i" class="page-link @((int) ViewData["page"] == i || ((int) ViewData["page"] == 0 && i == 1) ? "page-link-active" : "")">@i</a></li>
+                        }
+                        @if ((int) ViewData["page"] < (int) ViewData["totalPages"])
+                        {
+                            <li class="page-item">
+                                <a asp-route-page="@((int) ViewData["page"] + 1)" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+                }
             </div>
             <div class="col-12 col-lg-4 overview-resolved-tickets mt-2 mt-lg-0">
                 <div class="d-flex ">
                     <i class="far fa-check-circle i-bigger c-closed mb-1"></i>
-                    <div class="text-uppercase" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days">Last resolved company tickets</div>
+                    <div class="text-uppercase" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days with a maximum of 10 tickets">Last resolved company tickets</div>
                 </div>
                 <div class="d-flex flex-column align-items-stretch justify-content-center">
-                    @foreach (var item in Model)
+                    @foreach (var item in (IEnumerable<ActemiumTicket>)ViewData["ResolvedTickets"])
                     {
-                        @if (item.Status == _2021_dotnet_e_02.Models.Enums.TicketStatus.COMPLETED && item.DateAndTimeOfCompletion.Value.AddDays(5) >= DateTime.Now)
-                        {
-                            <div class="card my-2 card-ticket resolved-background">
-                                <div class="card-body d-flex align-items-center">
-                                    <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
-                                        <i class="@iconDict[item.TicketType.ToString()]"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex flex-column pb-1 bb-1">
-                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="resolved-ticket-title overflow">@item.Title</a>
-                                            <small><span class="text-bold">Resolved</span> @item.DateAndTimeOfCompletion</small>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="my-1 resolved">Resolved</p>
-                                            <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
-                                        </div>
-                                    </div>
+                    <div class="card my-2 card-ticket resolved-background">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="flex-grow-0 icon-resolved-ticket d-flex flex-column">
+                                <i class="@iconDict[item.TicketType.ToString()]"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column pb-1 bb-1">
+                                    <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId" class="resolved-ticket-title overflow">@item.Title</a>
+                                    <small><span class="text-bold">Resolved</span> @item.DateAndTimeOfCompletion</small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="my-1 resolved">Resolved</p>
+                                    <a asp-controller="Ticket" asp-action="FullDetailsNewWindow" asp-route-id="@item.TicketId">Show more <i class="fas fa-arrow-right small ml-2"></i></a>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    </div>
                     }
                 </div>
             </div>
