@@ -14,6 +14,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.ContractViewModel
         public int ContractType { get; set; }
         [Required(ErrorMessage = "StartDate is required")]
         [Display(Name = "Contract start date")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
         [Required(ErrorMessage = "Duration is required")]
         [Range(1,3, ErrorMessage = "Duration has to be 1, 2 or 3 years")]
