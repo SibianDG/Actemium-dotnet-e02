@@ -92,9 +92,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
 
             // assert
             Assert.Equal(nameof(Index), result.ActionName);
-            _contractRepository.Verify(c => c.Add(_dummyContext.Contract4), Times.Once);
             _contractRepository.Verify(c => c.SaveChanges(), Times.Once);
-            _contractTypeRepository.Verify(c => c.GetBy(1), Times.Once);
+            //_contractTypeRepository.Verify(c => c.GetBy(1), Times.Once);
         }
 
         [Fact]
