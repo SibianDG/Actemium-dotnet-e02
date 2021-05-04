@@ -36,7 +36,7 @@ namespace _2021_dotnet_e_02.Controllers
                 totalPages++;
             ViewData["totalPages"] = totalPages;
             
-            kbItems = kbItems.Skip((page.Value - 1) * 10).Take(10);
+            kbItems = kbItems.Skip((page.Value - 1) * 10).Take(10).ToList();
             ViewData["page"] = page;
             
             ViewData["type"] = type;

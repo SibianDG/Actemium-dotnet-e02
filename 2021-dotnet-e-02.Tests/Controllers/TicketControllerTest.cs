@@ -162,7 +162,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         #endregion
 
         #region -- Delete POST --
-        /*[Fact]
+        [Fact]
         public void Delete_ExistingTicket_DeletesTicketAndPersistsChanges()
         {
             _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
@@ -170,7 +170,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             Assert.Equal("Index", result.ActionName);
             _ticketRepository.Verify(t => t.GetById(1), Times.Once);
             _ticketRepository.Verify(t => t.SaveChanges(), Times.Once);
-        }*/
+        }
         #endregion
     }
 }
