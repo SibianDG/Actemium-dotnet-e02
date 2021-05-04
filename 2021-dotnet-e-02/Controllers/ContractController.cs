@@ -90,7 +90,7 @@ namespace _2021_dotnet_e_02.Controllers
             return View(new ContractCreateViewModel() { StartDate = DateTime.Today });
         }
 
-        [HttpPost] //BASIC IMPLEMENTATION DOES NOT FULLY WORK YET
+        [HttpPost] 
         public IActionResult Create(ContractCreateViewModel createViewModel)
         {
             if(ModelState.IsValid)

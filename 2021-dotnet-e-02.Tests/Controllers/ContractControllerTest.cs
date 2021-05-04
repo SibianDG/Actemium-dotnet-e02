@@ -99,7 +99,19 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         [Fact]
         public void Create_InvalidTicket_ThrowsExceptionAndDisplaysErrorMessage()
         {
-            //TODO
+            //TODO still fails because redirects but should display the create view again with validation messages
+
+            // arrange 
+            _contractRepository.Setup(c => c.Add(new ActemiumContract()));
+            _contractTypeRepository.Setup(ct => ct.GetBy(1)).Returns(_dummyContext.ContractType1);
+            ContractCreateViewModel contractCreateViewModel = new ContractCreateViewModel();
+
+            // act
+            var result = Assert.IsType<ViewResult>(_controller.Create(contractCreateViewModel));
+
+            // assert
+            Assert.Equal("Create", result.ViewName);
+            _contractRepository.Verify(c => c.SaveChanges(), Times.Once);
         }
 
         #endregion
