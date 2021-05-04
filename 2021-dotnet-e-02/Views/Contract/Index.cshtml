@@ -4,16 +4,6 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var iconDict = new Dictionary<string, string>
-    {
-        // I've added "fas" because it can also be "fa" - see FontAwesome
-        { "HARDWARE", "fas fa-desktop" },
-        { "DATABASE", "fas fa-database" },
-        { "SOFTWARE", "fas fa-terminal" },
-        { "INFRASTRUCTURE", "fas fa-server" },
-        { "NETWORK", "fas fa-network-wired" },
-        { "OTHER", "fas fa-random" },
-    };
 
     string makeStringCapitalized(string s)
     {
@@ -21,9 +11,9 @@
     }
 
     // should contain the ticket of which the info/details icon was pressed
-    ViewBag.SelectedContract = Model.Last();
+    //ViewBag.SelectedContract = Model.Last();
     //selectedTicket = SelectedTicket;
-    Console.WriteLine(ViewBag.SelectedContract.ContractId);
+    //Console.WriteLine(ViewBag.SelectedContract.ContractId);
 }
 
 <div class="my-2" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="100">
@@ -35,17 +25,46 @@
 </div>
 
 <div class="row" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
-    <div class="col-12 col-lg-7">
+    <div class="col-12 col-lg-7 mb-2">
         <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
             <div class="d-md-flex py-4">
                 <div class="mr-2 mr-lg-5 mb-2">
-                    <a asp-action="Create" class="btn btn-primary">Sign new contract</a>
                 </div>
                 <div class="flex-grow-1">
-                    <form action="#">
-                        <div class="form-group d-flex">
-                            <label for="searchContracts"><i class="fas fa-search mr-2"></i></label>
-                            <input type="text" class="form-control" id="searchContracts" aria-describedby="todo" placeholder="Search for contract (TODO)">
+                    <form class="row">
+                        <!-- TODO: select options disable/not visable on mobile -->
+                        <!-- TODO: multiple selected (see bootstrap) -->
+                        <div class="col-12 row">
+                            <div class="col-12 col-md-6 form-group d-flex">
+                                <label for="searchContracts"><i class="fas fa-search mr-2"></i></label>
+                                <input type="text" class="form-control" id="searchContracts"
+                                       name="searchText" aria-describedby="search text" placeholder="Search for contract"
+                                       value="@(ViewData["searchText"] ?? "")">
+                            </div>
+                            <div class="col-md-6 form-group d-none d-md-flex">
+                                <label for="contractStatus" class="w-100">Contract Status:</label>
+                                <select name="Status" asp-items="Html.GetEnumSelectList<ContractStatus>()" id="contractStatus" class="form-control">
+                                    <option value="">-- Select Status --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 row d-none d-md-flex">
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="startDate" class="w-100">Start date:</label>
+                                <input type="date" name="StartDate" id="startDate" class="form-control"/>
+                            </div>
+                            <div class="col-md-6 form-group d-flex">
+                                <label for="endDate" class="w-100">End date:</label>
+                                <input type="date" name="EndDate" id="endDate" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-12 row">
+                            <div class="mr-2">
+                                <a asp-action="Create" class="btn btn-primary">Sign new contract</a>
+                            </div>
+                            <div class="ml-auto">
+                                <button type="submit" class="btn btn-secondary ml-1">Search</button>
+                            </div>
                         </div>
                     </form>
                 </div>
