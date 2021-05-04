@@ -39,6 +39,10 @@ namespace _2021_dotnet_e_02.Tests.Data
         public ActemiumCustomer Cust1 { get; }
         public ActemiumCustomer Cust2 { get; }
 
+        public ActemiumKbItem KbItemHardware1 { get; }
+        public ActemiumKbItem KbItemHardware2 { get; }
+        public IEnumerable<ActemiumKbItem> KbItems { get; }
+
         public DummyApplicationDbContext()
         {
             int ticketId = 1;
@@ -77,6 +81,11 @@ namespace _2021_dotnet_e_02.Tests.Data
             Contracts = new[] { Contract1, Contract2, Contract3 };
 
             ContractTypes = new[] { ContractType1, ContractType2 };
+
+            KbItemHardware1 = new ActemiumKbItem() { KbItemId = 1, Keywords = "hardware", Text = "This is the text of a test kbitem for hardware.", Title = "Hardware part 1", Type = KbItemType.HARDWARE };
+            KbItemHardware2 = new ActemiumKbItem() { KbItemId = 2, Keywords = "hardware", Text = "This is the text of a test kbitem for hardware.", Title = "Hardware part 2", Type = KbItemType.HARDWARE };
+            KbItems = new[] { KbItemHardware1, KbItemHardware2 };
+
         }
         
     }

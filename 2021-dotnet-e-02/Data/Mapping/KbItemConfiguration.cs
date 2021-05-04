@@ -16,12 +16,14 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.ToTable("ACTEMIUMKBITEM");
 
             builder.HasKey(t => t.KbItemId);
-            builder.Property(t => t.Title);
-            builder.Property(t => t.Type)
-                .HasConversion(v => v.ToString(),
+            builder.Property(t => t.KbItemId).HasColumnName("KBITEMID");
+            
+            builder.Property(t => t.Title).HasColumnName("TITLE");
+            builder.Property(t => t.Type).HasColumnName("TYPE")
+                .HasConversion(v => v.ToString().ToUpper(),
                     v => (KbItemType)Enum.Parse(typeof(KbItemType), v));
-            builder.Property(t => t.Keywords);
-            builder.Property(t => t.Text);
+            builder.Property(t => t.Keywords).HasColumnName("KEYWORDS");
+            builder.Property(t => t.Text).HasColumnName("TEXT");
         }
     }
 }

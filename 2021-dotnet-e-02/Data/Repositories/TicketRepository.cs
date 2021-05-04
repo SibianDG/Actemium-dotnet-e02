@@ -70,7 +70,12 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public IEnumerable<ActemiumTicket> GetAllOpenTickets()
         {
-            return _tickets.AsNoTracking().Where(t => t.Status != TicketStatus.CANCELLED && t.Status != TicketStatus.COMPLETED);
+            return _tickets.AsNoTracking()
+                .Where(t => t.Status != TicketStatus.CANCELLED && t.Status != TicketStatus.COMPLETED)
+                .OrderBy(t => t.Priority)
+                .ThenBy(t => t.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
+                .ThenBy(t => t.DateAndTimeOfCreation)
+                ;
         }
 
         public IEnumerable<ActemiumTicket> GetAllResolvedTickets()

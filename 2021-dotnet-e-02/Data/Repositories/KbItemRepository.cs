@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using _2021_dotnet_e_02.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,25 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public IEnumerable<ActemiumKbItem> GetAll()
         {
             return _kbItems.AsNoTracking().ToList();
+        }
+
+        public IEnumerable<ActemiumKbItem> GetByType(string type)
+        {
+            type = Regex.Replace(type, @"\s{2,}", " ");
+            type = Regex.Replace(type, ", ", ",");
+            type = Regex.Replace(type, " ", ",");
+            type = type.ToLower();
+
+            string[] typeArray = type.Split(",");
+
+            //remark: StringComparison.InvariantCultureIgnoreCase does not work on DBSets
+            //TODO: he can't get the type...
+            //kbi.Type.ToString().Contains(type.ToLower())
+            //||
+            IEnumerable<ActemiumKbItem> items = _kbItems.AsNoTracking().ToList();
+            items = items.Where(kbi => typeArray.Any(kbi.Keywords.ToLower().Contains))
+                .ToList();
+            return items;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _ticketRepository.Setup(m => m.GetAllResolvedTickets()).Returns(_dummyContext.ResolvedTickets);
 
             //Act
-            var result = Assert.IsType<ViewResult>(_controller.Index());
+            var result = Assert.IsType<ViewResult>(_controller.Index(1));
 
             //Assert
             var ticketsInModel = Assert.IsType<List<ActemiumTicket>>(result.Model);

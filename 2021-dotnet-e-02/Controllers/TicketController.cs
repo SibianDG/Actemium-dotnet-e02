@@ -233,14 +233,14 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public void DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id) //TODO has to return IActionResult but does return void now because there was an error
         {
             Console.WriteLine("IN DeleteConfirmed: "+id);
             try
             {
                 ActemiumTicket ticket = _ticketRepository.GetById(id);
-                // if (ticket == null)
-                //     return NotFound();
+                if (ticket == null)
+                     return NotFound();
                 ticket.Status = TicketStatus.CANCELLED;
                 _ticketRepository.Update(ticket);
                 TempData["message"] = "You successfully changed the ticket status to cancelled.";
@@ -251,7 +251,7 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 TempData["error"] = "Sorry, something went wrong, the ticket status wasn't changed";
             }
-            // return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
         
         private SelectList GetTicketStatusSelectList(int selected = 0)

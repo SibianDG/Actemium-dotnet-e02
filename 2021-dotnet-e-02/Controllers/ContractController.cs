@@ -25,7 +25,7 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         #region Index
-        public IActionResult Index(int? page)
+        public IActionResult Index(int? page, string searchText = null, DateTime? startDate = null, DateTime? endDate = null, int? status = null)
         {
             page ??= 1;
             page = page == 0 ? 1 : page;
@@ -34,6 +34,21 @@ namespace _2021_dotnet_e_02.Controllers
             //TODO performace?? this is good i think
             contracts = _contractRepository.GetAll();
             contracts = contracts.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ToList();
+
+            if (searchText != null)
+            {
+                contracts = contracts.Where(t =>
+                    t.Status.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    t.ContractType.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                    );
+            }
+            
+            if (status != null)
+                contracts = contracts.Where(t => status.Equals((int) t.Status));
+            if (startDate != null)
+                contracts = contracts.Where(t => t.StartDate >= startDate);
+            if (endDate != null)
+                contracts = contracts.Where(t => t.EndDate <= endDate);
             
             int totalPages = contracts.Count() / 10;
             if (contracts.Count() % 10 != 0)
@@ -43,8 +58,11 @@ namespace _2021_dotnet_e_02.Controllers
             contracts = contracts.Skip((page.Value - 1) * 10).Take(10);
             ViewData["page"] = page;
             
+            ViewData["SearchText"] = searchText;
+            
             return View(contracts);
         }
+
         #endregion
 
         #region Details
@@ -72,7 +90,7 @@ namespace _2021_dotnet_e_02.Controllers
             return View(new ContractCreateViewModel() { StartDate = DateTime.Today });
         }
 
-        [HttpPost] //BASIC IMPLEMENTATION DOES NOT FULLY WORK YET
+        [HttpPost] 
         public IActionResult Create(ContractCreateViewModel createViewModel)
         {
             if(ModelState.IsValid)
@@ -84,16 +102,17 @@ namespace _2021_dotnet_e_02.Controllers
                     contract.Company = _companyRepository.GetBy(3);
                     _contractRepository.Add(contract);
                     _contractRepository.SaveChanges();
+                    TempData["success"] = "Succesfully signed a new contract.";
                 }
                 catch (Exception ex)
                 {
                     TempData["error"] = "Sorry, something went wrong, the contract was not signed...";
                     Console.WriteLine(ex.Message);
                 }
-                return View(nameof(Create), createViewModel);
+                
+                return RedirectToAction(nameof(Index));
             }
-            
-            return RedirectToAction(nameof(Index));
+            return View(nameof(Create), createViewModel);
         }
 
         #endregion
