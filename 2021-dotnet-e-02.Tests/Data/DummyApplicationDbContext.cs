@@ -84,7 +84,8 @@ namespace _2021_dotnet_e_02.Tests.Data
 
             KbItemHardware1 = new ActemiumKbItem() { KbItemId = 1, Keywords = "hardware", Text = "This is the text of a test kbitem for hardware.", Title = "Hardware part 1", Type = KbItemType.HARDWARE };
             KbItemHardware2 = new ActemiumKbItem() { KbItemId = 2, Keywords = "hardware", Text = "This is the text of a test kbitem for hardware.", Title = "Hardware part 2", Type = KbItemType.HARDWARE };
-            KbItems = new[] { KbItemHardware1 , KbItemHardware2 };
+            KbItems = new[] { KbItemHardware1, KbItemHardware2 };
+
         }
         
     }

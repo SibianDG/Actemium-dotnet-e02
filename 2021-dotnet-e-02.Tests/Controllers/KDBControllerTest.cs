@@ -51,8 +51,38 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             // assert
             Assert.Equal(2, kbItemsInModel.Count);
             Assert.Equal(KbItemType.HARDWARE, kbItemsInModel[0].Type);
-
+            Assert.Equal("hardware", result.ViewData["type"]);
+            Assert.Equal(1, result.ViewData["page"]);
+            Assert.Equal(1, result.ViewData["totalPages"]);
         }
         #endregion
+
+        #region -- Details GET --
+
+        [Fact]
+        public void Details_PassesJsonOfKBItemToView()
+        {
+            // arrange
+            _kbItemRepository.Setup(k => k.GetBy(1)).Returns(_dummyContext.KbItemHardware1);
+
+            // act
+            var result = Assert.IsType<JsonResult>(_controller.Details(1));
+
+            // assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void Details_WithNonExistingId_ReturnsNotFound()
+        {
+            // arrange
+            _kbItemRepository.Setup(k => k.GetBy(3)).Returns((ActemiumKbItem)null);
+
+            // act & assert
+            Assert.IsType<NotFoundResult>(_controller.Details(3));
+        }
+
+        #endregion
+
     }
 }
