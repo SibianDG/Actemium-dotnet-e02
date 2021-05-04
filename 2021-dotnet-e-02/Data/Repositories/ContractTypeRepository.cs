@@ -17,7 +17,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumContractType GetBy(int id)
         {
-            return _contractTypes.AsNoTracking().SingleOrDefault(ct => ct.ContractTypeId.Equals(id));
+            return _contractTypes.SingleOrDefault(ct => ct.ContractTypeId.Equals(id));
         }
 
         public IEnumerable<ActemiumContractType> GetAll()

@@ -102,16 +102,17 @@ namespace _2021_dotnet_e_02.Controllers
                     contract.Company = _companyRepository.GetBy(3);
                     _contractRepository.Add(contract);
                     _contractRepository.SaveChanges();
+                    TempData["success"] = "Succesfully signed a new contract.";
                 }
                 catch (Exception ex)
                 {
                     TempData["error"] = "Sorry, something went wrong, the contract was not signed...";
                     Console.WriteLine(ex.Message);
                 }
-                return View(nameof(Create), createViewModel);
+                
+                return RedirectToAction(nameof(Index));
             }
-            
-            return RedirectToAction(nameof(Index));
+            return View(nameof(Create), createViewModel);
         }
 
         #endregion

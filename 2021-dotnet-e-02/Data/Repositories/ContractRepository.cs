@@ -20,7 +20,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumContract GetBy(int id)
         {
-            return _contracts.AsNoTracking().Include(c => c.Company).Include(c=> c.ContractType).SingleOrDefault(c => c.ContractId.Equals(id));
+            return _contracts.Include(c => c.Company).Include(c=> c.ContractType).SingleOrDefault(c => c.ContractId.Equals(id));
         }
 
         public IEnumerable<ActemiumContract> GetAll()
