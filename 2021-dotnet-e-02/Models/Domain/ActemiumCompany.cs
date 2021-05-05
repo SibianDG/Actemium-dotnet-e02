@@ -16,6 +16,7 @@ namespace _2021_dotnet_e_02.Models
         public DateTime RegistrationDate { get; set; }
 
         public ICollection<ActemiumCustomer> ContactPersons { get; set; }
+        [JsonIgnore]
         public ICollection<ActemiumTicket> Tickets { get; set; }
         [JsonIgnore]
         public ICollection<ActemiumContract> Contracts { get; set; }

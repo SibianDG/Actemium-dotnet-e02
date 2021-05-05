@@ -21,10 +21,10 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public IEnumerable<ActemiumTicket> GetAll()
         {
-            return _tickets.AsNoTracking().Include(t => t.Comments).ThenInclude(c => c.User)
+            return _tickets.AsNoTracking()//.Include(t => t.Comments).ThenInclude(c => c.User)
                                           //.Include(t => t.Company)
-                                          .Include(t => t.TicketTechnicians)
-                                          .Include(t => t.TicketChanges).ThenInclude(c => c.User)
+                                          //.Include(t => t.TicketTechnicians)
+                                          //.Include(t => t.TicketChanges).ThenInclude(c => c.User)
                                           .ToList();
         }
 
@@ -36,7 +36,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
                           .Include(t => t.TicketChanges).ThenInclude(c => c.User)
                           .Include(t => t.TicketChanges).ThenInclude(c => c.ChangeContents)
                           //TODO: fout met includes
-                          //.Include(t => t.Company)
+                          .Include(t => t.Company)
                           .SingleOrDefault(t => id == t.TicketId);
         }
 
@@ -49,7 +49,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
                            //.Include(t => t.TicketChanges).ThenInclude(c => c.User)
                            //.Include(t => t.TicketChanges).ThenInclude(c => c.ChangeContents)
                            //TODO: fout met includes
-                           //.Include(t => t.Company)
+                           .Include(t => t.Company)
                            .SingleOrDefault(t => id == t.TicketId);
         }
 
