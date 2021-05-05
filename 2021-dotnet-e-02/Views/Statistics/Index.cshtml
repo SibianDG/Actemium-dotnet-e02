@@ -11,11 +11,88 @@
         <div class="col-12">
             <h1>@ViewData["Title"]</h1>
         </div>
+        <div class="col-12 bg-white p-5">
+            <figure class="highcharts-figure">
+                <div id="chart1"></div>
+                  <p class="highcharts-description">
+                    Bar chart showing horizontal columns. This chart type is often
+                    beneficial for smaller screens, as the user can scroll through the data
+                    vertically, and axis labels are easy to read.
+                  </p>
+            </figure>
+        </div>
     </div>
 </div>
 
+
+
 @section Scripts
 {
-<script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script >
+    const numbers = JSON.parse(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["numbers"],
+                                 Newtonsoft.Json.Formatting.Indented)));
+    const cats = JSON.parse(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["cats"],
+                              Newtonsoft.Json.Formatting.Indented)));
+    let data = []
+    for (const [key, value] of Object.entries(numbers)){
+      data.push({name: key,  data: [value]});
+    }
+    Highcharts.chart('chart1', {
+      chart: {
+        type: 'bar',
+      },
+      title: {
+        text: 'Ticket per Status'
+      },
+      subtitle: {
+        text: 'TODO'
+      },
+      xAxis: {
+        //categories: ['Categories'],
+        title: {
+          text: 'Categories'
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Number of tickets',
+          align: 'high'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' tickets'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 80,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor:
+          Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+        shadow: true
+      },
+      credits: {
+        enabled: false
+      },
+      series: data
+    });
 </script>
 }
