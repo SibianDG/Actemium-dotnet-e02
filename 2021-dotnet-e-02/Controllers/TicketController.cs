@@ -24,7 +24,7 @@ namespace _2021_dotnet_e_02.Controllers
             _companyRepository = companyRepository;
         }
         
-        public IActionResult Index(int? page, string searchText = null, int? type = null, int? priority = null, int? status = null)
+        public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
         {
             Console.WriteLine("PAGE first: "+page);
             page ??= 1;
@@ -48,12 +48,12 @@ namespace _2021_dotnet_e_02.Controllers
                 );
             }
             
-            if (type != null)
-                tickets = tickets.Where(t => type.Equals((int)t.TicketType));
-            if (priority != null)
-                tickets = tickets.Where(t => priority.Equals((int)t.Priority));
-            if (status != null)
-                tickets = tickets.Where(t => status.Equals((int)t.Status));
+            if (type.Count != 0)
+                tickets = tickets.Where(t => type.Contains((int)t.TicketType));
+            if (priority.Count != 0)
+                tickets = tickets.Where(t => priority.Contains((int)t.Priority));
+            if (status.Count != 0)
+                tickets = tickets.Where(t => status.Contains((int)t.Status));
             
             int totalPages = tickets.Count() / 10;
             if (tickets.Count() % 10 != 0)
