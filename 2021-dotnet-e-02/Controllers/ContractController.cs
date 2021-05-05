@@ -25,7 +25,7 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         #region Index
-        public IActionResult Index(int? page, string searchText = null, DateTime? startDate = null, DateTime? endDate = null, int? status = null)
+        public IActionResult Index(int? page, string searchText = null, DateTime? startDate = null, DateTime? endDate = null, List<int> status = null)
         {
             page ??= 1;
             page = page == 0 ? 1 : page;
@@ -43,8 +43,10 @@ namespace _2021_dotnet_e_02.Controllers
                     );
             }
             
-            if (status != null)
-                contracts = contracts.Where(t => status.Equals((int) t.Status));
+            if (status.Count != 0)
+            {
+                contracts = contracts.Where(t => status.Contains((int) t.Status));
+            }
             if (startDate != null)
                 contracts = contracts.Where(t => t.StartDate >= startDate);
             if (endDate != null)
