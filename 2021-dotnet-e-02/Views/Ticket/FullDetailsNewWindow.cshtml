@@ -1,5 +1,6 @@
 ﻿@using _2021_dotnet_e_02.Models.Enums
 @model _2021_dotnet_e_02.Models.ActemiumTicket
+@*@model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel*@
 
 @{
     ViewData["Title"] = "Details2";
@@ -15,14 +16,14 @@
             <h2>Full Details - @Model.Title</h2>
 
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
-                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
+                <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "" : "active")" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
+                <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "active" : "")" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Changes</a></li>
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                <div class="tab-pane @((bool)ViewData["AddingComments"] ? "" : "active")" role="tabpanel" id="tab-1">
                     <div class="edit-view-model" style="margin-top:10px;">
                         @*
                             <h2>Details - @Model.Title</h2>
@@ -47,12 +48,15 @@
                             <dd class="col-12 col-md-6">
                                 @Html.DisplayFor(model => model.DateAndTimeOfCreation)
                             </dd>
-                            <dt class="col-12 col-md-6">
-                                @Html.DisplayNameFor(model => model.DateAndTimeOfCompletion)
-                            </dt>
-                            <dd class="col-12 col-md-6">
-                                @Html.DisplayFor(model => model.DateAndTimeOfCompletion)
-                            </dd>
+                            @if (@Model.DateAndTimeOfCompletion != null)
+                            {
+                                <dt class="col-12 col-md-6">
+                                    @Html.DisplayNameFor(model => model.DateAndTimeOfCompletion)
+                                </dt>
+                                <dd class="col-12 col-md-6">
+                                    @Html.DisplayFor(model => model.DateAndTimeOfCompletion)
+                                </dd>
+                            }
                             <dt class="col-12 col-md-6">
                                 @Html.DisplayNameFor(model => model.Title)
                             </dt>
@@ -112,7 +116,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane" role="tabpanel" id="tab-2">
+                <div class="tab-pane @((bool)ViewData["AddingComments"] ? "active" : "")" role="tabpanel" id="tab-2">
                     <div class="edit-view-model" style="margin-top:10px;">
                         @*<h2>Comments - @Model.Title</h2>
                             <hr />*@
@@ -168,10 +172,19 @@
                                 </table>
                             }
                         }
-                        <div class="d-flex justify-content-center mb-3">
-                            <a asp-action="Edit" asp-route-id="@Model.TicketId" class="btn btn-primary mr-3">Add comment</a>
-                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                        </div>
+                        <form method="post"  style="width: 65%">
+                            <div asp-validation-summary="All"></div>
+                            <div class="form-group">
+                                <label asp-for="NewComment"></label>
+                                <input asp-for="NewComment" class="form-control" />
+                                <!--<span asp-validation-for="Title" class="text-danger"></span>-->
+                            </div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <button class="btn btn-primary mr-3" type="submit">Add comment</button>
+                                @*<a asp-action="Edit" asp-route-id="@Model.TicketId" class="btn btn-primary mr-3">Add comment</a>*@
+                                @*<a asp-action="FullDetailsNewWindow" class="btn btn-secondary">Back to List</a>*@
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -183,7 +196,7 @@
                     }
                     else
                     {
-                    <p style="margin-top:15px">Currently @Model.TicketTechnicians.Count @( @Model.TicketTechnicians.Count == 1 ? "technician is" : "technicians are") working hard to give you the support you deserve.</p>
+                        <p style="margin-top:15px">Currently @Model.TicketTechnicians.Count @( @Model.TicketTechnicians.Count == 1 ? "technician is" : "technicians are") working hard to give you the support you deserve.</p>
                         <p>Below you will find all their contact info. Feel free to contact them during their working hours.</p>
                         @foreach (var tech in Model.TicketTechnicians)
                         {

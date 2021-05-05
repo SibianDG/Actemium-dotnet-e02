@@ -17,11 +17,13 @@ namespace _2021_dotnet_e_02.Controllers
     {
         private readonly ITicketRepository _ticketRepository;
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
 
-        public TicketController(ITicketRepository ticketRepository, ICompanyRepository companyRepository)
+        public TicketController(ITicketRepository ticketRepository, ICompanyRepository companyRepository, IUserRepository userRepository)
         {
             _ticketRepository = ticketRepository;
             _companyRepository = companyRepository;
+            _userRepository = userRepository;
         }
         
         public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
@@ -103,6 +105,52 @@ namespace _2021_dotnet_e_02.Controllers
             ActemiumTicket ticket = _ticketRepository.GetBy(id);
             if (ticket == null)
                 return NotFound();
+            ViewData["AddingComments"] = false;
+            return View(ticket);
+        }
+
+        [HttpPost]
+        public IActionResult FullDetailsNewWindow(int id, ActemiumTicket editViewModel)
+        {
+            ActemiumTicket ticket = _ticketRepository.GetBy(id);
+            if (ticket == null)
+            {
+                Console.WriteLine("ticket is null => not found");
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // TODO change by signed in user
+                    UserModel user = _userRepository.GetBy(3);
+                    string userRole = "Customer";
+
+                    ticket.AddNewComment(ticket, user, userRole, editViewModel.NewComment);
+                  
+                    _ticketRepository.SaveChanges();
+
+                    TempData["message"] = $"You successfully added a comment to the ticket {ticket.Title}.";
+
+                    // make editViewModel newComment empty again
+                    editViewModel.NewComment = "";
+                    ModelState.Clear();
+                }
+                catch
+                {
+                    TempData["error"] = "Sorry, something went wrong, comment was not added to ticket...";
+                }
+                ViewData["AddingComments"] = true;
+                return View(ticket);
+                //return View(editViewModel);
+                //return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                Console.WriteLine("NOT VALID");
+            }
+            ViewData["AddingComments"] = true;
+            ViewData["IsEdit"] = true;
             return View(ticket);
         }
 
@@ -137,7 +185,6 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    Console.WriteLine("01 edit");
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
                         ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
@@ -153,10 +200,8 @@ namespace _2021_dotnet_e_02.Controllers
                             , editViewModel.Solution != null ? editViewModel.Solution.Trim() : ""
                             , editViewModel.Quality != null ? editViewModel.Quality.Trim() : ""
                             , editViewModel.SupportNeeded != null ? editViewModel.SupportNeeded.Trim() : "");
-                        Console.WriteLine("02 edit");
                     }
                     _ticketRepository.SaveChanges();
-                    Console.WriteLine("03 edit");
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
                 }
                 catch
@@ -171,7 +216,6 @@ namespace _2021_dotnet_e_02.Controllers
             }
             ViewData["IsEdit"] = true;
             return View(editViewModel);
-
         }
         
         public IActionResult Create()

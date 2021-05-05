@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 // Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
 //[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
@@ -19,7 +20,9 @@ namespace _2021_dotnet_e_02.Models
         public TicketStatus Status { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public TicketPriority Priority { get; set; }
+        [Display(Name = "Date and time of creation")]
         public DateTime DateAndTimeOfCreation { get; set; }
+        [Display(Name = "Date and time of completion")]
         public DateTime? DateAndTimeOfCompletion { get; set; }
         private string _title;
         public string Title
@@ -62,6 +65,9 @@ namespace _2021_dotnet_e_02.Models
         public string SupportNeeded { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
         public ICollection<ActemiumTicketActemiumUser> TicketTechnicians { get; set; }
+        [Required(ErrorMessage = "Cannot add an empty comment")]
+        [Display(Name = "Add new comment")]
+        public string NewComment { get; set; }
 
         //[JsonConstructor]
         //private ActemiumTicket(int ticketId)
@@ -132,5 +138,12 @@ namespace _2021_dotnet_e_02.Models
         //     Quality = quality;
         //     SupportNeeded = supportNeeded;
         // }
+
+        public void AddNewComment(ActemiumTicket ticket, UserModel user, string userRole, string newCommentText)
+        {
+            ActemiumTicketComment newComment = new ActemiumTicketComment(ticket, user, userRole, newCommentText);
+            Console.WriteLine(newComment.CommentText);
+            Comments.Add(newComment);
+        }
     }
 }

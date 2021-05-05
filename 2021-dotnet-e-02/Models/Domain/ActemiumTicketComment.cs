@@ -20,7 +20,15 @@ namespace _2021_dotnet_e_02.Models
             
         }
 
-        
+        public ActemiumTicketComment(ActemiumTicket ticket, UserModel user, string userRole, string commentText)
+        {
+            Ticket = ticket;
+            User = user;
+            UserRole = userRole;
+            DateTimeOfComment = DateTime.Now;
+            CommentText = commentText;
+        }
+
         public override string ToString()
         {
             StringBuilder ticketComment = new StringBuilder();

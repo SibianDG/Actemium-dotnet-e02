@@ -8,7 +8,8 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
 {
     public class EditViewModel
     {
-        //public int TicketId { get; set; }
+        // only necessary for routing when you cancel editing
+        public int TicketId { get; set; }
 
         // Customer cannot edit Ticket Status (only Support manager and Technician)
         // When ticket is created, Status Created is automatically set
@@ -21,7 +22,9 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Ticket priority")]
         [EnumDataType(typeof(TicketPriority))]
         public TicketPriority Priority { get; set; }
+        [Display(Name = "Date and time of creation")]
         public DateTime DateAndTimeOfCreation { get; set; }
+        [Display(Name = "Date and time of completion")]
         public DateTime? DateAndTimeOfCompletion { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
@@ -41,7 +44,6 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Attachments")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string Attachments { get; set; }
-        //public ICollection<ActemiumEmployee> Technicians { get; set; }
 
         [Required(ErrorMessage = "Ticket type is required")]
         [Display(Name = "Ticket type")]
@@ -59,7 +61,6 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Support Needed")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
         public string SupportNeeded { get; set; }
-        //public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
 
         public EditViewModel()
         {
@@ -67,7 +68,7 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
 
         public EditViewModel(ActemiumTicket ticket)
         {
-            //TicketId = ticket.TicketId;
+            TicketId = ticket.TicketId;
             Status = ticket.Status;
             Priority = ticket.Priority;
             Title = ticket.Title;
@@ -79,7 +80,6 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
             Solution = ticket.Solution;
             Quality = ticket.Quality;
             SupportNeeded = ticket.SupportNeeded;
-
         }
     }
 }

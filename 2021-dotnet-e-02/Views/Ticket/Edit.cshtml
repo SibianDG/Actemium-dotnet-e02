@@ -68,10 +68,17 @@
                 </div>
             }
 
-            <div class="d-flex justify-content-center mb-3">
-                <button class="btn btn-primary mr-3" type="submit">Save</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-            </div>
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-primary mr-3" type="submit">Save</button>
+            @if ((bool)ViewData["IsEdit"])
+            {
+                <a asp-action="FullDetailsNewWindow" asp-route-id="@Model.TicketId" class="btn btn-secondary">Cancel</a>
+            }
+            else
+            {
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            }
+        </div>
         </form>        
     </div>
 </div>
