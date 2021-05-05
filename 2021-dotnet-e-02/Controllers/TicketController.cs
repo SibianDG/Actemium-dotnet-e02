@@ -109,6 +109,7 @@ namespace _2021_dotnet_e_02.Controllers
             return View(ticket);
         }
 
+        // Post method is only for adding a new comment
         [HttpPost]
         public IActionResult FullDetailsNewWindow(int id, ActemiumTicket editViewModel)
         {
@@ -154,14 +155,6 @@ namespace _2021_dotnet_e_02.Controllers
             return View(ticket);
         }
 
-        public IActionResult CommentsNewWindow(int id)
-        {
-            ActemiumTicket ticket = _ticketRepository.GetBy(id);
-            if (ticket == null)
-                return NotFound();
-            return View(ticket);
-        }
-
         public IActionResult Edit(int id)
         {
             ActemiumTicket ticket = _ticketRepository.GetBy(id);
@@ -203,6 +196,9 @@ namespace _2021_dotnet_e_02.Controllers
                     }
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
+
+                    ViewData["AddingComments"] = false;
+                    return View(nameof(FullDetailsNewWindow), ticket);
                 }
                 catch
                 {
@@ -221,7 +217,11 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
+            // Just to clarify because it was confusing
+            // Will redirect to Edit.cshtml and NOT to Create.cshtml (=> not in use)
             return View(nameof(Edit), new EditViewModel());
+            // But when you submit in Edit.cshtml after this method was called
+            // then it will use the Post Create method below
         }
         
         [HttpPost]
@@ -256,6 +256,9 @@ namespace _2021_dotnet_e_02.Controllers
                     _companyRepository.SaveChanges();
                     //_ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
+
+                    ViewData["AddingComments"] = false;
+                    return View(nameof(FullDetailsNewWindow), ticket);
                 }
                 catch (Exception ex)
                 {

@@ -6,15 +6,11 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
-// Make SportsStore.tests a friendly assembly so it can access the internal properties of this class
-//[assembly: InternalsVisibleTo("2021-dotnet-e-02.Tests")]
 
 namespace _2021_dotnet_e_02.Models
 {
-    //[JsonObject(MemberSerialization.OptIn)]
     public class ActemiumTicket
     {
-        //[JsonProperty]
         public int TicketId { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public TicketStatus Status { get; set; }
@@ -69,12 +65,6 @@ namespace _2021_dotnet_e_02.Models
         [Display(Name = "Add new comment")]
         public string NewComment { get; set; }
 
-        //[JsonConstructor]
-        //private ActemiumTicket(int ticketId)
-        //{
-        //    TicketId = ticketId;
-        //}
-
         public ActemiumTicket()
         {
             Comments = new List<ActemiumTicketComment>();
@@ -92,9 +82,16 @@ namespace _2021_dotnet_e_02.Models
             Description = description;
             Attachments = attachments;
             TicketType = type;
+            DateAndTimeOfCreation = DateTime.Now;
             //Solution = solution;
             //Quality = quality;
             //SupportNeeded = supportNeeded;
+
+            // We need to initialize the lists here because we instantly go to FullDetails after creation
+            Comments = new List<ActemiumTicketComment>();
+            Technicians = new List<ActemiumEmployee>();
+            TicketChanges = new List<ActemiumTicketChange>();
+            TicketTechnicians = new List<ActemiumTicketActemiumUser>();
         }
 
         public void EditTicket(TicketPriority priority, string title, string description, string attachments, TicketType type)
@@ -126,18 +123,6 @@ namespace _2021_dotnet_e_02.Models
             Quality = quality;
             SupportNeeded = supportNeeded;
         }
-        // public void EditTicket(/*TicketStatus status, TicketPriority priority,*/ string title, string description, string attachments, /*TicketType type,*/ string solution, string quality, string supportNeeded)
-        // {
-        //     /*Status = status;
-        //     Priority = priority;*/
-        //     Title = title;
-        //     Description = description;
-        //     Attachments = attachments;
-        //     // TicketType = type;
-        //     Solution = solution;
-        //     Quality = quality;
-        //     SupportNeeded = supportNeeded;
-        // }
 
         public void AddNewComment(ActemiumTicket ticket, UserModel user, string userRole, string newCommentText)
         {
