@@ -61,6 +61,8 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["page"] = page;
             
             ViewData["SearchText"] = searchText;
+            ViewData["startDate"] = startDate;
+            ViewData["endDate"] = endDate;
             
             return View(contracts);
         }

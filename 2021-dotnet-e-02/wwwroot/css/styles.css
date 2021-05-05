@@ -766,6 +766,14 @@ footer {
   margin-bottom: 0;
 }
 
+.dropdown.bootstrap-select .dropdown-toggle {
+  margin-left: 0.25rem;
+  border: 2px #c6d200 solid;
+}
+.dropdown.bootstrap-select .dropdown-menu .selected span.check-mark {
+  color: #004087 !important;
+}
+
 @media (min-width: 768px) {
   .edit-view-model {
     margin-top: 2.5vh;
