@@ -1,0 +1,32 @@
+.accountPane {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 25px;
+  background-color: $white;
+  h1, h2 {
+    color: $blue;
+  }
+  .nav-pills {
+    .nav-link.active {
+      background-color: $blue !important;
+      color: $white !important;
+    }
+
+    a {
+      &::after {
+        width: 0 !important;
+      }
+
+      &:hover {
+        background-color: $blue !important;
+        color: $white !important;
+      }
+    }
+  }
+  .btn-link {
+    color: $blue;
+    &:hover {
+      color: $green;
+    }
+  }
+}

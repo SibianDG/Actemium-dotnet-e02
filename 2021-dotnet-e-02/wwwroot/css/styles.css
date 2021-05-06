@@ -812,4 +812,31 @@ footer {
   box-shadow: 0 0 0 0.2rem rgba(195, 203, 103, 0.5);
 }
 
+.accountPane {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 25px;
+  background-color: #fff;
+}
+.accountPane h1, .accountPane h2 {
+  color: #004087;
+}
+.accountPane .nav-pills .nav-link.active {
+  background-color: #004087 !important;
+  color: #fff !important;
+}
+.accountPane .nav-pills a::after {
+  width: 0 !important;
+}
+.accountPane .nav-pills a:hover {
+  background-color: #004087 !important;
+  color: #fff !important;
+}
+.accountPane .btn-link {
+  color: #004087;
+}
+.accountPane .btn-link:hover {
+  color: #c6d200;
+}
+
 /*# sourceMappingURL=styles.css.map */
