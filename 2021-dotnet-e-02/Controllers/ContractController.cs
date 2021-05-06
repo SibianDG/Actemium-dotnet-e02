@@ -108,18 +108,18 @@ namespace _2021_dotnet_e_02.Controllers
                     MapCreateViewModelToContract(createViewModel, contract);
                     contract.Company = _companyRepository.GetBy(3);
                     _contractRepository.Add(contract);
-                    Console.WriteLine("HIER");
-                    Console.WriteLine(contract.ContractId);
                     _contractRepository.SaveChanges();
-                    TempData["success"] = "Succesfully signed a new contract.";
+                    TempData["success"] = "Successfully requested a new contract.";
+                    Console.WriteLine(TempData["success"]);
+                    return RedirectToAction(nameof(Index));
+
                 }
                 catch (Exception ex)
                 {
-                    TempData["error"] = "Sorry, something went wrong, the contract was not signed...";
+                    TempData["error"] = "Sorry, something went wrong, the contract was not requested...";
                     Console.WriteLine(ex.Message);
                 }
-                
-                return RedirectToAction(nameof(Index));
+                return View(nameof(Create), createViewModel);
             }
             return View(nameof(Create), createViewModel);
         }
