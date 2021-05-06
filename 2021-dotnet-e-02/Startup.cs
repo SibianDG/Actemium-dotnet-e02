@@ -37,6 +37,8 @@ namespace _2021_dotnet_e_02
             
             services.AddSession();
 
+            services.AddHttpContextAccessor();
+
             //Connection middleware
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("TicketSystemE02Context")));

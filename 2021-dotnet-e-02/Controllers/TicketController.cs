@@ -11,6 +11,7 @@ using _2021_dotnet_e_02.Data.Repositories;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace _2021_dotnet_e_02.Controllers
 {
@@ -20,12 +21,17 @@ namespace _2021_dotnet_e_02.Controllers
         private readonly ITicketRepository _ticketRepository;
         private readonly ICompanyRepository _companyRepository;
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public TicketController(ITicketRepository ticketRepository, ICompanyRepository companyRepository, IUserRepository userRepository)
+        public TicketController(ITicketRepository ticketRepository, 
+                                ICompanyRepository companyRepository, 
+                                IUserRepository userRepository, 
+                                UserManager<IdentityUser> userManager)
         {
             _ticketRepository = ticketRepository;
             _companyRepository = companyRepository;
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
@@ -130,8 +136,18 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
+                    Console.WriteLine("We zijn vertrokken");
+                    //var applicationUser = await _userManager.GetUserAsync(User);
+                    //string userEmail = applicationUser?.UserName;
+                    var username = _userManager.GetUserName(User);
+
+                    Console.WriteLine(username);
+
                     // TODO change by signed in user
-                    UserModel user = _userRepository.GetBy(3);
+                    UserModel user = _userRepository.GetByUsername(_userManager.GetUserName(User));
+
+
+
                     string userRole = "Customer";
 
                     ticket.AddNewComment(ticket, user, userRole, editViewModel.NewComment);
