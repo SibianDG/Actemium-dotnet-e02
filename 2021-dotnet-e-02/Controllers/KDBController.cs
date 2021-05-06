@@ -70,6 +70,7 @@ namespace _2021_dotnet_e_02.Controllers
             if (kbi == null)
                 return NotFound();
             var json = JsonConvert.SerializeObject(kbi);
+            Console.WriteLine(json);
             return Json(json); 
         }
     }
