@@ -92,42 +92,51 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                 // Extra register IdentityUser stuff
                 // Find username in javaUsers => then create IdentityUser with javaUser attributes
                 var javaUser = _userRepository.GetByUsername(Input.UserName);
-                string javaEmail = "";
-                string javaRole;
-                if (javaUser is ActemiumEmployee)
+                if (javaUser != null)
                 {
-                    javaEmail = ((ActemiumEmployee)javaUser).Email;
-                    javaRole = ((ActemiumEmployee)javaUser).Role == Models.Enums.EmployeeRole.SUPPORT_MANAGER ? "SupportManager" : null;
-                    Console.WriteLine(javaRole == null ? "only supportManagers can log in" : "tis ne supman");
-                }
-                else
-                {
-                    javaEmail = ((ActemiumCustomer)javaUser).Email;
-                    javaRole = "Customer";
-                }
-                var identityUserExists = await _userManager.FindByEmailAsync(javaEmail);
-
-                if (javaUser != null && javaRole != null && identityUserExists == null)
-                {
-                    var user = new IdentityUser { UserName = javaUser.UserName, Email = javaEmail};
-                    var resultCU = await _userManager.CreateAsync(user, javaUser.Password);
-                    if (resultCU.Succeeded)
+                    string javaEmail = "";
+                    string javaRole;
+                    if (javaUser is ActemiumEmployee)
                     {
-                        resultCU = await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, javaRole));
-                    }
-                    if (resultCU.Succeeded)
-                    {
-                        Console.WriteLine("User creation success");
-                        done = true;
+                        javaEmail = ((ActemiumEmployee)javaUser).Email;
+                        javaRole = ((ActemiumEmployee)javaUser).Role == Models.Enums.EmployeeRole.SUPPORT_MANAGER ? "SupportManager" : null;
+                        Console.WriteLine(javaRole == null ? "only supportManagers can log in" : "tis ne supman");
                     }
                     else
                     {
-                        Console.WriteLine("Errors: ");
-                        Console.WriteLine(resultCU.Errors);
+                        javaEmail = ((ActemiumCustomer)javaUser).Email;
+                        javaRole = "Customer";
                     }
-                } else
+                    var identityUserExists = await _userManager.FindByEmailAsync(javaEmail);
+
+                    if (javaUser != null && javaRole != null && identityUserExists == null)
+                    {
+                        var user = new IdentityUser { UserName = javaUser.UserName, Email = javaEmail };
+                        var resultCU = await _userManager.CreateAsync(user, javaUser.Password);
+                        if (resultCU.Succeeded)
+                        {
+                            resultCU = await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, javaRole));
+                        }
+                        if (resultCU.Succeeded)
+                        {
+                            Console.WriteLine("User creation success");
+                            done = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Errors: ");
+                            Console.WriteLine(resultCU.Errors);
+                        }
+                    }
+                    else
+                    {
+                        done = true;
+                    }
+                }
+                else
                 {
-                    done = true;
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
 
                 // Normal login stuff
