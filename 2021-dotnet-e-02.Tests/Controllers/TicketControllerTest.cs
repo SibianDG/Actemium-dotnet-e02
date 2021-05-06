@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _2021_dotnet_e_02.Controllers;
 using _2021_dotnet_e_02.Models;
+using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 using _2021_dotnet_e_02.Tests.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -141,6 +142,21 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         public void Create_ValidTicket_CreatesAndPersistsTicket()
         {
             //TODO
+
+            // arrange
+            _companyRepository.Setup(c => c.GetBy(1)).Returns(_dummyContext.Amazon);
+            EditViewModel editViewModel = new EditViewModel() { Priority = TicketPriority.P1, Attachments = "This are the attachments for a test ticket", Title = "Ticket test", Description = "This is the description for a test ticket", TicketType = TicketType.DATABASE };
+            _companyRepository.Setup(c => c.Update(_dummyContext.Amazon));
+
+            // act
+            var result = Assert.IsType<RedirectToActionResult>(_controller.Create(editViewModel));
+
+            // assert
+            Assert.Equal(nameof(Index), result.ActionName);
+            Assert.Equal($"You successfully added ticket { editViewModel.Title}.", _controller.TempData["message"]);
+
+            //_companyRepository.Verify(c => c.Update(_dummyContext.Amazon), Times.Once);
+            //_companyRepository.Verify(c => c.SaveChanges(), Times.Once);
         }
         
         [Fact]

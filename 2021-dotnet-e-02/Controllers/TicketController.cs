@@ -312,18 +312,7 @@ namespace _2021_dotnet_e_02.Controllers
             Console.WriteLine(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList());
             SelectList sl = new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList(),
                 nameof(TicketStatus), nameof(TicketStatus.ToString), selected);
-            return sl;
-            //SelectListItem selListItem = new SelectListItem() { Value = "null", Text = "Select One" };
-//
-            //if (selected == null)
-            //    selListItem.Selected = true;
-            //sl.ToList().Add(selListItem);
-            //return new SelectList(sl, "Value", "Text", null);
-            
-            List<SelectListItem> _list = sl.ToList();
-            _list.Insert(0, new SelectListItem() { Value = "-1", Text = "This Is First Item" });
-            return new SelectList((IEnumerable<SelectListItem>)_list, "Value", "Text");
-            
+            return sl;       
         }
     }
     

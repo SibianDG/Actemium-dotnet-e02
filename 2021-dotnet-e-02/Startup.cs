@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data;
 using _2021_dotnet_e_02.Data.Repositories;
 using _2021_dotnet_e_02.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -56,13 +58,32 @@ namespace _2021_dotnet_e_02
                 options.User.RequireUniqueEmail = true;
             });
 
-            //Configure repositories
+            //configure authorization policy
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SupportManager", policy => policy.RequireClaim(ClaimTypes.Role, "support manager"));
+                options.AddPolicy("Customer", policy => policy.RequireClaim(ClaimTypes.Role, "customer"));
+            });
+
+            //configure repositories
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
             services.AddScoped<IKbItemRepository, KbItemRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //configure cookie
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "cookie";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            });
 
         }
 
