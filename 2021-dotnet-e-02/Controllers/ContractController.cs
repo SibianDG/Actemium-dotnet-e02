@@ -63,6 +63,7 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["SearchText"] = searchText;
             ViewData["startDate"] = startDate;
             ViewData["endDate"] = endDate;
+            ViewData["status"] = JsonConvert.SerializeObject(status);
             
             return View(contracts);
         }

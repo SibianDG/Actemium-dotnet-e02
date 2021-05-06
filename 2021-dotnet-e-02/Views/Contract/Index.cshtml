@@ -1,4 +1,5 @@
 ﻿@using _2021_dotnet_e_02.Models.Enums
+@using Microsoft.AspNetCore.Html
 @model System.Collections.Generic.IEnumerable<_2021_dotnet_e_02.Models.ActemiumContract>
 
 @{
@@ -20,6 +21,11 @@
             return dateTime.ToString("yyyy-MM-dd");
         }
         return "";
+    }
+    IHtmlContent parseJSONFromBackEnd(string s)
+    {
+        return Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(s,
+            Newtonsoft.Json.Formatting.Indented));
     }
 
     // should contain the ticket of which the info/details icon was pressed
@@ -155,6 +161,13 @@
         const month = ('0' + (t.getMonth() + 1)).slice(-2);
         const year = t.getFullYear();
         return `${dateItSelf}/${month}/${year}`;
+    }
+    
+    function initSelects(){
+        let statusList = JSON.parse(@parseJSONFromBackEnd(ViewData["status"].ToString()));
+        const statusSelect = $('#contractStatus');
+        if (statusList && statusList.length > 0)
+            statusSelect.selectpicker("val", statusList);
     }
         
     function fillInDetails(data) {
@@ -292,6 +305,12 @@
             console.log("End")
     });
 
+
+    });
+    
+    $(document).ready(() => {
+        console.log("ready");
+        initSelects();
 
     });
 </script>

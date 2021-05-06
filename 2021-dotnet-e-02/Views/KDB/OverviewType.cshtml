@@ -1,4 +1,6 @@
-﻿@model System.Collections.Generic.IEnumerable<_2021_dotnet_e_02.Models.ActemiumKbItem>
+﻿@using _2021_dotnet_e_02.Models.Enums
+@using Microsoft.AspNetCore.Html
+@model System.Collections.Generic.IEnumerable<_2021_dotnet_e_02.Models.ActemiumKbItem>
 
 @{
     ViewData["Title"] = "Overview "+ViewData["type"];
@@ -6,6 +8,11 @@
     string makeStringCapitalized(string s)
     {
         return s[..1].ToUpper() + s[1..].ToLower();
+    }
+    IHtmlContent parseJSONFromBackEnd(string s)
+    {
+        return Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(s,
+            Newtonsoft.Json.Formatting.Indented));
     }
 }
 
@@ -23,12 +30,19 @@
         <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
             <div class="d-md-flex py-4">
                 <div class="flex-grow-1">
-                    <form action="#">
-                        <div class="form-group d-flex">
+                    <form action="#" class="row">
+                        <div class="col-5 form-group d-flex">
                             <button type="submit" class="btn-ghost" asp-controller="KDB" asp-action="OverviewType">
                                 <label for="searchKDB"><i class="fas fa-search mr-2"></i></label>
                             </button>
                             <input name="type" type="text" class="form-control" id="searchKDB" aria-describedby="todo" value="@ViewData["type"]" placeholder="Search for KBI">
+                        </div>
+                        <div class="col-md-5 form-group d-none d-md-flex row">
+                            <label for="kbItem" class="w-100 col-4 pr-2">Contract Status:</label>
+                            <select name="types" id="kbItem" asp-items="Html.GetEnumSelectList<KbItemType>()" class="selectpicker form-control col-8" multiple="multiple" title="Select a type"></select>
+                        </div>
+                        <div class="col-2 ml-auto">
+                            <button type="submit" class="btn btn-secondary ml-1">Search</button>
                         </div>
                     </form>
                 </div>
@@ -100,6 +114,17 @@
     const url = '@Url.Action("Details", "KDB")';
     const contextHTML = document.getElementById('content');
         
+    function initSelects(){
+        let typeList = JSON.parse(@parseJSONFromBackEnd(ViewData["types"].ToString()));
+        console.log("typeList "+typeList);
+        const typeSelect = $('#kbItem');
+        console.log(typeSelect)
+        if (typeList && typeList.length > 0){
+            typeSelect.selectpicker("val", typeList);
+            console.log("done!")
+        }
+    }
+        
     function fillInDetails(data) {
         contextHTML.innerHTML = "";
         contextHTML.insertAdjacentHTML("beforeend",
@@ -165,6 +190,12 @@
             });
             console.log("End")
     });
+    });
+    
+    $(document).ready(() => {
+        console.log("ready");
+        initSelects();
+
     });
 </script>
 }
