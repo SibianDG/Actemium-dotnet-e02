@@ -61,14 +61,10 @@
     <div class="col-12 col-lg-7 mb-2">
         <div class="bg-white pane" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="300">
             <div class="d-md-flex py-4">
-                <div class="mr-2 mr-lg-5 mb-2">
-                </div>
                 <div class="flex-grow-1">
-                    <form class="row">
-                        <!-- TODO: select options disable/not visable on mobile -->
-                        <!-- TODO: multiple selected (see bootstrap) -->
+                    <form class="row d-flex justify-content-between">
                         <div class="col-12 row">
-                            <div class="col-12 col-md-6 form-group d-flex">
+                            <div class="col-12 col-md-6 form-group d-flex justify-content-end">
                                 <label for="searchTickets"><i class="fas fa-search mr-2"></i></label>
                                 <input type="text" class="form-control" id="searchTickets"
                                        name="searchText" aria-describedby="search text" placeholder="Search in tickets"
@@ -76,26 +72,26 @@
                                 >
                             </div>
                             <!-- TODO: hide mobile 2804 -->
-                            <div class="col-md-6 form-group d-none d-md-flex">
-                                <label for="ticketType" class="w-100 col-4">Ticket Type:</label>
+                            <div class="col-md-6 form-group d-none d-md-flex justify-content-between">
+                                <label for="ticketType" class="col-4">Ticket Type:</label>
                                 <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="selectpicker tts form-control col-8" multiple="multiple" title="Select a ticket type">
                                 </select>
                             </div>
-                            <div class="col-12 row d-none d-md-flex">
-                                <div class="col-md-6 form-group d-flex">
-                                    <label for="ticketPriority" class="w-100 col-4">Ticket Priority:</label>
-                                    <select name="priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" id="ticketPriority" class="selectpicker form-control col-8" multiple="multiple" title="Select a priority">
-                                    </select>
-                                </div>
-                                <div class="col-md-6 form-group d-flex">
-                                    <label for="ticketStatus" class="w-100 col-4">Ticket Status:</label>
-                                    <select name="status" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="selectpicker form-control col-8" multiple="multiple" title="Select a status">
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="col-12 row d-none d-md-flex justify-content-between">
+                            <div class="col-md-6 form-group d-flex justify-content-between">
+                                <label for="ticketPriority" class="col-4">Ticket Priority:</label>
+                                <select name="priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" id="ticketPriority" class="selectpicker form-control col-8" multiple="multiple" title="Select a priority">
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group d-flex justify-content-between">
+                                <label for="ticketStatus" class="col-4">Ticket Status:</label>
+                                <select name="status" asp-items="Html.GetEnumSelectList<TicketStatus>()" id="ticketStatus" class="selectpicker form-control col-8" multiple="multiple" title="Select a status">
+                                </select>
                             </div>
                         </div>
                         
-                        <div class="col-12 row">
+                        <div class="col-12 row  ml-1 ml-md-0">
                             <div class="mb-2">
                                 <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
                             </div>
