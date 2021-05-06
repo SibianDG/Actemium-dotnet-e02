@@ -104,14 +104,6 @@ namespace _2021_dotnet_e_02.Controllers
             
             return Json(json); 
         }
-        
-        public IActionResult DetailsNewWindow(int id)
-        {
-            ActemiumTicket ticket = _ticketRepository.GetBy(id);
-            if (ticket == null)
-                return NotFound();
-            return View(ticket);
-        }
 
         public IActionResult FullDetailsNewWindow(int id)
         {
@@ -290,14 +282,6 @@ namespace _2021_dotnet_e_02.Controllers
             }
             ViewData["IsEdit"] = false;
             return View(nameof(Edit), editViewModel);
-        }
-        
-        public IActionResult Delete(int id)
-        {
-            ActemiumTicket ticket = _ticketRepository.GetById(id);
-            if (ticket == null)
-                return NotFound();
-            return View(ticket);
         }
 
         [HttpPost, ActionName("Delete")]
