@@ -13,7 +13,9 @@ namespace _2021_dotnet_e_02.Data.Mapping
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.ContactPersons)
                 .HasForeignKey(t => t.UserId);
-            
+
+            builder.Property(t => t.Email).HasColumnName("EMAILADDRESS");
+
             //.HasForeignKey(t => t.CompanyId);
             //builder.OwnsOne(t => t.Company);
         }

@@ -80,6 +80,7 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            // To avoid multiple dbContext error
             Boolean done = false;
 
             returnUrl ??= Url.Content("~/");
@@ -88,6 +89,8 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
         
             if (ModelState.IsValid)
             {
+                // Extra register IdentityUser stuff
+                // Find username in javaUsers => then create IdentityUser with javaUser attributes
                 var javaUser = _userRepository.GetByUsername(Input.UserName);
                 string javaEmail = "";
                 string javaRole;
@@ -95,22 +98,14 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                 {
                     javaEmail = ((ActemiumEmployee)javaUser).Email;
                     javaRole = ((ActemiumEmployee)javaUser).Role == Models.Enums.EmployeeRole.SUPPORT_MANAGER ? "SupportManager" : null;
+                    Console.WriteLine(javaRole == null ? "only supportManagers can log in" : "tis ne supman");
                 }
                 else
                 {
-                    //javaEmail = ((ActemiumCustomer)javaUser).Email;
+                    javaEmail = ((ActemiumCustomer)javaUser).Email;
                     javaRole = "Customer";
                 }
-                Console.WriteLine("USERNAME");
-                Console.WriteLine(javaUser.UserName);
-                // TODO
-                //FindByNameAsync(Input.UserName) doesn't search on username I guess
-                // We can settle for findByEmail
-                // But then we'll change java and give everyone a mandatory email
-                // Will be the easiest way to do it
                 var identityUserExists = await _userManager.FindByEmailAsync(javaEmail);
-                Console.WriteLine(identityUserExists);
-                Console.WriteLine(identityUserExists == null);
 
                 if (javaUser != null && javaRole != null && identityUserExists == null)
                 {
@@ -122,13 +117,12 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                     }
                     if (resultCU.Succeeded)
                     {
-                        Console.WriteLine("huh: ");
                         Console.WriteLine("User creation success");
                         done = true;
                     }
                     else
                     {
-                        Console.WriteLine("errors: ");
+                        Console.WriteLine("Errors: ");
                         Console.WriteLine(resultCU.Errors);
                     }
                 } else
@@ -136,6 +130,7 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                     done = true;
                 }
 
+                // Normal login stuff
                 if (done)
                 {
                     // This doesn't count login failures towards account lockout

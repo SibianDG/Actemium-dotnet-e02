@@ -136,21 +136,19 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    Console.WriteLine("We zijn vertrokken");
-                    //var applicationUser = await _userManager.GetUserAsync(User);
-                    //string userEmail = applicationUser?.UserName;
-                    var username = _userManager.GetUserName(User);
+                    var javaUser = _userRepository.GetByUsername(_userManager.GetUserName(User));
 
-                    Console.WriteLine(username);
+                    string javaRole;
+                    if (javaUser is ActemiumEmployee)
+                    {
+                        javaRole = ((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER ? "SUPPORT_MANAGER" : "UserRoleError";
+                    }
+                    else
+                    {
+                        javaRole = "Customer";
+                    }
 
-                    // TODO change by signed in user
-                    UserModel user = _userRepository.GetByUsername(_userManager.GetUserName(User));
-
-
-
-                    string userRole = "Customer";
-
-                    ticket.AddNewComment(ticket, user, userRole, editViewModel.NewComment);
+                    ticket.AddNewComment(ticket, javaUser, javaRole, editViewModel.NewComment);
                   
                     _ticketRepository.SaveChanges();
 
