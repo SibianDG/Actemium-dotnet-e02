@@ -1,4 +1,6 @@
 ﻿@using _2021_dotnet_e_02.Models.Enums
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Html
 @model IEnumerable<_2021_dotnet_e_02.Models.ActemiumTicket>
 
 @{
@@ -32,6 +34,12 @@
     {
         return !item.Status.ToString().Equals(TicketStatus.CANCELLED.ToString(), StringComparison.OrdinalIgnoreCase)
                && !item.Status.ToString().Equals(TicketStatus.COMPLETED.ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    IHtmlContent parseJSONFromBackEnd(string s)
+    {
+        return Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(s,
+            Newtonsoft.Json.Formatting.Indented));
     }
 }
 
@@ -70,7 +78,7 @@
                             <!-- TODO: hide mobile 2804 -->
                             <div class="col-md-6 form-group d-none d-md-flex">
                                 <label for="ticketType" class="w-100 col-4">Ticket Type:</label>
-                                <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="selectpicker form-control col-8" multiple="multiple" title="Select a ticket type">
+                                <select name="type" asp-items="Html.GetEnumSelectList<TicketType>()" id="ticketType" class="selectpicker tts form-control col-8" multiple="multiple" title="Select a ticket type">
                                 </select>
                             </div>
                             <div class="col-12 row d-none d-md-flex">
@@ -196,6 +204,8 @@
 
 @section Scripts
 {
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
     <script>
     const urlDetails = '@Url.Action("Details", "Ticket")';
     const urlDelete = '@Url.Action("Delete", "Ticket")'
@@ -213,7 +223,25 @@
         return `${dateItSelf}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
     }
     var _dateOfCompletion = function (date) { return date === null ? "Not yet completed" : _convertDate(date)  }
+    
+    function initSelects(){
+        console.log("init")
+        let typeList = JSON.parse(@parseJSONFromBackEnd(ViewData["types"].ToString()));
+        const ticketTypeSelect = $('#ticketType');
+        if (typeList && typeList.length > 0)
+            ticketTypeSelect.selectpicker("val", typeList);
         
+        let priorityList = JSON.parse(@parseJSONFromBackEnd(ViewData["priority"].ToString()));
+        const prioSelect = $('#ticketPriority');
+        if (priorityList && priorityList.length > 0)
+            prioSelect.selectpicker("val", priorityList);
+        
+        let statusList = JSON.parse(@parseJSONFromBackEnd(ViewData["status"].ToString()));
+        const statusSelect = $('#ticketStatus');
+        if (statusList && statusList.length > 0)
+            statusSelect.selectpicker("val", statusList);
+    }
+
     function fillInDetails(data) {
         contextHTML.innerHTML = "";
         contextHTML.insertAdjacentHTML("beforeend",
@@ -333,6 +361,12 @@
         console.log("End")
     });
 
+
+    });
+    
+    $(document).ready(() => {
+        console.log("ready");
+        initSelects();
 
     });
 </script>

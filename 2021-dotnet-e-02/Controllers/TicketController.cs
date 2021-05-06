@@ -28,6 +28,7 @@ namespace _2021_dotnet_e_02.Controllers
         
         public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
         {
+
             Console.WriteLine("PAGE first: "+page);
             page ??= 1;
             page = page == 0 ? 1 : page;
@@ -70,7 +71,11 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["page"] = page;
             //TODO: you should know what type you selected...
             ViewData["status"] = GetTicketStatusSelectList();
-            Console.WriteLine("OOOOOOOOOOOOOOOOO: "+ViewData["status"]);
+
+            ViewData["types"] = JsonConvert.SerializeObject(type);
+            ViewData["priority"] = JsonConvert.SerializeObject(priority);
+            ViewData["status"] = JsonConvert.SerializeObject(status);
+            
             Console.WriteLine(ViewData["status"]);
             return View(tickets);
         }
