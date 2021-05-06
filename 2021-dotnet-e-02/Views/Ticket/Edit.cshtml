@@ -2,7 +2,7 @@
 @model _2021_dotnet_e_02.Models.ViewModels.TicketViewModel.EditViewModel
 
 @{
-    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit - "+@Model.Title : "Create Ticket";
+    ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Edit - " + @Model.Title : "Create Ticket";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -18,8 +18,16 @@
             <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <label asp-for="Status"></label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control" disabled>
-                </select>
+                @if ((bool)ViewData["IsSupportManager"])
+                {
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control">
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<TicketStatus>()" class="form-control" disabled>
+                    </select>
+                }
                 <!--<span asp-validation-for="Status" class="text-danger"></span>-->
             </div>
             <div class="form-group">
@@ -33,6 +41,29 @@
                 <input asp-for="Title" class="form-control" />
                 <!--<span asp-validation-for="Title" class="text-danger"></span>-->
             </div>
+            @if (!(bool)ViewData["IsEdit"])
+            {
+                <div class="form-group">
+                    <label asp-for="CompanyName"></label>
+                    @if ((bool)ViewData["IsSupportManager"])
+                    {
+                        <input asp-for="CompanyName" class="form-control" />
+                    }
+                    else
+                    {
+                        <input asp-for="CompanyName" class="form-control" value=@ViewData["SignedInUserCompany"] readonly />
+                    }
+                    <!--<span asp-validation-for="Status" class="text-danger"></span>-->
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="CompanyName"></label>
+                    <input asp-for="CompanyName" class="form-control" readonly />
+                    <!--<span asp-validation-for="Status" class="text-danger"></span>-->
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Description"></label>
                 <input asp-for="Description" class="form-control" />
@@ -48,7 +79,7 @@
                 <select asp-for="TicketType" asp-items="Html.GetEnumSelectList<TicketType>()" class="form-control">
                 </select>
                 <!--<span asp-validation-for="TicketType" class="text-danger"></span>-->
-            </div>            
+            </div>
             @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
             {
                 <div class="form-group">
@@ -68,18 +99,18 @@
                 </div>
             }
 
-        <div class="d-flex justify-content-center mb-3">
-            <button class="btn btn-primary mr-3" type="submit">Save</button>
-            @if ((bool)ViewData["IsEdit"])
-            {
-                <a asp-action="FullDetailsNewWindow" asp-route-id="@Model.TicketId" class="btn btn-secondary">Cancel</a>
-            }
-            else
-            {
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-            }
-        </div>
-        </form>        
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-primary mr-3" type="submit">Save</button>
+                @if ((bool)ViewData["IsEdit"])
+                {
+                    <a asp-action="FullDetailsNewWindow" asp-route-id="@Model.TicketId" class="btn btn-secondary">Cancel</a>
+                }
+                else
+                {
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                }
+            </div>
+        </form>
     </div>
 </div>
 

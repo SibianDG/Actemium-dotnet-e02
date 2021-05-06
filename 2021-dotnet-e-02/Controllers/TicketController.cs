@@ -128,7 +128,7 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    var javaUser = _userRepository.GetByUsername(_userManager.GetUserName(User));
+                    var javaUser = GetSignedInUserModel();
 
                     string javaRole;
                     if (javaUser is ActemiumEmployee)
@@ -174,6 +174,20 @@ namespace _2021_dotnet_e_02.Controllers
             if (ticket == null)
                 return NotFound();
             ViewData["IsEdit"] = true;
+
+            var javaUser = GetSignedInUserModel();
+            if (javaUser is ActemiumEmployee)
+            {
+                if (((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER)
+                {
+                    ViewData["IsSupportManager"] = true;
+                }
+            }
+            else
+            {
+                ViewData["IsSupportManager"] = false;
+            }
+
             Console.WriteLine("RETURN VIEW EDIT");
             return View(new EditViewModel(ticket));
         }
@@ -193,12 +207,11 @@ namespace _2021_dotnet_e_02.Controllers
                 {
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
-                        ticket.EditTicket(editViewModel.Priority, editViewModel.Title.Trim()
+                        ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
                             , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType);
                     } else
                     {
-                        Console.WriteLine(editViewModel.Solution ?? "");
-                        ticket.EditTicketCompleted(editViewModel.Priority, editViewModel.Title.Trim()
+                        ticket.EditTicketCompleted(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
                             , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
                             // Solution/Quality/SupportNeeded are optional values
                             //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 
@@ -230,6 +243,22 @@ namespace _2021_dotnet_e_02.Controllers
         public IActionResult Create()
         {
             ViewData["IsEdit"] = false;
+
+            var javaUser = GetSignedInUserModel();
+
+            if (javaUser is ActemiumEmployee)
+            {
+                if(((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER)
+                {
+                    ViewData["IsSupportManager"] = true;
+                }
+            }
+            else
+            {
+                ViewData["IsSupportManager"] = false;
+                // let me know if there is a better way, but this works just fine
+                ViewData["SignedInUserCompany"] = GetSignedInActemiumCustomer().Company.Name;
+            }
             // Just to clarify because it was confusing
             // Will redirect to Edit.cshtml and NOT to Create.cshtml (=> not in use)
             return View(nameof(Edit), new EditViewModel());
@@ -244,30 +273,39 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    // only for testing -> will be replaced by company of logged in user in the future
-                    //CompanyRepository tempCompanyRepo = new CompanyRepository(new ApplicationDbContext());
-                    ActemiumCompany company = _companyRepository.GetBy(3);
+                    var javaUser = GetSignedInUserModel();
 
-                    Console.WriteLine("01 create");
-                    // only ticketstatus created can be given to new tickets created by customer
-                    var ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
-                        , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
-                    Console.WriteLine("02 create");
-                    Console.WriteLine(company.Name);
+                    ActemiumCompany company = null;
+                    ActemiumTicket ticket = null;
+
+                    string javaRole;
+                    if (javaUser is ActemiumEmployee)
+                    {
+                        javaRole = ((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER ? "SUPPORT_MANAGER" : "UserRoleError";
+                        company = _companyRepository.GetByName(editViewModel.CompanyName);
+                        if (company == null)
+                        {
+                            throw new Exception("Company name does not exist!!");
+                        }
+                        // supportManager can assign any ticketstatus
+                        ticket = new ActemiumTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
+                            , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+                    }
+                    else
+                    {
+                        javaRole = "Customer";
+                        company = GetSignedInActemiumCustomer().Company;
+                        // only ticketstatus created can be given to new tickets created by customer
+                        ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
+                            , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+                    }
+
                     company.addActemiumTicket(ticket);
-                    Console.WriteLine("company add ticket gelukt");
-                    //_ticketRepository.Add(ticket);
 
-                    Console.WriteLine("04 add ticketrepo");
-                    //TODO: company meegeven
                     _companyRepository.Update(company);
-                    Console.WriteLine("05 update company");
-                    //_ticketRepository.Add(ticket);
 
-                    // Code works up till here
-                    // error is thrown, has to do with updating company in db fails or smth idk
                     _companyRepository.SaveChanges();
-                    //_ticketRepository.SaveChanges();
+
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
 
                     ViewData["AddingComments"] = false;
@@ -305,7 +343,16 @@ namespace _2021_dotnet_e_02.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        
+
+        private UserModel GetSignedInUserModel()
+        {
+            return _userRepository.GetByUsername(_userManager.GetUserName(User));
+        }
+        private ActemiumCustomer GetSignedInActemiumCustomer()
+        {
+            return _userRepository.GetCustomerByUsername(_userManager.GetUserName(User));
+        }
+
         private SelectList GetTicketStatusSelectList(int selected = 0)
         {
             Console.WriteLine("GetTicketStatusSelectList");

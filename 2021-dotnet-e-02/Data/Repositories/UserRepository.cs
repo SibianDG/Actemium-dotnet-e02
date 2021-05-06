@@ -42,6 +42,12 @@ namespace _2021_dotnet_e_02.Data.Repositories
             return _users.SingleOrDefault(u => u.UserName.ToLower().Equals(username.ToLower()));
         }
 
+        // I need to include the company, cannot be done when return UserModel so I created an extra method
+        public ActemiumCustomer GetCustomerByUsername(string username)
+        {
+            return _customers.Include(c => c.Company).SingleOrDefault(u => u.UserName.ToLower().Equals(username.ToLower()));
+        }
+
         /*public UserModel GetBy(string emailAddress)
         {
             return _users.SingleOrDefault(u => u.Email.Equals(emailAddress, StringComparison.CurrentCultureIgnoreCase));

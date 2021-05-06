@@ -25,7 +25,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumCompany GetByName(string name)
         {
-            return _companies.AsNoTracking().SingleOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            return _companies.SingleOrDefault(c => c.Name.ToLower().Equals(name.ToLower()));
         }
 
         public void Add(ActemiumCompany company)
@@ -45,6 +45,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public ActemiumCompany GetBy(int id)
         {
+            // TODO test if all these includes are necessary
             return _companies.Include(c => c.ContactPersons).Include(c => c.Tickets).Include(c => c.Contracts).SingleOrDefault(c => c.CompanyId == id);
             //return _companies.Include(c => c.Tickets).SingleOrDefault(c => c.CompanyId == id);
         }

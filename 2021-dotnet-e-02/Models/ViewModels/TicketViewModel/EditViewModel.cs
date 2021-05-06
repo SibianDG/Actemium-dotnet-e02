@@ -36,10 +36,13 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Description")]
         [StringLength(255, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
-        // we will never need to edit this field because it's always the company of the logged in customer
-        //public ActemiumCompany Company { get; set; }        
+        // support managers can edit this field
+        // auto filled in for logged in customer
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Company name")]
+        public string CompanyName { get; set; }
 
-        public List<ActemiumTicketComment> Comments { get; set; }
+        //public List<ActemiumTicketComment> Comments { get; set; }
 
         [Display(Name = "Attachments")]
         [StringLength(255, ErrorMessage = "The {0} can't be longer than {0} characters.")]
@@ -74,8 +77,9 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
             Title = ticket.Title;
             TicketType = ticket.TicketType;
             Description = ticket.Description;
-            Comments = ticket.Comments.ToList();
-            Console.WriteLine(Comments.Count);
+            CompanyName = ticket.Company.Name;
+            //Comments = ticket.Comments.ToList();
+            //Console.WriteLine(Comments.Count);
             Attachments = ticket.Attachments;
             Solution = ticket.Solution;
             Quality = ticket.Quality;

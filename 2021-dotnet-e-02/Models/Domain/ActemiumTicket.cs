@@ -94,10 +94,11 @@ namespace _2021_dotnet_e_02.Models
             TicketTechnicians = new List<ActemiumTicketActemiumUser>();
         }
 
-        public void EditTicket(TicketPriority priority, string title, string description, string attachments, TicketType type)
+        public void EditTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type)
         {
             // Status cannot be edited by the customer
-            //Status = status;
+            // Status can be edited by the support manager
+            Status = status;
             Priority = priority;
             Title = title;
             Description = description;
@@ -110,10 +111,11 @@ namespace _2021_dotnet_e_02.Models
         }
 
         // method not used yet, but don't remove it because we will need it
-        public void EditTicketCompleted(TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
+        public void EditTicketCompleted(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {
             // Status cannot be edited by the customer
-            //Status = status;
+            // Status can be edited by the support manager
+            Status = status;
             Priority = priority;
             Title = title;
             Description = description;
