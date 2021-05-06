@@ -29,7 +29,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public IEnumerable<ActemiumCustomer> GetAllCustomers()
         {
-            return _customers.AsNoTracking().Include(c => c.Company).ToList();
+            return _customers.Include(c => c.Company).ToList();
         }
 
         public UserModel GetBy(int id)
@@ -39,7 +39,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public UserModel GetByUsername(string username)
         {
-            return _users.SingleOrDefault(u => u.UserName.Equals(username, StringComparison.CurrentCultureIgnoreCase));
+            return _users.SingleOrDefault(u => u.UserName.Equals(username/*, StringComparison.CurrentCultureIgnoreCase*/));
         }
 
         /*public UserModel GetBy(string emailAddress)

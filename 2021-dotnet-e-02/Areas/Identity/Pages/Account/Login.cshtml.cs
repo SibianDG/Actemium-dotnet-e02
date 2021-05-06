@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using _2021_dotnet_e_02.Models;
 
 namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
 {
@@ -20,14 +21,17 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IUserRepository _userRepository;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager, 
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _userRepository = userRepository;
         }
 
         [BindProperty]
@@ -75,33 +79,63 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            Boolean done = false;
+
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var javaUser = _userRepository.GetByUsername(Input.UserName);
+                Console.WriteLine("USERNAME");
+                Console.WriteLine(javaUser.UserName);
+                // TODO
+                // FindByNameAsync(Input.UserName) doesn't search on username I guess
+                // We can settle for findByEmail
+                // But then we'll change java and give everyone a mandatory email
+                // Will be the easiest way to do it
+                if (javaUser !=null /*&& _userManager.FindByNameAsync(Input.UserName) == null*/)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = new IdentityUser { UserName = javaUser.UserName, Email = "thomas.dirven@test123.com" };
+                    var resultCU = await _userManager.CreateAsync(user, javaUser.Password);
+                    if (resultCU.Succeeded)
+                    {
+                        Console.WriteLine("huh: ");
+                        Console.WriteLine("User creation success");
+                        done = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("errors: ");
+                        Console.WriteLine(resultCU.Errors);
+                    }
                 }
-                if (result.RequiresTwoFactor)
+
+                if (done)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    // This doesn't count login failures towards account lockout
+                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                    var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return LocalRedirect(returnUrl);
+                    }
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        return RedirectToPage("./Lockout");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
                 }
             }
 

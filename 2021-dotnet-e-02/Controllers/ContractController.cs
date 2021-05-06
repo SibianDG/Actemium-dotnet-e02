@@ -105,6 +105,8 @@ namespace _2021_dotnet_e_02.Controllers
                     MapCreateViewModelToContract(createViewModel, contract);
                     contract.Company = _companyRepository.GetBy(3);
                     _contractRepository.Add(contract);
+                    Console.WriteLine("HIER");
+                    Console.WriteLine(contract.ContractId);
                     _contractRepository.SaveChanges();
                     TempData["success"] = "Succesfully signed a new contract.";
                 }
