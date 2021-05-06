@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using _2021_dotnet_e_02.Models;
+using System.Security.Claims;
 
 namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
 {
@@ -88,17 +89,37 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var javaUser = _userRepository.GetByUsername(Input.UserName);
+                string javaEmail = "";
+                string javaRole;
+                if (javaUser is ActemiumEmployee)
+                {
+                    javaEmail = ((ActemiumEmployee)javaUser).Email;
+                    javaRole = ((ActemiumEmployee)javaUser).Role == Models.Enums.EmployeeRole.SUPPORT_MANAGER ? "SupportManager" : null;
+                }
+                else
+                {
+                    //javaEmail = ((ActemiumCustomer)javaUser).Email;
+                    javaRole = "Customer";
+                }
                 Console.WriteLine("USERNAME");
                 Console.WriteLine(javaUser.UserName);
                 // TODO
-                // FindByNameAsync(Input.UserName) doesn't search on username I guess
+                //FindByNameAsync(Input.UserName) doesn't search on username I guess
                 // We can settle for findByEmail
                 // But then we'll change java and give everyone a mandatory email
                 // Will be the easiest way to do it
-                if (javaUser !=null /*&& _userManager.FindByNameAsync(Input.UserName) == null*/)
+                var identityUserExists = await _userManager.FindByEmailAsync(javaEmail);
+                Console.WriteLine(identityUserExists);
+                Console.WriteLine(identityUserExists == null);
+
+                if (javaUser != null && javaRole != null && identityUserExists == null)
                 {
-                    var user = new IdentityUser { UserName = javaUser.UserName, Email = "thomas.dirven@test123.com" };
+                    var user = new IdentityUser { UserName = javaUser.UserName, Email = javaEmail};
                     var resultCU = await _userManager.CreateAsync(user, javaUser.Password);
+                    if (resultCU.Succeeded)
+                    {
+                        resultCU = await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, javaRole));
+                    }
                     if (resultCU.Succeeded)
                     {
                         Console.WriteLine("huh: ");
@@ -110,6 +131,9 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                         Console.WriteLine("errors: ");
                         Console.WriteLine(resultCU.Errors);
                     }
+                } else
+                {
+                    done = true;
                 }
 
                 if (done)
@@ -117,6 +141,7 @@ namespace _2021_dotnet_e_02.Areas.Identity.Pages.Account
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                     var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                    
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");

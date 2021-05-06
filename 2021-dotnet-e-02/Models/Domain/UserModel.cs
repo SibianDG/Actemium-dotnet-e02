@@ -19,8 +19,8 @@ namespace _2021_dotnet_e_02.Models
         [JsonIgnore]
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
-
         public ICollection<ActemiumTicketActemiumUser> TicketTechnicians { get; set; }
+
 
         public UserModel()
         {

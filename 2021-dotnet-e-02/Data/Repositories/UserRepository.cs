@@ -39,7 +39,7 @@ namespace _2021_dotnet_e_02.Data.Repositories
 
         public UserModel GetByUsername(string username)
         {
-            return _users.SingleOrDefault(u => u.UserName.Equals(username/*, StringComparison.CurrentCultureIgnoreCase*/));
+            return _users.SingleOrDefault(u => u.UserName.ToLower().Equals(username.ToLower()));
         }
 
         /*public UserModel GetBy(string emailAddress)
