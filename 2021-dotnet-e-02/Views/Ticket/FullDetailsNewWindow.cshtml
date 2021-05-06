@@ -19,7 +19,7 @@
                 <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "" : "active")" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
                 <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "active" : "")" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
-                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Changes</a></li>
+                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Change History</a></li>
             </ul>
 
             <div class="tab-content">
@@ -118,8 +118,21 @@
 
                 <div class="tab-pane @((bool)ViewData["AddingComments"] ? "active" : "")" role="tabpanel" id="tab-2">
                     <div class="edit-view-model" style="margin-top:10px;">
-                        @*<h2>Comments - @Model.Title</h2>
-                            <hr />*@
+                        @*<h2>Comments - @Model.Title</h2>*@
+                        @*<hr />*@
+                        <form method="post" style="width: 70%">
+                            <div asp-validation-summary="All"></div>
+                            <div class="form-group">
+                                <label asp-for="NewComment"></label>
+                                <input asp-for="NewComment" class="form-control" />
+                                <!--<span asp-validation-for="Title" class="text-danger"></span>-->
+                            </div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <button class="btn btn-primary mr-3" type="submit">Add comment</button>
+                                @*<a asp-action="Edit" asp-route-id="@Model.TicketId" class="btn btn-primary mr-3">Add comment</a>*@
+                                @*<a asp-action="FullDetailsNewWindow" class="btn btn-secondary">Back to List</a>*@
+                            </div>
+                        </form>
                         @if (Model.Comments.Count == 0)
                         {
                             <p>This ticket has no comments.</p>
@@ -127,7 +140,7 @@
                         else
                         {
                             @* comments are not sorted when used as Model.Comments *@
-                            @foreach (var comment in Model.Comments.OrderBy(c => c.DateTimeOfComment).ToList())
+                            @foreach (var comment in Model.Comments.OrderByDescending(c => c.DateTimeOfComment).ToList())
                             {
                                 <table style="width: 100%; margin-bottom:15px">
                                     <tbody>
@@ -172,19 +185,6 @@
                                 </table>
                             }
                         }
-                        <form method="post"  style="width: 65%">
-                            <div asp-validation-summary="All"></div>
-                            <div class="form-group">
-                                <label asp-for="NewComment"></label>
-                                <input asp-for="NewComment" class="form-control" />
-                                <!--<span asp-validation-for="Title" class="text-danger"></span>-->
-                            </div>
-                            <div class="d-flex justify-content-center mb-3">
-                                <button class="btn btn-primary mr-3" type="submit">Add comment</button>
-                                @*<a asp-action="Edit" asp-route-id="@Model.TicketId" class="btn btn-primary mr-3">Add comment</a>*@
-                                @*<a asp-action="FullDetailsNewWindow" class="btn btn-secondary">Back to List</a>*@
-                            </div>
-                        </form>
                     </div>
                 </div>
 
