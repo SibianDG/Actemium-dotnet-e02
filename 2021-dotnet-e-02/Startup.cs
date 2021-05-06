@@ -61,8 +61,8 @@ namespace _2021_dotnet_e_02
             //configure authorization policy
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("SupportManager", policy => policy.RequireClaim(ClaimTypes.Role, "support manager"));
-                options.AddPolicy("Customer", policy => policy.RequireClaim(ClaimTypes.Role, "customer"));
+                options.AddPolicy("SupportManager", policy => policy.RequireClaim(ClaimTypes.Role, "SupportManager"));
+                options.AddPolicy("Customer", policy => policy.RequireClaim(ClaimTypes.Role, "Customer"));
             });
 
             //configure repositories
@@ -79,7 +79,7 @@ namespace _2021_dotnet_e_02
                 options.Cookie.Name = "cookie";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                options.LoginPath = "Account/Login";
+                options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;

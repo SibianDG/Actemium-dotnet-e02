@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _2021_dotnet_e_02.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController> _logger;

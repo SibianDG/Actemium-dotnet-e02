@@ -10,9 +10,11 @@ using _2021_dotnet_e_02.Data;
 using _2021_dotnet_e_02.Data.Repositories;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _2021_dotnet_e_02.Controllers
 {
+    [Authorize]
     public class TicketController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
@@ -25,7 +27,7 @@ namespace _2021_dotnet_e_02.Controllers
             _companyRepository = companyRepository;
             _userRepository = userRepository;
         }
-        
+
         public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
         {
 
