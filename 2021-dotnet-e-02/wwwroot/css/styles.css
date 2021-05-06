@@ -570,11 +570,6 @@ footer {
 #searchTickets {
   width: 100%;
 }
-@media (min-width: 768px) {
-  #searchTickets {
-    width: 60%;
-  }
-}
 
 .table th {
   background-color: #004087;
