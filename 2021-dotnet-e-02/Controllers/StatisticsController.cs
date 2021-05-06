@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using _2021_dotnet_e_02.Data.Repositories;
 using _2021_dotnet_e_02.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _2021_dotnet_e_02.Controllers
 {
+    [Authorize]
     public class StatisticsController : Controller
     {
         private readonly IKbItemRepository _kbItemRepository;

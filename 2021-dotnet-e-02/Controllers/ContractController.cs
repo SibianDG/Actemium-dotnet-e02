@@ -4,12 +4,14 @@ using System.Linq;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.ContractViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace _2021_dotnet_e_02.Controllers
 {
+    [Authorize]
     public class ContractController : Controller
     {
 

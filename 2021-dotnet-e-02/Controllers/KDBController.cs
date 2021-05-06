@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _2021_dotnet_e_02.Controllers
 {
+    [Authorize]
     public class KDBController : Controller
     {
         private readonly IKbItemRepository _kbItemRepository;
