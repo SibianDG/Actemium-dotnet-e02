@@ -1,5 +1,5 @@
 ﻿@using _2021_dotnet_e_02.Models
-@inject SignInManager<UserModel> SignInManager
+@inject SignInManager<IdentityUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
