@@ -111,6 +111,7 @@ namespace _2021_dotnet_e_02.Controllers
             if (ticket == null)
                 return NotFound();
             ViewData["AddingComments"] = false;
+            SetIsSupportManager();
             return View(ticket);
         }
 
@@ -128,6 +129,8 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
+                    SetIsSupportManager();
+
                     var javaUser = GetSignedInUserModel();
 
                     string javaRole;
@@ -175,18 +178,7 @@ namespace _2021_dotnet_e_02.Controllers
                 return NotFound();
             ViewData["IsEdit"] = true;
 
-            var javaUser = GetSignedInUserModel();
-            if (javaUser is ActemiumEmployee)
-            {
-                if (((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER)
-                {
-                    ViewData["IsSupportManager"] = true;
-                }
-            }
-            else
-            {
-                ViewData["IsSupportManager"] = false;
-            }
+            SetIsSupportManager();
 
             Console.WriteLine("RETURN VIEW EDIT");
             return View(new EditViewModel(ticket));
@@ -205,6 +197,8 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
+                    SetIsSupportManager();
+
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
                         ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
@@ -244,21 +238,15 @@ namespace _2021_dotnet_e_02.Controllers
         {
             ViewData["IsEdit"] = false;
 
-            var javaUser = GetSignedInUserModel();
-
-            if (javaUser is ActemiumEmployee)
+            // sets ViewData["IsSupportManager"]
+            // then it returns false when it's a customer
+            // if it's a customer we set ViewData["SignedInUserCompany"]
+            if (!SetIsSupportManager())
             {
-                if(((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER)
-                {
-                    ViewData["IsSupportManager"] = true;
-                }
-            }
-            else
-            {
-                ViewData["IsSupportManager"] = false;
                 // let me know if there is a better way, but this works just fine
                 ViewData["SignedInUserCompany"] = GetSignedInActemiumCustomer().Company.Name;
             }
+
             // Just to clarify because it was confusing
             // Will redirect to Edit.cshtml and NOT to Create.cshtml (=> not in use)
             return View(nameof(Edit), new EditViewModel());
@@ -273,15 +261,11 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    var javaUser = GetSignedInUserModel();
-
                     ActemiumCompany company = null;
                     ActemiumTicket ticket = null;
 
-                    string javaRole;
-                    if (javaUser is ActemiumEmployee)
+                    if (SetIsSupportManager())
                     {
-                        javaRole = ((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER ? "SUPPORT_MANAGER" : "UserRoleError";
                         company = _companyRepository.GetByName(editViewModel.CompanyName);
                         if (company == null)
                         {
@@ -293,7 +277,6 @@ namespace _2021_dotnet_e_02.Controllers
                     }
                     else
                     {
-                        javaRole = "Customer";
                         company = GetSignedInActemiumCustomer().Company;
                         // only ticketstatus created can be given to new tickets created by customer
                         ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
@@ -351,6 +334,26 @@ namespace _2021_dotnet_e_02.Controllers
         private ActemiumCustomer GetSignedInActemiumCustomer()
         {
             return _userRepository.GetCustomerByUsername(_userManager.GetUserName(User));
+        }
+
+        private Boolean SetIsSupportManager()
+        {
+            Boolean isSupportManager = false;
+            var javaUser = GetSignedInUserModel();
+            if (javaUser is ActemiumEmployee)
+            {
+                if (((ActemiumEmployee)javaUser).Role == EmployeeRole.SUPPORT_MANAGER)
+                {
+                    ViewData["IsSupportManager"] = true;
+                    isSupportManager = true;
+                }
+            }
+            else
+            {
+                ViewData["IsSupportManager"] = false;
+                isSupportManager = false;
+            }
+            return isSupportManager;
         }
 
         private SelectList GetTicketStatusSelectList(int selected = 0)

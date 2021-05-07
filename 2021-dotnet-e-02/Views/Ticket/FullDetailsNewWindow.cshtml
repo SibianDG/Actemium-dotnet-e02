@@ -18,16 +18,20 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "" : "active")" role="tab" data-toggle="tab" href="#tab-1">Details ticket</a></li>
                 <li class="nav-item"><a class="nav-link @((bool)ViewData["AddingComments"] ? "active" : "")" role="tab" data-toggle="tab" href="#tab-2">Comments</a></li>
-                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
-                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Change History</a></li>
+                @* only support managers can see tab 3&4 (Technicians & Change History) *@
+                @if ((bool)ViewData["IsSupportManager"])
+                {
+                    <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Technicians</a></li>
+                    <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Change History</a></li>
+                }
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane @((bool)ViewData["AddingComments"] ? "" : "active")" role="tabpanel" id="tab-1">
                     <div class="edit-view-model" style="margin-top:10px;">
                         @*
-                            <h2>Details - @Model.Title</h2>
-                            <hr />
+                <h2>Details - @Model.Title</h2>
+                <hr />
                         *@
                         <dl class="row d-flex justify-content-center align-items-top p-3 text-center">
                             <dt class="col-12 col-md-6">
@@ -188,31 +192,33 @@
                     </div>
                 </div>
 
-
-                <div class="tab-pane justify-content-center align-items-top text-center" role="tabpanel" id="tab-3">
-                    @if (Model.TicketTechnicians.Count == 0)
-                    {
-                        <p style="margin-top:15px">This ticket has no technicians assigned at this moment.</p>
-                    }
-                    else
-                    {
-                        <p style="margin-top:15px">Currently @Model.TicketTechnicians.Count @( @Model.TicketTechnicians.Count == 1 ? "technician is" : "technicians are") working hard to give you the support you deserve.</p>
-                        <p>Below you will find all their contact info. Feel free to contact them during their working hours.</p>
-                        @foreach (var tech in Model.TicketTechnicians)
+                @* only support managers can see tab 3&4 (Technicians & Change History) *@
+                @if ((bool)ViewData["IsSupportManager"])
+                {
+                    <div class="tab-pane justify-content-center align-items-top text-center" role="tabpanel" id="tab-3">
+                        @if (Model.TicketTechnicians.Count == 0)
                         {
-                            <table style="width: 100%; margin-bottom:15px">
-                                <tbody>
-                                    <tr>
-                                        <td style="text-align: right;
+                            <p style="margin-top:15px">This ticket has no technicians assigned at this moment.</p>
+                        }
+                        else
+                        {
+                            <p style="margin-top:15px">Currently @Model.TicketTechnicians.Count @( @Model.TicketTechnicians.Count == 1 ? "technician is" : "technicians are") working hard to give you the support you deserve.</p>
+                            <p>Below you will find all their contact info. Feel free to contact them during their working hours.</p>
+                            @foreach (var tech in Model.TicketTechnicians)
+                            {
+                                <table style="width: 100%; margin-bottom:15px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align: right;
                                         width:45%;
                                         padding-right: 15px;
                                         font-size: 1rem;
                                         font-family: 'Source Sans Pro';
                                         height: fit-content();
                                         ">
-                                            Name:
-                                        </td>
-                                        <td style="text-align: left;
+                                                Name:
+                                            </td>
+                                            <td style="text-align: left;
                                         width: 55%;
                                         padding-right: 15px;
                                         font-size: 1.1rem;
@@ -221,80 +227,79 @@
                                         font-weight: bold;
                                         height: fit-content();
                                         ">
-                                            @tech.Technician.FirstName @tech.Technician.LastName
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right;
-                                        width:45%;
-                                        padding-right: 15px;
-                                        font-size: 1rem;
-                                        font-family: 'Source Sans Pro';
-                                        height: fit-content();
-                                        ">
-                                            Phone number:
-                                        </td>
-                                        <td style="text-align: left;
-                                        width:55%;
-                                        padding-right: 15px;
-                                        font-size: 1rem;
-                                        font-family: 'Source Sans Pro';
-                                        height: fit-content();
-                                        ">
-                                            @(((ActemiumEmployee)tech.Technician).PhoneNumber)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right;
-                                        width:45%;
-                                        padding-right: 15px;
-                                        font-size: 1rem;
-                                        font-family: 'Source Sans Pro';
-                                        height: fit-content();
-                                        ">
-                                            Email address:
-                                        </td>
-                                        <td style="text-align: left;
-                                        width:55%;
-                                        padding-right: 15px;
-                                        font-size: 1rem;
-                                        font-family: 'Source Sans Pro';
-                                        height: fit-content();
-                                        ">
-                                            @(((ActemiumEmployee)tech.Technician).Email)
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        }
-                    }
-                </div>
-
-                <div class="tab-pane" role="tabpanel" id="tab-4">
-                    <div class="edit-view-model" style="margin-top:10px;">
-                        @if (Model.TicketChanges.Count == 0)
-                        {
-                            <p>This ticket has no change history.</p>
-                        }
-                        else
-                        {
-                            @* changes are not sorted when used as Model.Comments *@
-                            @foreach (var change in Model.TicketChanges.OrderBy(c => c.DateTimeOfChange).ToList())
-                            {
-                                <table style="width: 100%; margin-bottom:15px">
-                                    <tbody>
+                                                @tech.Technician.FirstName @tech.Technician.LastName
+                                            </td>
+                                        </tr>
                                         <tr>
-                                            <td rowspan="2" style="text-align: right;
+                                            <td style="text-align: right;
+                                        width:45%;
+                                        padding-right: 15px;
+                                        font-size: 1rem;
+                                        font-family: 'Source Sans Pro';
+                                        height: fit-content();
+                                        ">
+                                                Phone number:
+                                            </td>
+                                            <td style="text-align: left;
+                                        width:55%;
+                                        padding-right: 15px;
+                                        font-size: 1rem;
+                                        font-family: 'Source Sans Pro';
+                                        height: fit-content();
+                                        ">
+                                                @(((ActemiumEmployee)tech.Technician).PhoneNumber)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;
+                                        width:45%;
+                                        padding-right: 15px;
+                                        font-size: 1rem;
+                                        font-family: 'Source Sans Pro';
+                                        height: fit-content();
+                                        ">
+                                                Email address:
+                                            </td>
+                                            <td style="text-align: left;
+                                        width:55%;
+                                        padding-right: 15px;
+                                        font-size: 1rem;
+                                        font-family: 'Source Sans Pro';
+                                        height: fit-content();
+                                        ">
+                                                @(((ActemiumEmployee)tech.Technician).Email)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+                        }
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-4">
+                        <div class="edit-view-model" style="margin-top:10px;">
+                            @if (Model.TicketChanges.Count == 0)
+                            {
+                                <p>This ticket has no change history.</p>
+                            }
+                            else
+                            {
+                                @* changes are not sorted when used as Model.Comments *@
+                                @foreach (var change in Model.TicketChanges.OrderBy(c => c.DateTimeOfChange).ToList())
+                                {
+                                    <table style="width: 100%; margin-bottom:15px">
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2" style="text-align: right;
                                         width:25%;
                                         padding-right: 15px;
                                         font-size: 1rem;
                                         font-family: 'Source Sans Pro';
                                         height: fit-content();
                                         ">
-                                                @change.DateTimeOfChange.ToShortDateString() <br />
-                                                @change.DateTimeOfChange.ToString("HH:mm:ss")
-                                            </td>
-                                            <td style="text-align: left;
+                                                    @change.DateTimeOfChange.ToShortDateString() <br />
+                                                    @change.DateTimeOfChange.ToString("HH:mm:ss")
+                                                </td>
+                                                <td style="text-align: left;
                                         width:75%;
                                         padding-right: 15px;
                                         font-size: 1.1rem;
@@ -302,23 +307,24 @@
                                         font-family: 'Source Sans Pro';
                                         font-weight: bold;
                                         ">
-                                                @change.UserRole: @change.User.FirstName @change.User.LastName
-                                            </td>
-                                        </tr>
-                                        <tr> <td>@change.ChangeDescription</td> </tr>
-                                        @foreach (var changeContent in change.ChangeContents.OrderBy(c => c.TicketChangeContentId).ToList())
-                                        {
-                                            <tr>
-                                                <td></td>
-                                                <td>@changeContent.ChangeContent</td>
+                                                    @change.UserRole: @change.User.FirstName @change.User.LastName
+                                                </td>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                            <tr> <td>@change.ChangeDescription</td> </tr>
+                                            @foreach (var changeContent in change.ChangeContents.OrderBy(c => c.TicketChangeContentId).ToList())
+                                            {
+                                                <tr>
+                                                    <td></td>
+                                                    <td>@changeContent.ChangeContent</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
                             }
-                        }
+                        </div>
                     </div>
-                </div>
+                } @* only support managers can see tab 3&4 (Technicians & Change History) *@
             </div>
 
 
