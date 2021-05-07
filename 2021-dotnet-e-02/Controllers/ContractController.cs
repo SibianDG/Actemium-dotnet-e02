@@ -5,6 +5,7 @@ using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.ContractViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -18,12 +19,20 @@ namespace _2021_dotnet_e_02.Controllers
         private readonly IContractRepository _contractRepository;
         private readonly IContractTypeRepository _contractTypeRepository;
         private readonly ICompanyRepository _companyRepository;
-        
-        public ContractController(IContractRepository contractRepository, IContractTypeRepository contractTypeRepository, ICompanyRepository companyRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public ContractController(IContractRepository contractRepository,   
+                                IContractTypeRepository contractTypeRepository, 
+                                ICompanyRepository companyRepository,
+                                IUserRepository userRepository,
+                                UserManager<IdentityUser> userManager)
         {
             _contractRepository = contractRepository;
             _contractTypeRepository = contractTypeRepository;
             _companyRepository = companyRepository;
+            _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         #region Index
@@ -33,8 +42,15 @@ namespace _2021_dotnet_e_02.Controllers
             page = page == 0 ? 1 : page;
             
             IEnumerable<ActemiumContract> contracts;
-            //TODO performace?? this is good i think
-            contracts = _contractRepository.GetAll();
+            if (GetIsSupportManager())
+            {
+                //TODO performace?? this is good i think
+                contracts = _contractRepository.GetAll();
+            }
+            else
+            {
+                contracts = _contractRepository.GetAll(GetSignedInActemiumCustomer().Company);
+            }
             contracts = contracts.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ToList();
 
             if (searchText != null)
@@ -142,6 +158,25 @@ namespace _2021_dotnet_e_02.Controllers
             contract.Status = ContractStatus.IN_REQUEST;
             contract.StartDate = contractCreateViewModel.StartDate;
             contract.EndDate = contractCreateViewModel.StartDate.AddYears(contractCreateViewModel.Duration);
+        }
+
+        // duplicate methods => also in TicketController
+        // is there an easy fix to get these methods to some other class?
+        private UserModel GetSignedInUserModel()
+        {
+            return _userRepository.GetByUsername(_userManager.GetUserName(User));
+        }
+        private ActemiumCustomer GetSignedInActemiumCustomer()
+        {
+            return _userRepository.GetCustomerByUsername(_userManager.GetUserName(User));
+        }
+        private Boolean GetIsSupportManager()
+        {
+            // we're not doing a full check like we do in ticketcontroller
+            // and like we do in Login => because once it got checked in Login
+            // we know that if a signed in user is an ActemiumEmployee
+            // it can only be a support manager
+            return GetSignedInUserModel() is ActemiumEmployee;
         }
     }
 }

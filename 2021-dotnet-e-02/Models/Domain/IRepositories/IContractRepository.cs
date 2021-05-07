@@ -7,6 +7,7 @@ namespace _2021_dotnet_e_02.Models
         ActemiumContract GetBy(int id);
         
         IEnumerable<ActemiumContract> GetAll();
+        IEnumerable<ActemiumContract> GetAll(ActemiumCompany company);
 
         void Add(ActemiumContract contract);
 
