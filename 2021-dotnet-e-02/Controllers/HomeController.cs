@@ -84,7 +84,9 @@ namespace _2021_dotnet_e_02.Controllers
         // is there an easy fix to get these methods to some other class?
         private UserModel GetSignedInUserModel()
         {
-            return _userRepository.GetByUsername(_userManager.GetUserName(User));
+            var javaUser = _userRepository.GetByUsername(_userManager.GetUserName(User));
+            ViewData["FirstLastNameLoggedInUser"] = javaUser.FirstName + " " + javaUser.LastName;
+            return javaUser;
         }
         private ActemiumCustomer GetSignedInActemiumCustomer()
         {

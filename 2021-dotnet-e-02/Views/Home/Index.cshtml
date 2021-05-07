@@ -2,8 +2,10 @@
 @using System.Collections
 @using Microsoft.AspNetCore.Identity
 
+@*
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+*@
 
 @model List<_2021_dotnet_e_02.Models.ActemiumTicket>
 
@@ -27,7 +29,8 @@
         <div class="container-fluid opacity-100">
             <div class="row py-3">
                 <div class="col-10 col-lg-6 text-in-picture-dashboard">
-                    <span>Hello @UserManager.GetUserName(User),</span>
+                    @*<span>Hello @UserManager.GetUserName(User),</span>*@
+                    <span>Hello @ViewData["FirstLastNameLoggedInUser"],</span>
                     <h3>Welcome to the Actemium Support site</h3>
                 </div>
                 <div class="col-10 col-lg-6 d-flex justify-content-end align-items-center">
@@ -151,5 +154,4 @@
 
         })
     </script>
-
 }
