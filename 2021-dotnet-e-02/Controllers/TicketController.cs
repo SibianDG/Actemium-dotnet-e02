@@ -44,8 +44,15 @@ namespace _2021_dotnet_e_02.Controllers
 
 
             IEnumerable<ActemiumTicket> tickets;
-            //TODO performance??
-            tickets = _ticketRepository.GetAll();
+            if (SetIsSupportManager())
+            {
+                //TODO performance??
+                tickets = _ticketRepository.GetAll();
+            }
+            else
+            {
+                tickets = _ticketRepository.GetAll(GetSignedInActemiumCustomer().Company);
+            }            
 
             tickets = tickets.OrderBy(t => t.Priority).ThenBy(t => t.DateAndTimeOfCreation).ToList();
             

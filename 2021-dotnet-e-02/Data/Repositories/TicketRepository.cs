@@ -27,6 +27,15 @@ namespace _2021_dotnet_e_02.Data.Repositories
                                           //.Include(t => t.TicketChanges).ThenInclude(c => c.User)
                                           .ToList();
         }
+        public IEnumerable<ActemiumTicket> GetAll(ActemiumCompany actemiumCompany)
+        {
+            return _tickets.AsNoTracking().Where(t => t.Company == actemiumCompany)
+                                          //.Include(t => t.Comments).ThenInclude(c => c.User)
+                                          //.Include(t => t.Company)
+                                          //.Include(t => t.TicketTechnicians)
+                                          //.Include(t => t.TicketChanges).ThenInclude(c => c.User)
+                                          .ToList();
+        }
 
         // For full details new window
         public ActemiumTicket GetBy(int id)
@@ -81,6 +90,24 @@ namespace _2021_dotnet_e_02.Data.Repositories
         public IEnumerable<ActemiumTicket> GetAllResolvedTickets()
         {
             return _tickets.AsNoTracking().Where(t => t.Status == TicketStatus.COMPLETED);
+        }
+
+        public IEnumerable<ActemiumTicket> GetAllOpenTickets(ActemiumCompany actemiumCompany)
+        {
+            return _tickets.AsNoTracking()
+                .Where(t => t.Company == actemiumCompany)
+                .Where(t => t.Status != TicketStatus.CANCELLED && t.Status != TicketStatus.COMPLETED)
+                .OrderBy(t => t.Priority)
+                .ThenBy(t => t.Status == TicketStatus.WAITING_ON_USER_INFORMATION)
+                .ThenBy(t => t.DateAndTimeOfCreation)
+                ;
+        }
+
+        public IEnumerable<ActemiumTicket> GetAllResolvedTickets(ActemiumCompany actemiumCompany)
+        {
+            return _tickets.AsNoTracking()
+                .Where(t => t.Company == actemiumCompany)
+                .Where(t => t.Status == TicketStatus.COMPLETED);
         }
     }
 }

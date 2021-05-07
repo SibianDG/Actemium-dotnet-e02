@@ -10,10 +10,13 @@ namespace _2021_dotnet_e_02.Models
         ActemiumTicket GetBy(int id);
 
         IEnumerable<ActemiumTicket> GetAll();
+        IEnumerable<ActemiumTicket> GetAll(ActemiumCompany company);
 
         IEnumerable<ActemiumTicket> GetAllOpenTickets();
+        IEnumerable<ActemiumTicket> GetAllOpenTickets(ActemiumCompany company);
 
         IEnumerable<ActemiumTicket> GetAllResolvedTickets();
+        IEnumerable<ActemiumTicket> GetAllResolvedTickets(ActemiumCompany company);
         ActemiumTicket GetById(int id);
 
         void Add(ActemiumTicket ticket);
@@ -22,7 +25,5 @@ namespace _2021_dotnet_e_02.Models
         //void Delete(ActemiumTicket ticket);
         void Update(ActemiumTicket ticket);
         void SaveChanges();
-
-
     }
 }
