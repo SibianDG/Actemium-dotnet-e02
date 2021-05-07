@@ -208,8 +208,11 @@ namespace _2021_dotnet_e_02.Controllers
 
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
+                        DateTime? dateAndTimeOfCompletion =
+                            (editViewModel.Status == TicketStatus.COMPLETED) ? DateTime.Now : null;
                         ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
-                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType);
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType,
+                            dateAndTimeOfCompletion);
                     } else
                     {
                         ticket.EditTicketCompleted(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()

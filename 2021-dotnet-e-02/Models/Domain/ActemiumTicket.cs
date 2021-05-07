@@ -94,7 +94,7 @@ namespace _2021_dotnet_e_02.Models
             TicketTechnicians = new List<ActemiumTicketActemiumUser>();
         }
 
-        public void EditTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type)
+        public void EditTicket(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, DateTime? dateAndTimeOfCompletion)
         {
             // Status cannot be edited by the customer
             // Status can be edited by the support manager
@@ -104,6 +104,7 @@ namespace _2021_dotnet_e_02.Models
             Description = description;
             Attachments = attachments;
             TicketType = type;
+            DateAndTimeOfCompletion = dateAndTimeOfCompletion;
             // The attributes below can only be editted when the ticket has been completed
             //Solution = solution;
             //Quality = quality;
