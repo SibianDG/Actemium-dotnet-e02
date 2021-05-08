@@ -331,7 +331,7 @@
         contextHTML.innerHTML = ""
         contextHTML.insertAdjacentHTML("beforeend", `<div class="d-flex flex-column justify-content-center align-content-center"><h1>Loading <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h1></div>` )
         // Usage!
-        sleep(500).then(() => {
+        sleep(200).then(() => {
             console.log("start")
             $.ajax({
                 url: urlDetails,

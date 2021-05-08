@@ -8,19 +8,70 @@
 
 <div class="container" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="25">
     <div class="row">
-        <div class="col-12">
-            <h1>@ViewData["Title"]</h1>
-        </div>
-        <div class="col-12 bg-white p-5">
+      <div class="col-12">
+        <h1 class="c-blue text-center">@ViewData["Title"]</h1>
+      </div>
+      <ul class="nav nav-tabs">
+         <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1" id="tab-link-1">N° tickets/status</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2" id="tab-link-2">Time resolved</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3" id="tab-link-3">Respons time on ticket</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4" id="tab-link-4">Todo</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div class="tab-pane active" role="tabpanel" id="tab-1">
+          <div class="col-12 bg-white p-5">
             <figure class="highcharts-figure">
-                <div id="chart1"></div>
-                  <p class="highcharts-description">
-                    Bar chart showing horizontal columns. This chart type is often
-                    beneficial for smaller screens, as the user can scroll through the data
-                    vertically, and axis labels are easy to read.
-                  </p>
+              <div id="chart1"></div>
+              <p class="highcharts-description">
+                Bar chart showing horizontal columns. This chart type is often
+                beneficial for smaller screens, as the user can scroll through the data
+                vertically, and axis labels are easy to read.
+              </p>
             </figure>
+          </div>
         </div>
+        
+        <div class="tab-pane" role="tabpanel" id="tab-2">
+          <div class="col-12 bg-white p-5">
+            <figure class="highcharts-figure">
+              <div id="chart2"></div>
+              <p class="highcharts-description">
+                                Bar chart showing horizontal columns. This chart type is often
+                                beneficial for smaller screens, as the user can scroll through the data
+                                vertically, and axis labels are easy to read.
+              </p>
+            </figure>
+          </div>
+        </div>
+        
+        <div class="tab-pane" role="tabpanel" id="tab-3">
+          <div class="col-12 bg-white p-5">
+            <figure class="highcharts-figure">
+              <div id="chart3"></div>
+              <p class="highcharts-description">
+                Bar chart showing horizontal columns. This chart type is often
+                beneficial for smaller screens, as the user can scroll through the data
+                vertically, and axis labels are easy to read.
+              </p>
+            </figure>
+          </div>
+        </div>
+        
+        <div class="tab-pane" role="tabpanel" id="tab-4">
+          <div class="col-12 bg-white p-5">
+            <figure class="highcharts-figure">
+              <div id="chart4"></div>
+              <p class="highcharts-description">
+                Bar chart showing horizontal columns. This chart type is often
+                beneficial for smaller screens, as the user can scroll through the data
+                vertically, and axis labels are easy to read.
+              </p>
+            </figure>
+          </div>
+        </div>
+        
+      </div>
     </div>
 </div>
 
@@ -34,65 +85,276 @@
   <script src="https://code.highcharts.com/modules/export-data.js"></script>
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
   <script >
-    const numbers = JSON.parse(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["numbers"],
-                                 Newtonsoft.Json.Formatting.Indented)));
-    const cats = JSON.parse(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["cats"],
-                              Newtonsoft.Json.Formatting.Indented)));
-    let data = []
-    for (const [key, value] of Object.entries(numbers)){
-      data.push({name: key,  data: [value]});
-    }
-    Highcharts.chart('chart1', {
-      chart: {
-        type: 'bar',
-      },
-      title: {
-        text: 'Ticket per Status'
-      },
-      subtitle: {
-        text: 'TODO'
-      },
-      xAxis: {
-        //categories: ['Categories'],
-        title: {
-          text: 'Categories'
-        }
-      },
-      yAxis: {
-        title: {
-          text: 'Number of tickets',
-          align: 'high'
-        },
-        labels: {
-          overflow: 'justify'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' tickets'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      legend: {
-        layout: 'horizontal',
-        align: 'right',
-        verticalAlign: 'top',
-        x: -40,
-        y: 80,
-        floating: true,
-        borderWidth: 1,
-        backgroundColor:
-          Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-        shadow: true
-      },
-      credits: {
-        enabled: false
-      },
-      series: data
+    
+    
+    function loadGraph1(dataFromBackend) {
+      let data  = [];
+      for (const [key, value] of Object.entries(dataFromBackend["numbers"])){
+        data.push({name: String(key),  data: [value]});
+      }
+      Highcharts.chart('chart1', {
+            chart: {
+              type: 'bar',
+            },
+            title: {
+              text: 'Ticket per Status'
+            },
+            subtitle: {
+              text: 'TODO'
+            },
+            xAxis: {
+              //categories: ['Categories'],
+              title: {
+                text: 'Categories'
+              }
+            },
+            yAxis: {
+              title: {
+                text: 'Number of tickets',
+                align: 'high'
+              },
+              labels: {
+                overflow: 'justify'
+              }
+            },
+            tooltip: {
+              valueSuffix: ' tickets'
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true
+                }
+              }
+            },
+            legend: {
+              layout: 'horizontal',
+              align: 'right',
+              verticalAlign: 'top',
+              x: -40,
+              y: 80,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor:
+                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+              shadow: true
+            },
+            credits: {
+              enabled: false
+            },
+            series: data
     });
+    }
+    function loadGraph2(dataFromBackend) {
+      let data  = [];
+      for (const [key, value] of Object.entries(dataFromBackend["numbers"])){
+        data.push({name: String(key),  data: [value]});
+      }
+      let cats = dataFromBackend["cats"];
+          Highcharts.chart('chart2', {
+            chart: {
+              type: 'bar',
+            },
+            title: {
+              text: 'Avg time to resolve'
+            },
+            subtitle: {
+              text: 'TODO2'
+            },
+            xAxis: {
+              categories: cats,
+              title: {
+                text: 'Categories'
+              }
+            },
+            yAxis: {
+              title: {
+                text: 'Time to complete',
+                align: 'high'
+              },
+              labels: {
+                overflow: 'justify'
+              }
+            },
+            tooltip: {
+              valueSuffix: ' minutes'
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true
+                }
+              }
+            },
+            legend: {
+              layout: 'horizontal',
+              align: 'right',
+              verticalAlign: 'top',
+              x: -40,
+              y: 80,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor:
+                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+              shadow: true
+            },
+            credits: {
+              enabled: false
+            },
+            series: data
+          });
+    }
+    function loadGraph3() {
+          Highcharts.chart('chart1', {
+            chart: {
+              type: 'bar',
+            },
+            title: {
+              text: 'Ticket per Status'
+            },
+            subtitle: {
+              text: 'TODO'
+            },
+            xAxis: {
+              //categories: ['Categories'],
+              title: {
+                text: 'Categories'
+              }
+            },
+            yAxis: {
+              title: {
+                text: 'Number of tickets',
+                align: 'high'
+              },
+              labels: {
+                overflow: 'justify'
+              }
+            },
+            tooltip: {
+              valueSuffix: ' tickets'
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true
+                }
+              }
+            },
+            legend: {
+              layout: 'horizontal',
+              align: 'right',
+              verticalAlign: 'top',
+              x: -40,
+              y: 80,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor:
+                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+              shadow: true
+            },
+            credits: {
+              enabled: false
+            },
+            series: data
+          });
+    }
+    function loadGraph4() {
+          Highcharts.chart('chart1', {
+            chart: {
+              type: 'bar',
+            },
+            title: {
+              text: 'Ticket per Status'
+            },
+            subtitle: {
+              text: 'TODO'
+            },
+            xAxis: {
+              //categories: ['Categories'],
+              title: {
+                text: 'Categories'
+              }
+            },
+            yAxis: {
+              title: {
+                text: 'Number of tickets',
+                align: 'high'
+              },
+              labels: {
+                overflow: 'justify'
+              }
+            },
+            tooltip: {
+              valueSuffix: ' tickets'
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true
+                }
+              }
+            },
+            legend: {
+              layout: 'horizontal',
+              align: 'right',
+              verticalAlign: 'top',
+              x: -40,
+              y: 80,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor:
+                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+              shadow: true
+            },
+            credits: {
+              enabled: false
+            },
+            series: data
+          });
+    }
+    
+    $( document ).ready(() => {
+      fetchGraph(1);
+    });
+    $('#tab-link-1').click(() => {
+      fetchGraph(1);
+    });
+    $('#tab-link-2').click(() => {
+      console.log(222222222222222222222222222)
+      fetchGraph(2);
+    });
+    $('#tab-link-3').click(() => {
+      fetchGraph(3);
+    });
+    $('#tab-link-4').click(() => {
+      fetchGraph(4);
+    });
+    
+    function fetchGraph(number) {
+      let urlDetails = "/Statistics/Graph"+number
+      $.ajax({
+          url: urlDetails,
+          type: "get",
+          //data: { id: $(this).attr('ticketId') },
+          dataType: "json",
+          success: function (result) {
+              console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+              //result = JSON.stringify(result);
+              result = JSON.parse(result);
+              console.log(result);
+              switch (number) {
+                case 1: loadGraph1(result); break;
+                case 2: loadGraph2(result); break;
+                case 3: loadGraph3(result); break;
+                case 4: loadGraph4(result); break;
+              }
+          },
+          error: function (xhr) {
+              alert("failed");
+          }
+      });  
+    }
+      
+
 </script>
 }
