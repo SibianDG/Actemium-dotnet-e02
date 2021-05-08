@@ -203,3 +203,15 @@ footer {
 @import "details";
 @import "pagination";
 @import "account";
+
+.goog-te-gadget-simple {
+  border: none !important;
+  .goog-te-menu-value {
+    span {
+      color: $blue !important;
+      &:nth-of-type(2) {
+        border-left: 1px $green solid !important;
+      }
+    }
+  }
+}
