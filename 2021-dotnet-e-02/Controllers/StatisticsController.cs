@@ -99,6 +99,30 @@ namespace _2021_dotnet_e_02.Controllers
             Graph graph2 = new Graph(timePerTicketPerPrio, timePerTicketPerPrio.Keys.ToList());
             return Json(JsonConvert.SerializeObject(graph2, Formatting.Indented));
         }
+        
+        public IActionResult Graph3()
+        {
+            //Contracts per Type
+            IEnumerable<ActemiumContract> contracts = _contractRepository.GetAll();
+            IEnumerable<ActemiumContractType> types = _contractTypeRepository.GetAll();
+
+            Dictionary<string, double> contractsPerType = new Dictionary<string, double>();
+
+            foreach (ActemiumContractType type in types)
+            {
+                contractsPerType[type.Name] = 0;
+            }
+
+            foreach (ActemiumContract contract in contracts)
+            {
+                contractsPerType[contract.ContractType.Name]++;
+            }
+
+            Console.WriteLine(contractsPerType.ToString());
+
+            Graph graph3 = new Graph(contractsPerType, contractsPerType.Keys.ToList());
+            return Json(JsonConvert.SerializeObject(graph3, Formatting.Indented));
+        }
 
         public class Graph
         {
@@ -112,5 +136,7 @@ namespace _2021_dotnet_e_02.Controllers
                 this.cats = cats;
             }
         }
+
+        
     }
 }

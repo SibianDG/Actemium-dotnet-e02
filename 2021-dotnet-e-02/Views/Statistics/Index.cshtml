@@ -14,8 +14,8 @@
       <ul class="nav nav-tabs">
          <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1" id="tab-link-1">N° tickets/status</a></li>
          <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2" id="tab-link-2">Time resolved</a></li>
-         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3" id="tab-link-3">Respons time on ticket</a></li>
-         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4" id="tab-link-4">Todo</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3" id="tab-link-3">Contracts per type</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4" id="tab-link-4">Respons time on ticket (Todo)</a></li>
       </ul>
       
       <div class="tab-content">
@@ -204,8 +204,13 @@
             series: data
           });
     }
-    function loadGraph3() {
-          Highcharts.chart('chart1', {
+    function loadGraph3(dataFromBackend) {
+          let data  = [];
+          for (const [key, value] of Object.entries(dataFromBackend["numbers"])){
+            data.push({name: String(key),  data: [value]});
+          }
+          let cats = dataFromBackend["cats"];
+          Highcharts.chart('chart3', {
             chart: {
               type: 'bar',
             },
@@ -216,7 +221,7 @@
               text: 'TODO'
             },
             xAxis: {
-              //categories: ['Categories'],
+              categories: cats,
               title: {
                 text: 'Categories'
               }
@@ -320,10 +325,10 @@
       fetchGraph(1);
     });
     $('#tab-link-2').click(() => {
-      console.log(222222222222222222222222222)
       fetchGraph(2);
     });
     $('#tab-link-3').click(() => {
+            console.log(33333333333333333333333333333)
       fetchGraph(3);
     });
     $('#tab-link-4').click(() => {
