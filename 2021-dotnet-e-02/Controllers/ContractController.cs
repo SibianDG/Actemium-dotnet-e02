@@ -142,6 +142,32 @@ namespace _2021_dotnet_e_02.Controllers
 
         #endregion
 
+        #region Delete
+
+        [HttpPost, ActionName("Cancel")]
+        public IActionResult CancelConfirmed(int id)
+        {
+            try
+            {
+                ActemiumContract contract = _contractRepository.GetBy(id);
+                if (contract == null)
+                    return NotFound();
+                contract.Status = ContractStatus.CANCELLED;
+                _contractRepository.Update(contract);
+                TempData["message"] = "You successfully cancelled the contract!";
+                _contractRepository.SaveChanges();
+                Console.WriteLine("Canceled contract");
+            }
+            catch
+            {
+                TempData["error"] = "Sorry, something went wrong, the contract wasn't cancelled";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
         private SelectList GetContractTypesAsSelectList()
         {
             return new SelectList(

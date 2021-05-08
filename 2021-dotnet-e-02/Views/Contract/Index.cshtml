@@ -22,6 +22,13 @@
         }
         return "";
     }
+
+    bool isResolved(ActemiumContract contract)
+    {
+        return !contract.Status.ToString().Equals(ContractStatus.CANCELLED.ToString(), StringComparison.OrdinalIgnoreCase)
+               && !contract.Status.ToString().Equals(ContractStatus.EXPIRED.ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+    
     IHtmlContent parseJSONFromBackEnd(string s)
     {
         return Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(s,
@@ -149,11 +156,35 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="Delete modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to cancel this contract?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          
+        </div>
+        <div class="modal-body">
+            <div id="model-content"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="cancelConfirm" class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
 
 @section Scripts
 {
-<script>
+    <script>
     const url = '@Url.Action("Details", "Contract")';
+    const urlCancel = '@Url.Action("Cancel", "Contract")';
+    const modalContent = document.getElementById('model-content');
+    let contractIDToCancel;
     const contextHTML = document.getElementById('content');
     var _convertDate = function (date) {
         const t = new Date(date);
@@ -161,6 +192,10 @@
         const month = ('0' + (t.getMonth() + 1)).slice(-2);
         const year = t.getFullYear();
         return `${dateItSelf}/${month}/${year}`;
+    }
+    
+    var _isExpired = function (status) {
+          return status.toLowerCase() === "cancelled" || status.toLowerCase() === "expired";
     }
     
     function initSelects(){
@@ -200,6 +235,7 @@
                                          <div class="col-8 class-muted d-flex align-items-center">${_convertDate(data.EndDate)}</div>
                                        </div>
                                   </div>
+                
                                 </div>
                
                                 <div class="tab-pane" role="tabpanel" id="tab-2">
@@ -267,14 +303,44 @@
                                        </div>
                                   </div>
                                 </div>
+                                <div class="d-flex justify-content-center mt-2">
+                                    <a contractId="${data.ContractId}" contractType="${data.ContractType.Name}" id="cancelBtn" class="btn btn-danger ${_isExpired(data.Status) ? "disabled" : ""}"><i class="fas fa-trash-alt mr-2"></i>Cancel</a>
+                                </div>
                             </div>
              `
-        )
+        );
+        $('#cancelBtn').click(function () {
+                console.log("pressed");
+               $('#cancelModal').modal('show');
+              
+               contractIDToCancel = $(this).attr('contractId');
+               let contractType = $(this).attr('contractType');
+               console.log(contractIDToCancel);
+               console.log(modalContent);
+              
+               modalContent.insertAdjacentHTML("beforeend", `The contract you want to cancel has the id: ${contractIDToCancel} <br> and Type: ${contractType}`)
+            });
     }
 
     function sleep (time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
+    
+   
+    
+    $('#cancelConfirm').click(function () {
+        $.ajax({
+            url: urlCancel,
+            type: "post",
+            data: { id: contractIDToCancel },
+            success: function () {
+                location.reload();   
+            },
+            error: function ()  {
+                alert("failed")    
+            }
+        });    
+    });
     
     $('.contractDetailsButton').click(function () {
         contextHTML.innerHTML = ""
