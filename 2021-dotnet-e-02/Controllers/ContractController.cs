@@ -42,7 +42,7 @@ namespace _2021_dotnet_e_02.Controllers
             page = page == 0 ? 1 : page;
             
             IEnumerable<ActemiumContract> contracts;
-            if (GetIsSupportManager())
+            if (SetIsSupportManager())
             {
                 //TODO performace?? this is good i think
                 contracts = _contractRepository.GetAll();
@@ -116,13 +116,13 @@ namespace _2021_dotnet_e_02.Controllers
         [HttpPost] 
         public IActionResult Create(ContractCreateViewModel createViewModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
                     ActemiumContract contract = new ActemiumContract();
                     MapCreateViewModelToContract(createViewModel, contract);
-                    contract.Company = _companyRepository.GetBy(3);
+                    contract.Company = GetSignedInActemiumCustomer().Company;
                     _contractRepository.Add(contract);
                     _contractRepository.SaveChanges();
                     TempData["success"] = "Successfully requested a new contract.";
@@ -196,13 +196,27 @@ namespace _2021_dotnet_e_02.Controllers
         {
             return _userRepository.GetCustomerByUsername(_userManager.GetUserName(User));
         }
-        private Boolean GetIsSupportManager()
+        
+        private Boolean SetIsSupportManager()
         {
+            Boolean isSupportManager = false;
+            var javaUser = GetSignedInUserModel();
+
             // we're not doing a full check like we do in ticketcontroller
             // and like we do in Login => because once it got checked in Login
             // we know that if a signed in user is an ActemiumEmployee
             // it can only be a support manager
-            return GetSignedInUserModel() is ActemiumEmployee;
+            if (javaUser is ActemiumEmployee)
+            {
+                    ViewData["IsSupportManager"] = true;
+                    isSupportManager = true;
+            }
+            else
+            {
+                ViewData["IsSupportManager"] = false;
+                isSupportManager = false;
+            }
+            return isSupportManager;
         }
     }
 }

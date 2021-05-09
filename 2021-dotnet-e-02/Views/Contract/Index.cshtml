@@ -83,7 +83,10 @@
                         </div>
                         <div class="col-12 row">
                             <div class="mr-2">
-                                <a asp-action="Create" class="btn btn-primary">Request new contract</a>
+                                @if (!(bool)ViewData["IsSupportManager"])
+                                {
+                                    <a asp-action="Create" class="btn btn-primary">Request new contract</a>
+                                }
                             </div>
                             <div class="ml-auto">
                                 <button type="submit" class="btn btn-secondary ml-1">Search</button>
