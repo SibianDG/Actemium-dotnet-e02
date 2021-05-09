@@ -6,8 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="25">
-    <div class="row">
+<div class="container mt-5" data-aos="fade-up" data-aos-offset="120" data-aos-duration="500" data-aos-once="false" data-aos-easing="ease-out-cubic" data-aos-delay="25">
+    <div class="row pane">
       <div class="col-12">
         <h1 class="c-blue text-center">@ViewData["Title"]</h1>
       </div>
@@ -15,7 +15,7 @@
          <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1" id="tab-link-1">N° tickets/status</a></li>
          <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2" id="tab-link-2">Time resolved</a></li>
          <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3" id="tab-link-3">Contracts per type</a></li>
-         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4" id="tab-link-4">Respons time on ticket (Todo)</a></li>
+         <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="https://powerbi.microsoft.com/en-us/landing/signin/" id="tab-link-4">PowerBI</a></li>
       </ul>
       
       <div class="tab-content">
@@ -57,19 +57,7 @@
             </figure>
           </div>
         </div>
-        
-        <div class="tab-pane" role="tabpanel" id="tab-4">
-          <div class="col-12 bg-white p-5">
-            <figure class="highcharts-figure">
-              <div id="chart4"></div>
-              <p class="highcharts-description">
-                Bar chart showing horizontal columns. This chart type is often
-                beneficial for smaller screens, as the user can scroll through the data
-                vertically, and axis labels are easy to read.
-              </p>
-            </figure>
-          </div>
-        </div>
+
         
       </div>
     </div>
@@ -328,11 +316,11 @@
       fetchGraph(2);
     });
     $('#tab-link-3').click(() => {
-            console.log(33333333333333333333333333333)
       fetchGraph(3);
     });
     $('#tab-link-4').click(() => {
-      fetchGraph(4);
+      window.location.href = "https://powerbi.microsoft.com/en-us/landing/signin/";
+      //PowerBI
     });
     
     function fetchGraph(number) {

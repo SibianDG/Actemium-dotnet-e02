@@ -422,6 +422,10 @@ footer {
   background-position: right;
 }
 
+.errorInput {
+  border-bottom: 5px #b31212 solid !important;
+}
+
 .welcome-dashboard {
   background-image: url("../images/world-connected.jpg");
   min-height: 350px;
@@ -840,6 +844,12 @@ footer {
 }
 .accountPane .btn-link:hover {
   color: #c6d200;
+}
+
+.pane {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 25px;
 }
 
 .goog-te-gadget-simple {

@@ -26,16 +26,16 @@
                                 <input asp-for="Input.Password" class="form-control" placeholder="Password"/>
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group pl-lg-3">
                                 <div class="checkbox">
+                                    <input asp-for="Input.RememberMe" class="form-check-input"/>
                                     <label asp-for="Input.RememberMe" class="form-check-label ml-2 small">
-                                        <input asp-for="Input.RememberMe" class="form-check-input"/>
                                         @Html.DisplayNameFor(m => m.Input.RememberMe)
                                     </label>
                                 </div>
                             </div>
                             <div class="mb-2 d-flex justify-content-center form-group">
-                                <button type="submit" class="btn btn-primary">Log in <i class="fas fa-arrow-right small ml-2"></i></button>
+                                <button type="submit" id="submitLogin" class="btn btn-primary">Log in <i class="fas fa-arrow-right small ml-2"></i></button>
                             </div>
                             <div class="form-group">
                                 <small class="text-center">
@@ -44,7 +44,7 @@
                                 </small>
                             </div>
                             <br>
-                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <!--<div asp-validation-summary="All" id="validationSumm" class="text-danger"></div>-->
 
                         </div>
                     </form>
@@ -55,5 +55,17 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+    //TODO: fix
+    $('#submitLogin').click(() => {
+        // $(".text-danger").each(() => {
+        //     console.log("html:")
+        //     console.log($(this).has("span"))
+        //     if ($(this).has("span")){
+        //        $(this).parent().has("input").addClass("errorInput");
+        //     }
+        // });
+    });
+    </script>
 }
