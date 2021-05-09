@@ -19,6 +19,8 @@ namespace _2021_dotnet_e_02.Models
         IEnumerable<ActemiumTicket> GetAllResolvedTickets(ActemiumCompany company);
         ActemiumTicket GetById(int id);
 
+        int GetLastAddedId();
+
         void Add(ActemiumTicket ticket);
         
         //Nothing is deleted in this application (See message of the client on Chamilo)

@@ -77,6 +77,12 @@ namespace _2021_dotnet_e_02.Data.Repositories
             _context.SaveChanges();
         }
 
+
+        public int GetLastAddedId()
+        {
+            return _tickets.AsNoTracking().OrderByDescending(t => t.TicketId).FirstOrDefault().TicketId;
+        }
+
         public IEnumerable<ActemiumTicket> GetAllOpenTickets()
         {
             return _tickets.AsNoTracking()

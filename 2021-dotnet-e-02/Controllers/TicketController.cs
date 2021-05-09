@@ -228,7 +228,7 @@ namespace _2021_dotnet_e_02.Controllers
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
 
                     ViewData["AddingComments"] = false;
-                    return View(nameof(FullDetailsNewWindow), ticket);
+                    return RedirectToAction(nameof(FullDetailsNewWindow), new { id = _ticketRepository.GetLastAddedId() });
                 }
                 catch
                 {
@@ -302,7 +302,8 @@ namespace _2021_dotnet_e_02.Controllers
                     TempData["message"] = $"You successfully added ticket {ticket.Title}.";
 
                     ViewData["AddingComments"] = false;
-                    return View(nameof(FullDetailsNewWindow), ticket);
+
+                    return RedirectToAction(nameof(FullDetailsNewWindow), new { id = _ticketRepository.GetLastAddedId() });
                 }
                 catch (Exception ex)
                 {
