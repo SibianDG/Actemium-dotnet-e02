@@ -38,7 +38,7 @@
                             <input name="type" type="text" class="form-control" id="searchKDB" aria-describedby="todo" value="@ViewData["type"]" placeholder="Search for KBI">
                         </div>
                         <div class="col-md-5 form-group d-none d-md-flex row">
-                            <label for="kbItem" class="w-100 col-4 pr-2">Contract Status:</label>
+                            <label for="kbItem" class="w-100 col-4 pr-2">Type:</label>
                             <select name="types" id="kbItem" asp-items="Html.GetEnumSelectList<KbItemType>()" class="selectpicker form-control col-8" multiple="multiple" title="Select a type"></select>
                         </div>
                         <div class="col-2 ml-auto">
