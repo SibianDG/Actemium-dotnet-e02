@@ -215,7 +215,7 @@ namespace _2021_dotnet_e_02.Controllers
                             dateAndTimeOfCompletion);
                     } else
                     {
-                        ticket.EditTicketCompleted(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
+                        ticket.EditTicketCompleted(TicketStatus.COMPLETED, editViewModel.Priority, editViewModel.Title.Trim()
                             , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
                             // Solution/Quality/SupportNeeded are optional values
                             //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 

@@ -22,9 +22,9 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
         [Display(Name = "Ticket priority")]
         [EnumDataType(typeof(TicketPriority))]
         public TicketPriority Priority { get; set; }
-        [Display(Name = "Date and time of creation")]
+        [Display(Name = "Time of creation")]
         public DateTime DateAndTimeOfCreation { get; set; }
-        [Display(Name = "Date and time of completion")]
+        [Display(Name = "Time of completion")]
         public DateTime? DateAndTimeOfCompletion { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]

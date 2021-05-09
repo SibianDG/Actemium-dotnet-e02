@@ -16,9 +16,9 @@ namespace _2021_dotnet_e_02.Models
         public TicketStatus Status { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public TicketPriority Priority { get; set; }
-        [Display(Name = "Date and time of creation")]
+        [Display(Name = "Time of creation")]
         public DateTime DateAndTimeOfCreation { get; set; }
-        [Display(Name = "Date and time of completion")]
+        [Display(Name = "Time of completion")]
         public DateTime? DateAndTimeOfCompletion { get; set; }
         private string _title;
         public string Title
