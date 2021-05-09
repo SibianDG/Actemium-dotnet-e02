@@ -10,9 +10,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
         {
             builder.ToTable("ACTEMIUMCUSTOMER");
 
+            builder.Property<int>("COMPANY_COMPANYID");
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.ContactPersons)
-                .HasForeignKey(t => t.UserId);
+                .HasForeignKey("COMPANY_COMPANYID");
 
             builder.Property(t => t.Email).HasColumnName("EMAILADDRESS");
 
