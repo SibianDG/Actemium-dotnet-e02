@@ -228,7 +228,7 @@ namespace _2021_dotnet_e_02.Controllers
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";
 
                     ViewData["AddingComments"] = false;
-                    return RedirectToAction(nameof(FullDetailsNewWindow), new { id = _ticketRepository.GetLastAddedId() });
+                    return RedirectToAction(nameof(FullDetailsNewWindow), new { id = id });
                 }
                 catch
                 {
