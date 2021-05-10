@@ -23,6 +23,10 @@ namespace _2021_dotnet_e_02.Data.Mapping
                 .HasColumnName("LOGINSTATUS")
                 .HasConversion(v => v.ToString(),
                     v => (LoginStatus)Enum.Parse(typeof(LoginStatus), v));
+
+            builder.Property<int>("USERMODEL_USERID");
+            builder.HasOne(t => t.UserModel).WithMany(t => t.LoginAttempts).HasForeignKey("USERMODEL_USERID");
+            
         }
         
     }

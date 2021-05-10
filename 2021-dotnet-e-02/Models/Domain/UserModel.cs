@@ -56,5 +56,25 @@ namespace _2021_dotnet_e_02.Models
             LoginAttempts = loginAttempts;
             FailedLoginAttempts = failedLoginAttempts;
         }
+
+        public void AddLoginAttempt(LoginAttempt loginAttempt)
+        {
+            LoginAttempts.Add(loginAttempt);
+        }
+
+        public void IncreaseFailedLoginAttempts()
+        {
+            FailedLoginAttempts += 1;
+        }
+
+        public void BlockUser()
+        {
+            Status = UserStatus.BLOCKED;
+        }
+
+        public void ResetFailedLoginAttempts()
+        {
+            FailedLoginAttempts = 0;
+        }
     }
 }
