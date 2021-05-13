@@ -2,6 +2,7 @@
 using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Tests.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -19,12 +20,16 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private HomeController _controller;
         private Mock<ITicketRepository> _ticketRepository;
         private DummyApplicationDbContext _dummyContext;
+        private readonly Mock<IUserRepository> _userRepository;
+        private readonly Mock<UserManager<IdentityUser>> _userManager;
 
         public HomeControllerTest()
         {
             _dummyContext = new DummyApplicationDbContext();
             _ticketRepository = new Mock<ITicketRepository>();
-            _controller = new HomeController(_ticketRepository.Object);
+            _userRepository = new Mock<IUserRepository>();
+            _userManager = new Mock<UserManager<IdentityUser>>();
+            _controller = new HomeController(_ticketRepository.Object, _userRepository.Object, _userManager.Object);
         }
 
         #region Index
