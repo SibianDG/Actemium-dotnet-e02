@@ -87,14 +87,12 @@
             title: {
               text: 'Ticket per Status'
             },
-            subtitle: {
-              text: 'TODO'
-            },
+            
             xAxis: {
-              //categories: ['Categories'],
               title: {
                 text: 'Categories'
-              }
+              },
+              visible: false
             },
             yAxis: {
               title: {
@@ -106,7 +104,8 @@
               }
             },
             tooltip: {
-              valueSuffix: ' tickets'
+              valueSuffix: ' tickets',
+              enabled: false
             },
             plotOptions: {
               bar: {
@@ -135,9 +134,14 @@
     }
     function loadGraph2(dataFromBackend) {
       let data  = [];
+      let count = 0;
       for (const [key, value] of Object.entries(dataFromBackend["numbers"])){
-        data.push({name: String(key),  data: [value]});
+        let data2 = [null, null, null];
+        data2[count] = value;
+        data.push({name: String(key),  data: data2});
+        count++;
       }
+      console.log(data);
       let cats = dataFromBackend["cats"];
           Highcharts.chart('chart2', {
             chart: {
@@ -146,9 +150,7 @@
             title: {
               text: 'Avg time to resolve'
             },
-            subtitle: {
-              text: 'TODO2'
-            },
+           
             xAxis: {
               categories: cats,
               title: {
@@ -175,7 +177,7 @@
               }
             },
             legend: {
-              layout: 'horizontal',
+              layout: 'vertical',
               align: 'right',
               verticalAlign: 'top',
               x: -40,
@@ -205,14 +207,10 @@
             title: {
               text: 'Contracts per contract type'
             },
-            subtitle: {
-              text: 'TODO'
-            },
+           
             xAxis: {
-              categories: cats,
-              title: {
-                text: 'Categories'
-              }
+              categories: ['categories'],
+              
             },
             yAxis: {
               title: {
@@ -224,7 +222,8 @@
               }
             },
             tooltip: {
-              valueSuffix: ' contracts'
+              valueSuffix: ' contracts',
+              
             },
             plotOptions: {
               bar: {
@@ -234,12 +233,12 @@
               }
             },
             legend: {
-              layout: 'horizontal',
+              layout: 'vertical',
               align: 'right',
               verticalAlign: 'top',
-              x: -40,
+              x: -20,
               y: 80,
-              floating: true,
+              floating: false,
               borderWidth: 1,
               backgroundColor:
                 Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -251,60 +250,7 @@
             series: data
           });
     }
-    function loadGraph4() {
-          Highcharts.chart('chart1', {
-            chart: {
-              type: 'bar',
-            },
-            title: {
-              text: 'Ticket per Status'
-            },
-            subtitle: {
-              text: 'TODO'
-            },
-            xAxis: {
-              //categories: ['Categories'],
-              title: {
-                text: 'Categories'
-              }
-            },
-            yAxis: {
-              title: {
-                text: 'Number of tickets',
-                align: 'high'
-              },
-              labels: {
-                overflow: 'justify'
-              }
-            },
-            tooltip: {
-              valueSuffix: ' tickets'
-            },
-            plotOptions: {
-              bar: {
-                dataLabels: {
-                  enabled: true
-                }
-              }
-            },
-            legend: {
-              layout: 'horizontal',
-              align: 'right',
-              verticalAlign: 'top',
-              x: -40,
-              y: 80,
-              floating: true,
-              borderWidth: 1,
-              backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-              shadow: true
-            },
-            credits: {
-              enabled: false
-            },
-            series: data
-          });
-    }
+    
     
     $( document ).ready(() => {
       fetchGraph(1);
@@ -339,7 +285,6 @@
                 case 1: loadGraph1(result); break;
                 case 2: loadGraph2(result); break;
                 case 3: loadGraph3(result); break;
-                case 4: loadGraph4(result); break;
               }
           },
           error: function (xhr) {
