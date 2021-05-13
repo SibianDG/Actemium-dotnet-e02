@@ -121,54 +121,64 @@ function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+function correctFormatWith0(d) {
+    console.log(d)
+    return `${d < 10 ? '0' : '' }${d}`;
+}
+
 let signedIn = @(SignInManager.IsSignedIn(User)? "true": "false")
 
 const urlDetails = '@Url.Action("Details", "Ticket")';
 
-if (signedIn){
-    //while (true){
-        sleep(20).then(() => {
-            let cookieContent = document.cookie.split(";")[0].replace("[^=]+=", "")
-            console.log("start");
-            console.log("content " + cookieContent);
-            $.ajax({
-                url: '@Url.Action("GetLatestNotificationNumber", "Notification")',
-                type: "get",
-                data: cookieContent,
-                dataType: "text",
-                success: function (result) {
-                    console.log("NOTIFICATION:" + result)
-
-                    result = parseInt(result);
-                    if (result > 0){
+$(document).ready(() => {
+    if (signedIn){
+        //while (true){
+            //sleep(20).then(() => {
+                let cookieContent = document.cookie.split(";")[0];
+                cookieContent = cookieContent.split("=")[1];
+                console.log("start");
+                console.log("content " + cookieContent);
+                $.ajax({
+                    url: '@Url.Action("GetLatestNotificationNumber", "Notification")',
+                    type: "get",
+                    data: "date="+cookieContent,
+                    dataType: "text",
+                    success: function (result) {
                         console.log("NOTIFICATION:" + result)
-                        $('#numberOfNotifications').text(result)
-                        $(".toast").toast({ autohide: false }).toast('show');
+    
+                        result = parseInt(result);
+                        if (result > 0){
+                            console.log("NOTIFICATION:" + result)
+                            $('#numberOfNotifications').text(result)
+                            $(".toast").toast({ autohide: false }).toast('show');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("failed");
                     }
-                },
-                error: function (xhr) {
-                    alert("failed");
-                }
+                })
+            //});
+            $('.toast').on('hidden.bs.toast', function () {
+                
+                let date = new Date();
+                let day = date.getDate();       // yields date
+                let month = correctFormatWith0(date.getMonth() + 1);    // yields month (add one as '.getMonth()' is zero indexed)
+                let year = correctFormatWith0(date.getFullYear());  // yields year
+                let hour = correctFormatWith0(date.getHours());     // yields hours 
+                let minute = correctFormatWith0(date.getMinutes()); // yields minutes
+                let second = correctFormatWith0(date.getSeconds()); // yields seconds
+                
+                // After this construct a string with the above results as below
+                let time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second;
+                console.log("set: "+time)
+                document.cookie = "lastNotificationSeen=" + time + "; path=/";
             })
-        });
-        $('.toast').on('hidden.bs.toast', function () {
-            
-            let date = new Date();
-            let day = date.getDate();       // yields date
-            let month = date.getMonth() + 1;    // yields month (add one as '.getMonth()' is zero indexed)
-            let year = date.getFullYear();  // yields year
-            let hour = date.getHours();     // yields hours 
-            let minute = date.getMinutes(); // yields minutes
-            let second = date.getSeconds(); // yields seconds
-            
-            // After this construct a string with the above results as below
-            let time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
-            
-            document.cookie = "lastNotificationSeen=" + time + "; path=/";
-        })
+    
+        //}
+    }
 
-    //}
-}
+});
+
 </script>
 </body>
 </html>

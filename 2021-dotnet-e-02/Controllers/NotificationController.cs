@@ -22,20 +22,17 @@ namespace _2021_dotnet_e_02.Controllers
         }
 
         [HttpGet]
-        public string GetLatestNotificationNumber(string date = null)
+        public int GetLatestNotificationNumber(string date = null)
         {
-            Console.WriteLine("STARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTART");
-            if (date != null)
-            {
-                Console.WriteLine("GetLatestNotificationNumber");
-                DateTime dateFromClient =
-                    DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                Console.WriteLine(dateFromClient);
-                DateTime lastTimeLogedIn = _loginAttemptRepository
+            DateTime lastTime;
+            if (date != null && date.ToLower() != "undefined")
+                lastTime = DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            else
+                lastTime = _loginAttemptRepository
                     .GetLatestLoginAttemptBy(_userManager.GetUserName(User)).DateAndTime;
-            }
-
-            return ""+66;
+            Console.WriteLine("lastTime "+lastTime);
+            int number = _ticketRepository.GiveLatestUpdates(_userManager.GetUserName(User), lastTime);
+            return number;
         }
     }
 }

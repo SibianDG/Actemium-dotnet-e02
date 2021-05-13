@@ -12,11 +12,17 @@ namespace _2021_dotnet_e_02.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<ActemiumTicket> _tickets;
+        private readonly DbSet<ActemiumCustomer> _customers;
+        private readonly DbSet<ActemiumEmployee> _employees;
+        private readonly DbSet<UserModel> _users;
 
         public TicketRepository(ApplicationDbContext dbContext)
         {
             _context = dbContext;
             _tickets = dbContext.ActemiumTickets;
+            _customers = dbContext.Customers;
+            _employees = dbContext.Employees;
+            _users = dbContext.Users;
         }
 
         public IEnumerable<ActemiumTicket> GetAll()
@@ -60,6 +66,31 @@ namespace _2021_dotnet_e_02.Data.Repositories
                            //TODO: fout met includes
                            .Include(t => t.Company)
                            .SingleOrDefault(t => id == t.TicketId);
+        }
+
+        public int GiveLatestUpdates(string username, DateTime date)
+        {
+            int count = 0;
+            UserModel m = _users.SingleOrDefault(u => u.UserName.ToLower().Equals(username.ToLower()));
+            if (m.GetType().ToString().Contains("ActemiumCustomer", StringComparison.InvariantCultureIgnoreCase))
+            {
+                ActemiumCustomer customer = _customers.Include(c => c.Company).SingleOrDefault(u => u.UserId == m.UserId);
+                count += _tickets
+                    .Include(t => t.TicketChanges)
+                    .Where(t => t.Company.CompanyId == customer.Company.CompanyId)
+                    .Count(t => Enumerable.Any<ActemiumTicketChange>(t.TicketChanges, tc => tc.DateTimeOfChange >= date));
+            }
+            else
+            {
+                ActemiumEmployee employee = _employees.SingleOrDefault(u => u.UserId == m.UserId);
+                count += _tickets
+                    .Include(t => t.TicketChanges)
+                    .Count(t => Enumerable.Any<ActemiumTicketChange>(t.TicketChanges, tc => tc.DateTimeOfChange >= date));
+                count += _tickets
+                    .Count(t => t.DateAndTimeOfCreation >= date);
+            }
+
+            return count;
         }
 
         public void Add(ActemiumTicket ticket)

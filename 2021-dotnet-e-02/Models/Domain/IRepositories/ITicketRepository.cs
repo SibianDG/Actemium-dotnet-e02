@@ -20,8 +20,8 @@ namespace _2021_dotnet_e_02.Models
         ActemiumTicket GetById(int id);
 
         int GetLastAddedId();
-        
-        
+
+        int GiveLatestUpdates(string username, DateTime date);
 
         void Add(ActemiumTicket ticket);
         
