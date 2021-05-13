@@ -87,9 +87,7 @@
             title: {
               text: 'Ticket per Status'
             },
-            subtitle: {
-              text: 'TODO'
-            },
+            
             xAxis: {
               title: {
                 text: 'Categories'
@@ -252,60 +250,7 @@
             series: data
           });
     }
-    function loadGraph4() {
-          Highcharts.chart('chart1', {
-            chart: {
-              type: 'bar',
-            },
-            title: {
-              text: 'Ticket per Status'
-            },
-            subtitle: {
-              text: 'TODO'
-            },
-            xAxis: {
-              //categories: ['Categories'],
-              title: {
-                text: 'Categories'
-              }
-            },
-            yAxis: {
-              title: {
-                text: 'Number of tickets',
-                align: 'high'
-              },
-              labels: {
-                overflow: 'justify'
-              }
-            },
-            tooltip: {
-              valueSuffix: ' tickets'
-            },
-            plotOptions: {
-              bar: {
-                dataLabels: {
-                  enabled: true
-                }
-              }
-            },
-            legend: {
-              layout: 'horizontal',
-              align: 'right',
-              verticalAlign: 'top',
-              x: -40,
-              y: 80,
-              floating: true,
-              borderWidth: 1,
-              backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-              shadow: true
-            },
-            credits: {
-              enabled: false
-            },
-            series: data
-          });
-    }
+    
     
     $( document ).ready(() => {
       fetchGraph(1);
@@ -340,7 +285,6 @@
                 case 1: loadGraph1(result); break;
                 case 2: loadGraph2(result); break;
                 case 3: loadGraph3(result); break;
-                case 4: loadGraph4(result); break;
               }
           },
           error: function (xhr) {
