@@ -78,6 +78,11 @@ namespace _2021_dotnet_e_02.Controllers
                 totalPages++;
             ViewData["totalPages"] = totalPages;
 
+            if (page.Value > totalPages)
+                page = totalPages;
+            if (page.Value <= 0)
+                page = 1;
+            
             Console.WriteLine("PAGE value: "+(page.Value));
             Console.WriteLine("PAGE skip: "+((page.Value - 1) * 10));
             tickets = tickets.Skip((page.Value - 1) * 10).Take(10);
