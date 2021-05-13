@@ -46,7 +46,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             // arrange
             _kbItemRepository.Setup(k => k.GetByType("hardware")).Returns(_dummyContext.KbItems);
             // act
-            var result = Assert.IsType<ViewResult>(_controller.OverviewType("hardware", 1));
+            List<int> types = new List<int> { 0 };
+            var result = Assert.IsType<ViewResult>(_controller.OverviewType("hardware", 1, types));
             var kbItemsInModel = Assert.IsType<List<ActemiumKbItem>>(result.Model);
             // assert
             Assert.Equal(2, kbItemsInModel.Count);
