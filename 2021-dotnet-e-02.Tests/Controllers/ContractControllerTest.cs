@@ -3,6 +3,7 @@ using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.ContractViewModel;
 using _2021_dotnet_e_02.Tests.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -20,6 +21,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly Mock<IContractRepository> _contractRepository;
         private readonly Mock<IContractTypeRepository> _contractTypeRepository;
         private readonly Mock<ICompanyRepository> _companyRepository;
+        private readonly Mock<IUserRepository> _userRepository;
+        private readonly Mock<UserManager<IdentityUser>> _userManager;
 
 
         public ContractControllerTest()
@@ -28,7 +31,10 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _contractRepository = new Mock<IContractRepository>();
             _contractTypeRepository = new Mock<IContractTypeRepository>();
             _companyRepository = new Mock<ICompanyRepository>();
-            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object, _companyRepository.Object)
+            _userRepository = new Mock<IUserRepository>();
+            _userManager = new Mock<UserManager<IdentityUser>>();
+            
+            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object, _companyRepository.Object, _userRepository.Object,_userManager.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };

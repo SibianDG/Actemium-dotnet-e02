@@ -5,6 +5,7 @@ using _2021_dotnet_e_02.Models;
 using _2021_dotnet_e_02.Models.Enums;
 using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 using _2021_dotnet_e_02.Tests.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
@@ -20,6 +21,8 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly Mock<ITicketRepository> _ticketRepository;
         private readonly Mock<ICompanyRepository> _companyRepository;
+        private readonly Mock<IUserRepository> _userRepository;
+        private readonly Mock<UserManager<IdentityUser>> _userManager;
 
         public TicketControllerTest(ITestOutputHelper testOutputHelper)
         {
@@ -27,7 +30,9 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _ticketRepository = new Mock<ITicketRepository>();
             _companyRepository = new Mock<ICompanyRepository>();
-            _controller = new TicketController(_ticketRepository.Object, _companyRepository.Object)
+            _userRepository = new Mock<IUserRepository>();
+            _userManager = new Mock<UserManager<IdentityUser>>();
+            _controller = new TicketController(_ticketRepository.Object, _companyRepository.Object, _userRepository.Object, _userManager.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -66,11 +71,11 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         #endregion
 
         #region -- Details --
-        [Fact]
+        [Fact] // TODO
         public void Details2_PassesViewOfTicket()
         {
             _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
-            var result = Assert.IsType<ViewResult>(_controller.DetailsNewWindow(1));
+            var result = Assert.IsType<ViewResult>(_controller.FullDetailsNewWindow(1));
             var ticket = Assert.IsType<ActemiumTicket>(result.Model);
             Assert.Equal("Title", ticket.Title);
         }
@@ -78,7 +83,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
 
         #region -- Details POST --
 
-        [Fact]
+        [Fact] // TODO
         public void Details_returnsValidJsonOfTicket()
         {
             _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
@@ -171,7 +176,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         public void Delete_PassesTicketInView()
         {
             _ticketRepository.Setup(t => t.GetById(1)).Returns(_dummyContext.Ticket1);
-            var result = Assert.IsType<ViewResult>(_controller.Delete(1));
+            var result = Assert.IsType<ViewResult>(_controller.DeleteConfirmed(1));
             var ticket = Assert.IsType<ActemiumTicket>(result.Model);
             Assert.Equal("Title", ticket.Title);
         }
