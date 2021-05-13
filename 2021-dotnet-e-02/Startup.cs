@@ -74,6 +74,7 @@ namespace _2021_dotnet_e_02
             services.AddScoped<IKbItemRepository, KbItemRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILoginAttemptRepository, LoginAttemptRepository>();
 
             //configure cookie
             services.ConfigureApplicationCookie(options =>

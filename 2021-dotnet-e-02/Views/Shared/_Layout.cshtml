@@ -61,24 +61,42 @@
         </main>
     </div>
 
-    <footer class="fixed-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    © 2021 Actemium - All rights reserved
-                </div>
-                <div class="col-md-4">
-                    <a href="https://www.actemium.com/privacy-policy/">Privacy Policy</a>
-                    <span class="c-blue">|</span>
-                    <a href="https://www.actemium.com/legal-notices/">Legal Notices</a>
-                </div>
-                <div class="col-md-4">
-                    Group E02
-                </div>
+<footer class="fixed-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                © 2021 Actemium - All rights reserved
+            </div>
+            <div class="col-md-4">
+                <a href="https://www.actemium.com/privacy-policy/">Privacy Policy</a>
+                <span class="c-blue">|</span>
+                <a href="https://www.actemium.com/legal-notices/">Legal Notices</a>
+            </div>
+            <div class="col-md-4">
+                Group E02
             </div>
         </div>
-    </footer>
-    <script
+    </div>
+</footer>
+
+<div class="d-flex align-items-center justify-content-center">
+    <div aria-live="polite" aria-atomic="true" class="notification text-center">
+        <div class="toast" id="toast-privacy" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-info-circle mr-3 c-open"></i>
+                <strong class="mr-auto c-blue">New updates</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Hello, there are <span id="numberOfNotifications"></span> ticket updates since last time. Go to <a asp-controller="Home" asp-action="Index">Dashboard to see them</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"></script>
@@ -96,7 +114,61 @@
       new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
     }
     </script>
-
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script >
+//notification
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+let signedIn = @(SignInManager.IsSignedIn(User)? "true": "false")
+
+const urlDetails = '@Url.Action("Details", "Ticket")';
+
+if (signedIn){
+    //while (true){
+        sleep(20).then(() => {
+            let cookieContent = document.cookie.split(";")[0].replace("[^=]+=", "")
+            console.log("start");
+            console.log("content " + cookieContent);
+            $.ajax({
+                url: '@Url.Action("GetLatestNotificationNumber", "Notification")',
+                type: "get",
+                data: cookieContent,
+                dataType: "text",
+                success: function (result) {
+                    console.log("NOTIFICATION:" + result)
+
+                    result = parseInt(result);
+                    if (result > 0){
+                        console.log("NOTIFICATION:" + result)
+                        $('#numberOfNotifications').text(result)
+                        $(".toast").toast({ autohide: false }).toast('show');
+                    }
+                },
+                error: function (xhr) {
+                    alert("failed");
+                }
+            })
+        });
+        $('.toast').on('hidden.bs.toast', function () {
+            
+            let date = new Date();
+            let day = date.getDate();       // yields date
+            let month = date.getMonth() + 1;    // yields month (add one as '.getMonth()' is zero indexed)
+            let year = date.getFullYear();  // yields year
+            let hour = date.getHours();     // yields hours 
+            let minute = date.getMinutes(); // yields minutes
+            let second = date.getSeconds(); // yields seconds
+            
+            // After this construct a string with the above results as below
+            let time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
+            
+            document.cookie = "lastNotificationSeen=" + time + "; path=/";
+        })
+
+    //}
+}
+</script>
 </body>
 </html>

@@ -205,6 +205,13 @@ footer {
 @import "account";
 @import "statistics";
 
+.notification {
+  position: fixed;
+  bottom: 1rem;
+  z-index: 1031;
+  right: 1rem;
+}
+
 .goog-te-gadget-simple {
   border: none !important;
   .goog-te-menu-value {
