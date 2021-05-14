@@ -65,7 +65,12 @@ namespace _2021_dotnet_e_02.Controllers
             int totalPages = openTickets.Count() / 10;
             if (openTickets.Count() % 10 != 0)
                 totalPages++;
+            
             ViewData["totalPages"] = totalPages;
+            if (page.Value > totalPages)
+                page = totalPages;
+            if (page.Value <= 0)
+                page = 1;
             openTickets = openTickets.Skip((page.Value - 1) * 10).Take(10);
             ViewData["page"] = page;
 
