@@ -38,6 +38,10 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         public void Index_PassesListOfTicketsInViewResultModelAndStoresTotalOpenAndResolvedTicketsInViewData()
         {
             //Arange
+            /*var identityUserExists = await _userManager.FindByEmailAsync("sup123@hogent.be");
+
+            var result = await _signInManager.PasswordSignInAsync(, "sup123", "Passwd123&");*/
+
             _ticketRepository.Setup(m => m.GetAll()).Returns(_dummyContext.Tickets.ToList());
             _ticketRepository.Setup(m => m.GetAllOpenTickets()).Returns(_dummyContext.OpenTickets);
             _ticketRepository.Setup(m => m.GetAllResolvedTickets()).Returns(_dummyContext.ResolvedTickets);

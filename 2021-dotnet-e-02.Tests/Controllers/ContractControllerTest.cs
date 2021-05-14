@@ -33,8 +33,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _companyRepository = new Mock<ICompanyRepository>();
             _userRepository = new Mock<IUserRepository>();
             _userManager = new Mock<UserManager<IdentityUser>>();
-            
-            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object, _companyRepository.Object, _userRepository.Object,_userManager.Object)
+            _controller = new ContractController(_contractRepository.Object, _contractTypeRepository.Object, _companyRepository.Object, _userRepository.Object, _userManager.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };

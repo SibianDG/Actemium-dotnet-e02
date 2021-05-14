@@ -28,6 +28,11 @@ namespace _2021_dotnet_e_02.Controllers
             _userManager = userManager;
         }
 
+        public HomeController(ITicketRepository ticketRepository)
+        {
+            _ticketRepository = ticketRepository;
+        }
+
         public IActionResult Index(int? page)
         {
             page ??= 1;
@@ -85,7 +90,7 @@ namespace _2021_dotnet_e_02.Controllers
         private UserModel GetSignedInUserModel()
         {
             var javaUser = _userRepository.GetByUsername(_userManager.GetUserName(User));
-            ViewData["FirstLastNameLoggedInUser"] = javaUser.FirstName + " " + javaUser.LastName;
+            ViewData["FirstLastNameLoggedInUser"] = javaUser.FirstName + " " + javaUser.LastName;   
             return javaUser;
         }
         private ActemiumCustomer GetSignedInActemiumCustomer()

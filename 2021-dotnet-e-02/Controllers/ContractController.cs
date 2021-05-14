@@ -35,6 +35,15 @@ namespace _2021_dotnet_e_02.Controllers
             _userManager = userManager;
         }
 
+        public ContractController(IContractRepository contractRepository,
+                                IContractTypeRepository contractTypeRepository,
+                                ICompanyRepository companyRepository)
+        {
+            _contractRepository = contractRepository;
+            _contractTypeRepository = contractTypeRepository;
+            _companyRepository = companyRepository;
+        }
+
         #region Index
         public IActionResult Index(int? page, string searchText = null, DateTime? startDate = null, DateTime? endDate = null, List<int> status = null)
         {
