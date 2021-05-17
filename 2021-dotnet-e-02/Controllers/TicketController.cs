@@ -34,12 +34,12 @@ namespace _2021_dotnet_e_02.Controllers
             _userManager = userManager;
         }
 
-        public TicketController(ITicketRepository ticketRepository,
+        /*ublic TicketController(ITicketRepository ticketRepository,
                                 ICompanyRepository companyRepository)
         {
             _ticketRepository = ticketRepository;
             _companyRepository = companyRepository;
-        }
+        }*/
 
         public IActionResult Index(int? page, string searchText = null, List<int> type = null, List<int> priority = null,  List<int> status = null)
         {

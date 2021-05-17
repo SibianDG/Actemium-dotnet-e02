@@ -28,10 +28,10 @@ namespace _2021_dotnet_e_02.Controllers
             _userManager = userManager;
         }
 
-        public HomeController(ITicketRepository ticketRepository)
+        /*public HomeController(ITicketRepository ticketRepository)
         {
             _ticketRepository = ticketRepository;
-        }
+        }*/
 
         public IActionResult Index(int? page)
         {
