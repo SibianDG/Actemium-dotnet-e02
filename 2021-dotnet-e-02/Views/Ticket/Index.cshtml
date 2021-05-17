@@ -93,7 +93,14 @@
                         
                         <div class="col-12 row  ml-1 ml-md-0">
                             <div class="mb-2">
-                                <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+                                @if (ViewData["validContract"].Equals(true))
+                                {
+                                    <a asp-action="Create" class="btn btn-primary">Make new ticket</a>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" data-toggle="popover" title="No valid contract" data-content="Please make sure you have a current contract to make a ticket.">Make a new Ticket</button>
+                                }
                             </div>
                             <div class="ml-auto">
                                 <button type="submit" class="btn btn-secondary ml-1">Search</button>
@@ -237,6 +244,10 @@
         if (statusList && statusList.length > 0)
             statusSelect.selectpicker("val", statusList);
     }
+    
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
 
     function fillInDetails(data) {
         contextHTML.innerHTML = "";

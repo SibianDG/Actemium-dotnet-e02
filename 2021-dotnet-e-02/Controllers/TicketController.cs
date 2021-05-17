@@ -21,17 +21,19 @@ namespace _2021_dotnet_e_02.Controllers
         private readonly ITicketRepository _ticketRepository;
         private readonly ICompanyRepository _companyRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IContractRepository _contractRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
         public TicketController(ITicketRepository ticketRepository, 
                                 ICompanyRepository companyRepository, 
                                 IUserRepository userRepository, 
-                                UserManager<IdentityUser> userManager)
+                                UserManager<IdentityUser> userManager, IContractRepository contractRepository)
         {
             _ticketRepository = ticketRepository;
             _companyRepository = companyRepository;
             _userRepository = userRepository;
             _userManager = userManager;
+            _contractRepository = contractRepository;
         }
 
         /*ublic TicketController(ITicketRepository ticketRepository,
@@ -102,8 +104,9 @@ namespace _2021_dotnet_e_02.Controllers
             ViewData["types"] = JsonConvert.SerializeObject(type);
             ViewData["priority"] = JsonConvert.SerializeObject(priority);
             ViewData["status"] = JsonConvert.SerializeObject(status);
+            ViewData["validContract"] = SetIsSupportManager() || ValidContractToCreateTickets();
             
-            Console.WriteLine(ViewData["status"]);
+            Console.WriteLine("CONTACRTS IN TICKESCT" + ViewData["validContract"]);
             return View(tickets);
         }
         
@@ -386,6 +389,17 @@ namespace _2021_dotnet_e_02.Controllers
             SelectList sl = new SelectList(Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList(),
                 nameof(TicketStatus), nameof(TicketStatus.ToString), selected);
             return sl;       
+        }
+
+        private Boolean ValidContractToCreateTickets()
+        {
+            Console.WriteLine(GetSignedInActemiumCustomer().Company.Name);
+            IEnumerable<ActemiumContract> contracts = _contractRepository.GetAll(GetSignedInActemiumCustomer().Company);
+            foreach (var contract in contracts)
+            { 
+                if(contract.Status == ContractStatus.CURRENT)  return true;
+            }
+            return false;
         }
     }
     
