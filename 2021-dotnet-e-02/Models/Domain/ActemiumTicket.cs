@@ -111,7 +111,6 @@ namespace _2021_dotnet_e_02.Models
             //SupportNeeded = supportNeeded;
         }
 
-        // method not used yet, but don't remove it because we will need it
         public void EditTicketCompleted(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string solution, string quality, string supportNeeded)
         {
             // Status cannot be edited by the customer
@@ -125,6 +124,19 @@ namespace _2021_dotnet_e_02.Models
             Solution = solution;
             Quality = quality;
             SupportNeeded = supportNeeded;
+        }
+
+        public void EditTicketCompletedAsCustomer(TicketStatus status, TicketPriority priority, string title, string description, string attachments, TicketType type, string quality)
+        {
+            // Status cannot be edited by the customer
+            // Status can be edited by the support manager
+            Status = status;
+            Priority = priority;
+            Title = title;
+            Description = description;
+            Attachments = attachments;
+            TicketType = type;
+            Quality = quality;
         }
 
         public void AddNewComment(ActemiumTicket ticket, UserModel user, string userRole, string newCommentText)

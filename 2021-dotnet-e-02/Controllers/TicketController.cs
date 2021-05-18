@@ -219,7 +219,7 @@ namespace _2021_dotnet_e_02.Controllers
             {
                 try
                 {
-                    SetIsSupportManager();
+                    Boolean isSupportManager = SetIsSupportManager();
 
                     if (ticket.Status != TicketStatus.COMPLETED)
                     {
@@ -228,7 +228,7 @@ namespace _2021_dotnet_e_02.Controllers
                         ticket.EditTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title.Trim()
                             , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType,
                             dateAndTimeOfCompletion);
-                    } else
+                    } else if (isSupportManager)
                     {
                         ticket.EditTicketCompleted(TicketStatus.COMPLETED, editViewModel.Priority, editViewModel.Title.Trim()
                             , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
@@ -238,6 +238,14 @@ namespace _2021_dotnet_e_02.Controllers
                             , editViewModel.Solution != null ? editViewModel.Solution.Trim() : ""
                             , editViewModel.Quality != null ? editViewModel.Quality.Trim() : ""
                             , editViewModel.SupportNeeded != null ? editViewModel.SupportNeeded.Trim() : "");
+                    } else
+                    {
+                        ticket.EditTicketCompletedAsCustomer(TicketStatus.COMPLETED, editViewModel.Priority, editViewModel.Title.Trim()
+                            , editViewModel.Description.Trim(), editViewModel.Attachments, editViewModel.TicketType
+                            // Solution/Quality/SupportNeeded are optional values
+                            //, editViewModel.Solution ?? "", editViewModel.Quality ?? "", editViewModel.SupportNeeded ?? ""); 
+                            // the above method works but then we don't Trim()
+                            , editViewModel.Quality != null ? editViewModel.Quality.Trim() : "");
                     }
                     _ticketRepository.SaveChanges();
                     TempData["message"] = $"You successfully updated ticket {ticket.Title}.";

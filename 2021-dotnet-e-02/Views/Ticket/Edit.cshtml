@@ -82,21 +82,27 @@
             </div>
             @if ((bool)ViewData["IsEdit"] && Model.Status == TicketStatus.COMPLETED)
             {
+                if ((bool)ViewData["IsSupportManager"])
+                {
                 <div class="form-group">
                     <label asp-for="Solution"></label>
                     <input asp-for="Solution" class="form-control" />
                     <!--<span asp-validation-for="Solution" class="text-danger"></span>-->
                 </div>
+                }
                 <div class="form-group">
                     <label asp-for="Quality"></label>
                     <input asp-for="Quality" class="form-control" />
                     <!--<span asp-validation-for="Quality" class="text-danger"></span>-->
                 </div>
+                if ((bool)ViewData["IsSupportManager"])
+                {
                 <div class="form-group">
                     <label asp-for="SupportNeeded"></label>
                     <input asp-for="SupportNeeded" class="form-control" />
                     <!--<span asp-validation-for="SupportNeeded" class="text-danger"></span>-->
                 </div>
+                }
             }
 
             <div class="d-flex justify-content-center mb-3">
