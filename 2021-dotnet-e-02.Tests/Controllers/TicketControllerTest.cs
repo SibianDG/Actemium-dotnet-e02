@@ -21,6 +21,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly Mock<ITicketRepository> _ticketRepository;
         private readonly Mock<ICompanyRepository> _companyRepository;
+        private readonly Mock<IContractRepository> _contractRepository;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<UserManager<IdentityUser>> _userManager;
 
@@ -32,7 +33,7 @@ namespace _2021_dotnet_e_02.Tests.Controllers
             _companyRepository = new Mock<ICompanyRepository>();
             _userRepository = new Mock<IUserRepository>();
             _userManager = new Mock<UserManager<IdentityUser>>();
-            _controller = new TicketController(_ticketRepository.Object, _companyRepository.Object, _userRepository.Object, _userManager.Object)
+            _controller = new TicketController(_ticketRepository.Object, _companyRepository.Object, _userRepository.Object, _userManager.Object, _contractRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
