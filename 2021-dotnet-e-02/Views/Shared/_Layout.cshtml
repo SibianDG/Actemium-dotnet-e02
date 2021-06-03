@@ -132,51 +132,51 @@ const urlDetails = '@Url.Action("Details", "Ticket")';
 
 $(document).ready(() => {
     if (signedIn){
-        //while (true){
-            //sleep(20).then(() => {
-                let cookieContent = document.cookie.split(";")[0];
-                cookieContent = cookieContent.split("=")[1];
-                console.log("start");
-                console.log("content " + cookieContent);
-                $.ajax({
-                    url: '@Url.Action("GetLatestNotificationNumber", "Notification")',
-                    type: "get",
-                    data: "date="+cookieContent,
-                    dataType: "text",
-                    success: function (result) {
-                        console.log("NOTIFICATION:" + result)
-    
-                        result = parseInt(result);
-                        if (result > 0){
-                            console.log("NOTIFICATION:" + result)
-                            $('#numberOfNotifications').text(result)
-                            $(".toast").toast({ autohide: false }).toast('show');
-                        }
-                    },
-                    error: function (xhr) {
-                        alert("failed");
-                    }
-                })
-            //});
-            $('.toast').on('hidden.bs.toast', function () {
-                
-                let date = new Date();
-                let day = date.getDate();       // yields date
-                let month = correctFormatWith0(date.getMonth() + 1);    // yields month (add one as '.getMonth()' is zero indexed)
-                let year = correctFormatWith0(date.getFullYear());  // yields year
-                let hour = correctFormatWith0(date.getHours());     // yields hours 
-                let minute = correctFormatWith0(date.getMinutes()); // yields minutes
-                let second = correctFormatWith0(date.getSeconds()); // yields seconds
-                
-                // After this construct a string with the above results as below
-                let time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second;
-                console.log("set: "+time)
-                document.cookie = "lastNotificationSeen=" + time + "; path=/";
-            })
-    
-        //}
-    }
+        let cookieContent = document.cookie.split(";");
+        cookieContent = cookieContent.filter(e => e.includes('lastNotificationSeen'));
+        cookieContent = cookieContent.toString().split("=");
+        let dateToSend;
+        if (cookieContent[0].includes('lastNotificationSeen')){ 
+            dateToSend = cookieContent[1];
+            console.log("content " + cookieContent[0]);
+            console.log("content2 " + cookieContent[1]);
+        }
+        console.log("dataToSend: "+dateToSend)
+        $.ajax({
+            url: '@Url.Action("GetLatestNotificationNumber", "Notification")',
+            type: "get",
+            data: "date="+dateToSend,
+            dataType: "text",
+            success: function (result) {
+                console.log("NOTIFICATION:" + result)
 
+                result = parseInt(result);
+                if (result > 0){
+                    console.log("NOTIFICATION:" + result)
+                    $('#numberOfNotifications').text(result)
+                    $(".toast").toast({ autohide: false }).toast('show');
+                }
+            },
+            error: function (xhr) {
+                alert("failed "+xhr);
+            }
+        });
+        $('.toast').on('hidden.bs.toast', function () {
+            
+            let date = new Date();
+            let day = correctFormatWith0(date.getDate());      // yields date
+            let month = correctFormatWith0(date.getMonth() + 1);    // yields month (add one as '.getMonth()' is zero indexed)
+            let year = correctFormatWith0(date.getFullYear());  // yields year
+            let hour = correctFormatWith0(date.getHours());     // yields hours 
+            let minute = correctFormatWith0(date.getMinutes()); // yields minutes
+            let second = correctFormatWith0(date.getSeconds()); // yields seconds
+            
+            // After this construct a string with the above results as below
+            let time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second;
+            console.log("set: "+time)
+            document.cookie = "lastNotificationSeen=" + time + "; path=/";
+        })
+    }
 });
 
 </script>
