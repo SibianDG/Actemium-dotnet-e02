@@ -27,20 +27,26 @@
 <div class="welcome-dashboard">
     <div class="container">
         <div class="container-fluid opacity-100">
-            <div class="row py-3">
-                <div class="col-10 col-lg-6 text-in-picture-dashboard">
+            <div class="row py-5 py-md-3 text-center text-md-left">
+                <div class="col-12 col-lg-6 text-in-picture-dashboard">
                     @*<span>Hello @UserManager.GetUserName(User),</span>*@
                     <span>Hello @ViewData["FirstLastNameLoggedInUser"],</span>
                     <h3>Welcome to the Actemium Support site</h3>
                 </div>
-                <div class="col-10 col-lg-6 d-flex justify-content-end align-items-center">
-                    <div class="total-tickets">
-                        <span class="number-tickets number-open-tickets">@ViewData["OpenTicketCount"]</span>
-                        <p class="company-tickets">open<br>Company Tickets</p>
-                    </div>
-                    <div class="total-tickets">
-                        <span class="number-tickets number-resolved-tickets">@ViewData["ResolvedTicketCount"]</span>
-                        <p class="company-tickets" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days with a maximum of 10 tickets">Last resolved<br>Company Tickets</p>
+                <div class="col-12 col-lg-6">
+                    <div class="row d-flex justify-content-end align-items-center">
+                        <div class="col-12 col-md-6">
+                            <div class="total-tickets">
+                                <span class="number-tickets number-open-tickets">@ViewData["OpenTicketCount"]</span>
+                                <p class="company-tickets w-100">open<br>Company Tickets</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="total-tickets">
+                                <span class="number-tickets number-resolved-tickets">@ViewData["ResolvedTicketCount"]</span>
+                                <p class="company-tickets w-100" data-toggle="tooltip" data-placement="top" title="Completed tickets of the last 5 days with a maximum of 10 tickets">Last resolved<br>Company Tickets</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
