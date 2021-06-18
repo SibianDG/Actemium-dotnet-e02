@@ -83,9 +83,9 @@ namespace _2021_dotnet_e_02.Models
             Attachments = attachments;
             TicketType = type;
             DateAndTimeOfCreation = DateTime.Now;
-            //Solution = solution;
-            //Quality = quality;
-            //SupportNeeded = supportNeeded;
+            Solution = "";
+            Quality = "";
+            SupportNeeded = "";
 
             // We need to initialize the lists here because we instantly go to FullDetails after creation
             Comments = new List<ActemiumTicketComment>();
