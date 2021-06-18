@@ -157,8 +157,6 @@ namespace _2021_dotnet_e_02.Models
                 return false;
             }
 
-            Console.WriteLine("OLDEQuels "+oldTicket.Title);
-            Console.WriteLine("NewEQuels "+newTicket.Title);
             return (
                 oldTicket.TicketId != newTicket.TicketId ||
                 oldTicket.Status != newTicket.Status ||

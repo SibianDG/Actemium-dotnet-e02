@@ -222,11 +222,10 @@ namespace _2021_dotnet_e_02.Controllers
                 {
                     bool isSupportManager = SetIsSupportManager();
                     bool somethingChanged = ActemiumTicket.EqualsTicket(editViewModel, ticket);
-                    Console.WriteLine("somethingChanged?:aka equals "+somethingChanged);
                     if (somethingChanged)
                     {
                         ticket.TicketChanges.Add(new ActemiumTicketChange(ticket, GetSignedInUserModel(),
-                            editViewModel));
+                            editViewModel, isSupportManager, true));
                         if (ticket.Status != TicketStatus.COMPLETED)
                         {
                             DateTime? dateAndTimeOfCompletion =
@@ -365,6 +364,8 @@ namespace _2021_dotnet_e_02.Controllers
                 ActemiumTicket ticket = _ticketRepository.GetById(id);
                 if (ticket == null)
                      return NotFound();
+                ticket.TicketChanges.Add(new ActemiumTicketChange(ticket, GetSignedInUserModel(),
+                    null, SetIsSupportManager(), false));
                 ticket.Status = TicketStatus.CANCELLED;
                 _ticketRepository.Update(ticket);
                 TempData["message"] = "You successfully changed the ticket status to cancelled.";
