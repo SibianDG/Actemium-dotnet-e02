@@ -34,7 +34,8 @@ namespace _2021_dotnet_e_02.Models.ViewModels.TicketViewModel
 
         [Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Description")]
-        [StringLength(255, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 10)]
+        [DataType(DataType.MultilineText)]
+        //[StringLength(255, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
         // support managers can edit this field
         // auto filled in for logged in customer

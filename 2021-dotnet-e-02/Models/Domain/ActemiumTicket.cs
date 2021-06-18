@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
+using _2021_dotnet_e_02.Models.ViewModels.TicketViewModel;
 
 
 namespace _2021_dotnet_e_02.Models
@@ -50,7 +51,9 @@ namespace _2021_dotnet_e_02.Models
             }
         }
         //public string Description { get; set; }
+        [JsonIgnore]
         public ActemiumCompany Company { get; set; }
+        [JsonIgnore]
         public ICollection<ActemiumTicketComment> Comments { get; set; }
         public string Attachments { get; set; }
         public ICollection<ActemiumEmployee> Technicians { get; set; }
@@ -59,6 +62,7 @@ namespace _2021_dotnet_e_02.Models
         public string Solution { get; set; }
         public string Quality { get; set; }
         public string SupportNeeded { get; set; }
+        [JsonIgnore]
         public ICollection<ActemiumTicketChange> TicketChanges { get; set; }
         public ICollection<ActemiumTicketActemiumUser> TicketTechnicians { get; set; }
         [Required(ErrorMessage = "Cannot add an empty comment")]
@@ -144,6 +148,40 @@ namespace _2021_dotnet_e_02.Models
             ActemiumTicketComment newComment = new ActemiumTicketComment(ticket, user, userRole, newCommentText);
             Console.WriteLine(newComment.CommentText);
             Comments.Add(newComment);
+        }
+
+        public static bool EqualsTicket(EditViewModel newTicket, ActemiumTicket oldTicket)
+        {
+            if ((newTicket == null || oldTicket == null))
+            {
+                return false;
+            }
+
+            Console.WriteLine("OLDEQuels "+oldTicket.Title);
+            Console.WriteLine("NewEQuels "+newTicket.Title);
+            return (
+                oldTicket.TicketId != newTicket.TicketId ||
+                oldTicket.Status != newTicket.Status ||
+                oldTicket.Priority != newTicket.Priority ||
+                oldTicket.DateAndTimeOfCreation != newTicket.DateAndTimeOfCreation ||
+                oldTicket.DateAndTimeOfCompletion != newTicket.DateAndTimeOfCompletion ||
+                oldTicket.Title != newTicket.Title ||
+                oldTicket.Description != newTicket.Description ||
+                oldTicket.Attachments != newTicket.Attachments ||
+                oldTicket.TicketType != newTicket.TicketType ||
+                oldTicket.Solution != newTicket.Solution ||
+                oldTicket.Quality != newTicket.Quality ||
+                oldTicket.SupportNeeded != newTicket.SupportNeeded //||
+                //oldTicket.Technicians.Count != newTicket.
+            );
+        }
+        
+        public static ActemiumTicket Clone(ActemiumTicket source)
+        {
+            var serialized = JsonConvert.SerializeObject(source);
+            ActemiumTicket t = JsonConvert.DeserializeObject<ActemiumTicket>(serialized);
+            Console.WriteLine("Title after clone: "+t.Title);
+            return t;
         }
     }
 }

@@ -16,5 +16,11 @@ namespace _2021_dotnet_e_02.Models
         public ActemiumTicketChangeContent()
         {
         }
+
+        public ActemiumTicketChangeContent(ActemiumTicketChange ticketChange, string changeContent)
+        {
+            TicketChange = ticketChange;
+            ChangeContent = changeContent;
+        }
     }
 }
