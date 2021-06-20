@@ -51,7 +51,7 @@ namespace _2021_dotnet_e_02.Models
             }
         }
         //public string Description { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public ActemiumCompany Company { get; set; }
         [JsonIgnore]
         public ICollection<ActemiumTicketComment> Comments { get; set; }
