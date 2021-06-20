@@ -24,59 +24,62 @@ namespace _2021_dotnet_e_02.Models
             ChangeContents = new List<ActemiumTicketChangeContent>();
             //ChangeContent = new List<string>();
         }
-        public ActemiumTicketChange(ActemiumTicket ticket, UserModel user, EditViewModel ticketCopy, bool isSupportManager, bool modifying)
+        public ActemiumTicketChange(ActemiumTicket ticketOld, UserModel user, EditViewModel ticketNew, bool isSupportManager, bool modifying)
         
         {
             ChangeContents = new List<ActemiumTicketChangeContent>();
-            string type = ticket.Status.Equals(TicketStatus.CANCELLED) || ticket.Status.Equals(TicketStatus.COMPLETED)
+            string type = ticketOld.Status.Equals(TicketStatus.CANCELLED) || ticketOld.Status.Equals(TicketStatus.COMPLETED)
                 ? "completed"
                 : "outstanding";
             string what = modifying ? "Modified" : "Deleted";
-            ChangeDescription = $"{what} {type} ticket with ID: {ticket.TicketId}";
+            ChangeDescription = $"{what} {type} ticket with ID: {ticketOld.TicketId}";
             DateTimeOfChange = DateTime.Now;
             User = user;
             UserRole = isSupportManager ? "Support Manager" : "Customer";
 
-            if (ticketCopy != null)
+            if (ticketNew != null)
             {
-                if (ticket.Title != ticketCopy.Title)
+                if (ticketNew.Title != ticketOld.Title)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Title changed from \"{ticketCopy.Title}\" to \"{ticket.Title}\"."));
-                if (ticket.Attachments != ticketCopy.Attachments)
+                        $"Ticket Title changed from \"{ticketOld.Title}\" to \"{ticketNew.Title}\"."));
+                if (ticketNew.Attachments != ticketOld.Attachments)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Attachments changed from \"{ticketCopy.Attachments}\" to \"{ticket.Attachments}\"."));
-                if (ticket.DateAndTimeOfCreation != ticketCopy.DateAndTimeOfCreation)
+                        $"Ticket Attachments changed from \"{ticketOld.Attachments}\" to \"{ticketNew.Attachments}\"."));
+                //if (ticket.DateAndTimeOfCreation != ticketOld.DateAndTimeOfCreation)
+                //    ChangeContents.Add(new ActemiumTicketChangeContent(this,
+                //        $"Ticket DateAndTimeOfCreation changed from \"{ticketOld.DateAndTimeOfCreation}\" to \"{ticket.DateAndTimeOfCreation}\"."));
+                //if (ticket.DateAndTimeOfCompletion != ticketOld.DateAndTimeOfCompletion)
+                //    ChangeContents.Add(new ActemiumTicketChangeContent(this,
+                //        $"Ticket DateAndTimeOfCompletion changed from \"{ticketOld.DateAndTimeOfCompletion}\" to \"{ticket.DateAndTimeOfCompletion}\"."));
+                if (ticketNew.Description != ticketOld.Description)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket DateAndTimeOfCreation changed from \"{ticketCopy.DateAndTimeOfCreation}\" to \"{ticket.DateAndTimeOfCreation}\"."));
-                if (ticket.DateAndTimeOfCompletion != ticketCopy.DateAndTimeOfCompletion)
+                        $"Ticket Description changed from \"{ticketOld.Description}\" to \"{ticketNew.Description}\"."));
+                if (ticketNew.Priority != ticketOld.Priority)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket DateAndTimeOfCompletion changed from \"{ticketCopy.DateAndTimeOfCompletion}\" to \"{ticket.DateAndTimeOfCompletion}\"."));
-                if (ticket.Description != ticketCopy.Description)
+                        $"Ticket Priority changed from \"{ticketOld.Priority}\" to \"{ticketNew.Priority}\"."));
+                if (ticketNew.Status != ticketOld.Status)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Description changed from \"{ticketCopy.Description}\" to \"{ticket.Description}\"."));
-                if (ticket.Priority != ticketCopy.Priority)
+                        $"Ticket Status changed from \"{ticketOld.Status}\" to \"{ticketNew.Status}\"."));
+                if (ticketNew.TicketType != ticketOld.TicketType)
                     ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Priority changed from \"{ticketCopy.Priority}\" to \"{ticket.Priority}\"."));
-                if (ticket.Quality != ticketCopy.Quality)
-                    ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Quality changed from \"{ticketCopy.Quality}\" to \"{ticket.Quality}\"."));
-                if (ticket.Solution != ticketCopy.Solution)
-                    ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Solution changed from \"{ticketCopy.Solution}\" to \"{ticket.Solution}\"."));
-                if (ticket.Status != ticketCopy.Status)
-                    ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket Status changed from \"{ticketCopy.Status}\" to \"{ticket.Status}\"."));
-                if (ticket.SupportNeeded != ticketCopy.SupportNeeded)
-                    ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket SupportNeeded changed from \"{ticketCopy.SupportNeeded}\" to \"{ticket.SupportNeeded}\"."));
-                if (ticket.TicketType != ticketCopy.TicketType)
-                    ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                        $"Ticket TicketType changed from \"{ticketCopy.TicketType}\" to \"{ticket.TicketType}\"."));
+                        $"Ticket TicketType changed from \"{ticketOld.TicketType}\" to \"{ticketNew.TicketType}\"."));
+                if (ticketOld.Quality != null && ticketNew.Quality != null) 
+                    if (!ticketNew.Quality.Trim().Equals(ticketOld.Quality.Trim()))
+                        ChangeContents.Add(new ActemiumTicketChangeContent(this,
+                            $"Ticket Quality changed from \"{ticketOld.Quality}\" to \"{ticketNew.Quality}\"."));
+                if (ticketOld.Solution != null && ticketNew.Solution != null)
+                    if (!ticketNew.Solution.Trim().Equals(ticketOld.Solution.Trim()))
+                        ChangeContents.Add(new ActemiumTicketChangeContent(this,
+                            $"Ticket Solution changed from \"{ticketOld.Solution}\" to \"{ticketNew.Solution}\"."));
+                if (ticketOld.SupportNeeded != null && ticketNew.SupportNeeded != null)
+                    if (!ticketNew.SupportNeeded.Trim().Equals(ticketOld.SupportNeeded.Trim()))
+                        ChangeContents.Add(new ActemiumTicketChangeContent(this,
+                            $"Ticket SupportNeeded changed from \"{ticketOld.SupportNeeded}\" to \"{ticketNew.SupportNeeded}\"."));
             }
             else
             {
                 ChangeContents.Add(new ActemiumTicketChangeContent(this,
-                    $"Ticket TicketStatus changed from \"{ticket.Status}\" to \"{TicketStatus.CANCELLED}\"."));
+                    $"Ticket TicketStatus changed from \"{ticketOld.Status}\" to \"{TicketStatus.CANCELLED}\"."));
             }
         }
         
