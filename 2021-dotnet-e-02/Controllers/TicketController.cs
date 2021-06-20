@@ -323,6 +323,8 @@ namespace _2021_dotnet_e_02.Controllers
                         // supportManager can assign any ticketstatus
                         ticket = new ActemiumTicket(editViewModel.Status, editViewModel.Priority, editViewModel.Title
                             , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+
+                        ticket.TicketChanges.Add(new ActemiumTicketChange(ticket, GetSignedInUserModel(), true));
                     }
                     else
                     {
@@ -330,6 +332,8 @@ namespace _2021_dotnet_e_02.Controllers
                         // only ticketstatus created can be given to new tickets created by customer
                         ticket = new ActemiumTicket(TicketStatus.CREATED, editViewModel.Priority, editViewModel.Title
                             , company, editViewModel.Description, editViewModel.Attachments, editViewModel.TicketType);
+
+                        ticket.TicketChanges.Add(new ActemiumTicketChange(ticket, GetSignedInUserModel(), false));
                     }
 
                     company.addActemiumTicket(ticket);
@@ -388,9 +392,9 @@ namespace _2021_dotnet_e_02.Controllers
             return _userRepository.GetCustomerByUsername(_userManager.GetUserName(User));
         }
 
-        private Boolean SetIsSupportManager()
+        private bool SetIsSupportManager()
         {
-            Boolean isSupportManager = false;
+            bool isSupportManager = false;
             var javaUser = GetSignedInUserModel();
             if (javaUser is ActemiumEmployee)
             {
@@ -417,7 +421,7 @@ namespace _2021_dotnet_e_02.Controllers
             return sl;       
         }
 
-        private Boolean ValidContractToCreateTickets()
+        private bool ValidContractToCreateTickets()
         {
             Console.WriteLine(GetSignedInActemiumCustomer().Company.Name);
             IEnumerable<ActemiumContract> contracts = _contractRepository.GetAll(GetSignedInActemiumCustomer().Company);
