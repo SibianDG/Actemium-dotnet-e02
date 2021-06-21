@@ -75,10 +75,18 @@ namespace _2021_dotnet_e_02.Data.Repositories
             if (m.GetType().ToString().Contains("ActemiumCustomer", StringComparison.InvariantCultureIgnoreCase))
             {
                 ActemiumCustomer customer = _customers.Include(c => c.Company).SingleOrDefault(u => u.UserId == m.UserId);
+                // count += _tickets
+                //     .Include(t => t.TicketChanges)
+                //     .Where(t => t.Company.CompanyId == customer.Company.CompanyId
+                //                 && t.TicketChanges.Count > 1
+                //                 && t.TicketChanges.Any(tc => tc.DateTimeOfChange >= date && tc.User.UserId != m.UserId))
+                //     .Count();
+                // This is the same query:
                 count += _tickets
                     .Include(t => t.TicketChanges)
-                    .Where(t => t.Company.CompanyId == customer.Company.CompanyId)
-                    .Count(t => Enumerable.Any<ActemiumTicketChange>(t.TicketChanges, tc => tc.DateTimeOfChange >= date));
+                    .Count(t => t.Company.CompanyId == customer.Company.CompanyId
+                                && t.TicketChanges.Count > 1
+                                && Enumerable.Any<ActemiumTicketChange>(t.TicketChanges, tc => tc.DateTimeOfChange >= date && tc.User.UserId != m.UserId));
             }
             else
             {
