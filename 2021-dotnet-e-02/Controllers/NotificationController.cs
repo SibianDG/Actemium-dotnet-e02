@@ -24,15 +24,28 @@ namespace _2021_dotnet_e_02.Controllers
         [HttpGet]
         public int GetLatestNotificationNumber(string date = null)
         {
-            DateTime lastTime;
-            if (date != null && date.ToLower() != "undefined")
-                lastTime = DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-            else
-                lastTime = _loginAttemptRepository
-                    .GetLatestLoginAttemptBy(_userManager.GetUserName(User)).DateAndTime;
-            Console.WriteLine("lastTime "+lastTime);
-            int number = _ticketRepository.GiveLatestUpdates(_userManager.GetUserName(User), lastTime);
-            return number;
+            try
+            {
+                Console.WriteLine(date);
+                DateTime lastTime;
+                if (date != null && date.ToLower() != "undefined")
+                    lastTime = DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                else
+                    lastTime = _loginAttemptRepository
+                        .GetLatestLoginAttemptBy(_userManager.GetUserName(User)).DateAndTime;
+                Console.WriteLine();
+                Console.WriteLine("lastTime "+lastTime);
+                int number = _ticketRepository.GiveLatestUpdates(_userManager.GetUserName(User), lastTime);
+                return number;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR MET NOTIFICATION");
+                Console.WriteLine(e);
+            }
+
+            return 0;
+
         }
     }
 }

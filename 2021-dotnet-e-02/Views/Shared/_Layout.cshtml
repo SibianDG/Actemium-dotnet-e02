@@ -90,7 +90,7 @@
                 </button>
             </div>
             <div class="toast-body">
-                Hello, there are <span id="numberOfNotifications"></span> ticket updates since last time. Go to <a asp-controller="Home" asp-action="Index">Dashboard to see them</a>.
+                Hello, there <span id="word"></span> <span id="numberOfNotifications"></span> ticket <span id="updatesText"></span> since last time. Go to <a asp-controller="Home" asp-action="Index">Dashboard to see them</a>.
             </div>
         </div>
     </div>
@@ -155,6 +155,13 @@ $(document).ready(() => {
                     console.log("NOTIFICATION:" + result)
                     $('#numberOfNotifications').text(result)
                     $(".toast").toast({ autohide: false }).toast('show');
+                    if (result > 1){
+                        $('#word').text('are');
+                        $('#updatesText').text('updates');
+                    } else {
+                        $('#word').text('is');
+                        $('#updatesText').text('update');
+                    }
                 }
             },
             error: function (xhr) {
